@@ -5,7 +5,6 @@ from chat import *
 from kills import *
 
 def HandleData(data):
-    HandleChatMessage(data)
     if (data.startswith("[register]")):
         #say("register found: " + data) #working but was only useless chat spam for testing        
         pass
@@ -13,23 +12,20 @@ def HandleData(data):
         if (data.find("No such command")):
             return
     elif (data.startswith("[chat]")):
-        if (data.find("chat message:") != -1 or data.find("[chat]: ***") != -1):
+        if (data.find("[chat]: ***") != -1):
             return
-        say("chat message: " + data)
+        #say("chat message: " + data)
+        HandleChatMessage(data)
     elif (data.startswith("[game]")):
         if (data.find("kill killer") != -1):
             HandleKills(data)    
 
 try:
     while True:
-
         #time.sleep(1)
-
         line = sys.stdin.readline()
         if not line:
             break
-
-
         HandleData(line[10:]) #cut off the timestamp
 except EOFError:
     pass    # the telnet/netcat process finished; there's no more input

@@ -4,6 +4,10 @@ import time
 from chiller_essential import *
 
 def HandleChatMessage(msg):
-    if (msg.find("/help") != -1):
-        say("=== help ===")
-
+    msg_normal = msg
+    msg = msg.lower()
+    if (msg.find("/help") != -1 or msg.find("/info") != -1 or msg.find("/cmdlist") != -1):
+        say("==== help ====")
+        say("command list comming soon...")
+    elif (msg.find("/stats")):
+        say("sample rank message...")
