@@ -1,2 +1,2 @@
-*.passwd
 __pycache__/
+*.settings

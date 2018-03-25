@@ -1,0 +1,21 @@
+#!/usr/bin/expect 
+
+#sleep to wait until the server gets started
+sleep 10
+
+
+#If it all goes pear shaped the script will timeout after 20 seconds.
+set timeout 20
+#Third argument is assigned to the variable password
+set password [lindex $argv 0];
+#This spawns the telnet program and connects it to the variable name
+spawn nc localhost [lindex $argv 1];
+#The script expects Password
+expect "Enter password:"
+#The script sends the password variable
+send "$password\n"
+
+sleep 3
+send "say connected.\n"
+
+interact
