@@ -1,1 +1,2 @@
 *.passwd
+__pycache__/
