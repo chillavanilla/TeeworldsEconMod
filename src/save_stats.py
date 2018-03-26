@@ -4,6 +4,10 @@ from player import *
 from kills import *
 
 
+def SaveStats(name):
+    sf = open("stats/" + name + ".acc", "w")
+    sf.write("hello wurld\n")
 
 
-
+def LoadStats(name):
+    pass

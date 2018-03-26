@@ -3,6 +3,7 @@ import sys
 import time
 from chiller_essential import *
 from player import *
+from save_stats import *
 
 def HandleChatMessage(msg):
     msg_normal = msg
@@ -13,3 +14,5 @@ def HandleChatMessage(msg):
     elif (msg.find("/stats") != -1):
         #say("sample rank message...")
         PrintStatsAll()
+    elif (msg.find("/test") != -1):
+        SaveStats("where_am_i")

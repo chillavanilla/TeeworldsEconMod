@@ -24,11 +24,12 @@ econ_mod_path=`pwd`
 echo "saved current path=$econ_mod_path"
 echo "loading settings.."
 
+#crary i/o redirecting more details at: http://tldp.org/LDP/abs/html/x17974.html
+exec 6<&0 # Link file descriptor #6 with stdin.
 exec < tem.settings
 while read line ; do
 setting_lines+=($line)
 done
-
 
 echo "Total settings:"
 for index in ${!setting_lines[*]}
@@ -36,11 +37,30 @@ do
     printf "%4d: %s\n" $index ${setting_lines[$index]}
 done
 
+exec 0<&6 6<&- #normalize i/o agian: restore stdin from fd #6, where it had been saved
+
 # Settings:
 # - teeworlds path
 # - binary
 # - econ_password
 # - econ_port 
+
+stats_path="${setting_lines[0]}/stats"
+
+if [ ! -d "$stats_path" ]; then
+    echo "No stats/ folder found in your teeworlds directory" 
+    echo "should be at: $stats_path"
+    read -p "Do you want to create one? [y/n]" -n 1 -r
+    echo 
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        mkdir $stats_path
+        echo "created folder at: $stats_path"
+    else
+        echo "Error Teeworlds Econ Mod can't start without stats folder"
+        exit
+    fi
+fi
 
 echo "navigate to teeworlds path=${setting_lines[0]}"
 cd ${setting_lines[0]}
