@@ -30,7 +30,7 @@ def HandleKills(data):
         return
     if not UpdatePlayerKills(killer_name, 1):
         say("error adding kill for '" + killer_name + "'")
-    if not UpdatePlayerDeaths(victim_name, 1):
+    if not UpdatePlayerDeaths(victim_name, killer_name, 1):
         say("error adding death for '" + victim_name + "'")
     #say("[KILL] killer=" + killer_name + " victim=" + victim_name)
 

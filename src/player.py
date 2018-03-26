@@ -21,6 +21,8 @@ class Player:
         self.flag_caps_red = 0
         self.flag_caps_blue = 0
         self.flag_time = 0.0
+        #round variables (not saved)
+        self.killingspree = 0
     def __add__(self, other):
         tmp_player = Player(self.name)
         tmp_player.kills = self.kills + other.kills
@@ -102,14 +104,20 @@ def UpdatePlayerKills(name, kills):
     for player in aPlayers:
         if (player.name == name):
             player.kills += kills
+            player.killingspree += kills
+            if (player.killingspree % 5 == 0):
+                say("[SPREE] '" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
             return True
     return False
     
-def UpdatePlayerDeaths(name, deaths):
+def UpdatePlayerDeaths(name, killer, deaths):
     global aPlayers
     for player in aPlayers:
         if (player.name == name):
             player.deaths += deaths
+            if player.killingspree > 4:
+                say("[SPREE] '" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
+            player.killingspree = 0
             return True
     return False
 
