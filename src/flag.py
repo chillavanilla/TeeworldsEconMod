@@ -21,6 +21,7 @@ def HandleFlagCap(data):
     time_end = data.rfind(" sec")
     time = data[time_start:time_end]
 
-    say("flag cap '" + name + "' in " + time + " secs color: " + flag_color)
+    #say("flag cap '" + name + "' in " + time + " secs color: " + flag_color)
 
     UpdatePlayerFlagCaps(name, flag_color, 1)
+    UpdatePlayerFlagTime(name, time)

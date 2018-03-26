@@ -10,6 +10,6 @@ def HandleChatMessage(msg):
     if (msg.find("/help") != -1 or msg.find("/info") != -1 or msg.find("/cmdlist") != -1):
         say("==== help ====")
         say("command list comming soon...")
-    elif (msg.find("/stats")):
+    elif (msg.find("/stats") != -1):
         #say("sample rank message...")
         PrintStatsAll()

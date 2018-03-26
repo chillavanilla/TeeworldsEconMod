@@ -14,7 +14,7 @@ class Player:
         self.flag_grabs = 0
         self.flag_caps_red = 0
         self.flag_caps_blue = 0
-        self.flag_time = 0
+        self.flag_time = 0.0
 
 def CreatePlayer(name):
     global aPlayers
@@ -46,7 +46,7 @@ def GetPlayerByName(name):
 def PrintStatsAll():
     global aPlayers
     for player in aPlayers:
-        say("player '" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " flag grabs: " + str(player.flag_grabs) + " caps: r" + str(player.flag_caps_red) + "/b" + str(player.flag_caps_blue))
+        say("player '" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " flag g" + str(player.flag_grabs) + "/r" + str(player.flag_caps_red) + "/b" + str(player.flag_caps_blue) + "/t" + str(player.flag_time))
 
 def HandlePlayerJoin(data):
     name_start = data.find("'") + 1
@@ -109,9 +109,15 @@ def UpdatePlayerFlagCaps(name, color, caps):
 
 def UpdatePlayerFlagTime(name, time):
     global aPlayers
+    time = float(time)
     for player in aPlayers:
         if (player.name == name):
-            player.flag_time += time
+            if (time < player.flag_time):
+                diff = player.flag_time - time
+                say("'" + name + "' captured the flag " + str(diff) + " seconds faster")
+                player.flag_time = time
+            elif (int(player.flag_time) == 0):  
+                player.flag_time = time
             return True
     return False
 
