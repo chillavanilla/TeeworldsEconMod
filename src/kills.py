@@ -18,22 +18,19 @@ def HandleKills(data):
         print(m.group("killer_id"))
     """
 
-
-
     killer_start = data.find(":", 10) + 1
     killer_end = data.find("' victim='", killer_start + 1)
     killer_name = data[killer_start:killer_end]
-
 
     victim_start = data.find(":", killer_end) + 1
     victim_end = data.find("' weapon=", victim_start + 1)
     victim_name = data[victim_start:victim_end]
 
-
-    say("[KILL] killer=" + killer_name + " victim=" + victim_name)
-
+    if killer_name == victim_name: #ignore selfkills also because it would be annoying on disconnect
+        return
     if not UpdatePlayerKills(killer_name, 1):
         say("error adding kill for '" + killer_name + "'")
-
     if not UpdatePlayerDeaths(victim_name, 1):
         say("error adding death for '" + victim_name + "'")
+    #say("[KILL] killer=" + killer_name + " victim=" + victim_name)
+
