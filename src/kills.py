@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from chiller_essential import *
-from player import *
 
 def HandleKills(data):
+    from player import UpdatePlayerKills, UpdatePlayerDeaths
     #sample kill messages:
     #[game]: kill killer='0:ChillerDragon' victim='1:ChillerDragon.*' weapon=3 special=0
     #[game]: kill killer='0:A' victim='1:ChillerDragon.*' weapon=3 special=0

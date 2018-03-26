@@ -15,4 +15,6 @@ def HandleChatMessage(msg):
         #say("sample rank message...")
         PrintStatsAll()
     elif (msg.find("/test") != -1):
-        SaveStats("where_am_i")
+        global aPlayers
+        say("saving stats for '" + aPlayers[0].name + "'")
+        SaveStats(aPlayers[0].name)
