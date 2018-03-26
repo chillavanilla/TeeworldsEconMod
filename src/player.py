@@ -106,7 +106,7 @@ def UpdatePlayerKills(name, kills):
             player.kills += kills
             player.killingspree += kills
             if (player.killingspree % 5 == 0):
-                say("[SPREE] '" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
+                broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
             return True
     return False
     
@@ -116,7 +116,7 @@ def UpdatePlayerDeaths(name, killer, deaths):
         if (player.name == name):
             player.deaths += deaths
             if player.killingspree > 4:
-                say("[SPREE] '" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
+                broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
             player.killingspree = 0
             return True
     return False
