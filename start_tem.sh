@@ -6,6 +6,16 @@ echo "====================="
 
 if [ ! -f tem.settings ]; then
     echo "error tem.settings file not found"
+    read -p "Do you want to create one? [y/n]" -n 1 -r
+    echo 
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        echo "/path/to/your/teeworlds/directory" > tem.settings
+        echo "name_of_teeworlds_srv" >> tem.settings
+        echo "econ_password" >> tem.settings
+        echo "econ_port" >> tem.settings
+        nano tem.settings
+    fi
     exit
 fi
 
