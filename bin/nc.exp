@@ -16,8 +16,8 @@ expect "Enter password:"
 send "$password\n"
 
 sleep 3
-send "say [TEM] teeworlds econ mod by ChillerDragon...\n"
+send "say \[TEM\] teeworlds econ mod by ChillerDragon...\n"
 sleep 1
-send "say [TEM] starting...\n"
+send "say \[TEM\] starting...\n"
 
 interact
