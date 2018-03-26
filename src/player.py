@@ -42,7 +42,7 @@ class Player:
         """
         return tmp_player
     def ShowStats(self):
-        say("[stats] '" + self.name + "' kills: " + str(self.kills) + " deaths: " + str(self.kills))
+        say("[stats] '" + self.name + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths))
 
 def CreatePlayer(name):
     global aPlayers
