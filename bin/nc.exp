@@ -1,7 +1,7 @@
 #!/usr/bin/expect 
 
 #sleep to wait until the server gets started
-sleep 10
+sleep 3
 
 
 #If it all goes pear shaped the script will timeout after 20 seconds.

@@ -3,6 +3,8 @@ import sys
 import time
 from chat import *
 from kills import *
+from player import *
+from game import *
 
 def HandleData(data):
     if (data.startswith("[register]")):
@@ -11,15 +13,19 @@ def HandleData(data):
     elif (data.startswith("[Console]")):
         if (data.find("No such command")):
             return
+    elif (data.find("' entered and joined the ") != -1):
+        if (data.startswith("[chat]: ***")):
+            HandlePlayerJoin(data)
+    elif (data.find("' has left the game") != -1):
+        if (data.startswith("[chat]: ***")):
+            HandlePlayerLeave(data)
     elif (data.startswith("[chat]")):
-        if (data.find("[chat]: ***") != -1):
+        if (data.startswith("[chat]: ***")):
             return
         #say("chat message: " + data)
         HandleChatMessage(data)
     elif (data.startswith("[game]")):
-        if (data.find("kill killer") != -1):
-            HandleKills(data)    
-
+        HandleGame(data)
 try:
     while True:
         #time.sleep(1)

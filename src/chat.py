@@ -2,6 +2,7 @@
 import sys
 import time
 from chiller_essential import *
+from player import *
 
 def HandleChatMessage(msg):
     msg_normal = msg
@@ -10,4 +11,5 @@ def HandleChatMessage(msg):
         say("==== help ====")
         say("command list comming soon...")
     elif (msg.find("/stats")):
-        say("sample rank message...")
+        #say("sample rank message...")
+        PrintStatsAll()

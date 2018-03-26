@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from chiller_essential import *
+from player import *
 
 def HandleKills(data):
     #sample kill messages:
@@ -30,3 +31,9 @@ def HandleKills(data):
 
 
     say("[KILL] killer=" + killer_name + " victim=" + victim_name)
+
+    if not UpdatePlayerKills(killer_name, 1):
+        say("error adding kill for '" + killer_name + "'")
+
+    if not UpdatePlayerDeaths(victim_name, 1):
+        say("error adding death for '" + victim_name + "'")
