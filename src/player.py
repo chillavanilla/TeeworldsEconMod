@@ -3,7 +3,6 @@ import sys
 import time
 from chiller_essential import *
 
-
 aPlayers=[]
 
 
@@ -12,7 +11,10 @@ class Player:
         self.name = name
         self.kills = 0
         self.deaths = 0
-
+        self.flag_grabs = 0
+        self.flag_caps_red = 0
+        self.flag_caps_blue = 0
+        self.flag_time = 0
 
 def CreatePlayer(name):
     global aPlayers
@@ -41,26 +43,10 @@ def GetPlayerByName(name):
             return player
     return None
 
-def UpdatePlayerKills(name, kills):
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            player.kills += kills
-            return True
-    return False
-    
-def UpdatePlayerDeaths(name, deaths):
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            player.deaths += deaths
-            return True
-    return False
-
 def PrintStatsAll():
     global aPlayers
     for player in aPlayers:
-        say("player '" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths))
+        say("player '" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " flag grabs: " + str(player.flag_grabs) + " caps: r" + str(player.flag_caps_red) + "/b" + str(player.flag_caps_blue))
 
 def HandlePlayerJoin(data):
     name_start = data.find("'") + 1
@@ -81,3 +67,52 @@ def HandlePlayerLeave(data):
         return False
 
     DeletePlayer(name)
+
+# Update Player Values
+
+def UpdatePlayerKills(name, kills):
+    global aPlayers
+    for player in aPlayers:
+        if (player.name == name):
+            player.kills += kills
+            return True
+    return False
+    
+def UpdatePlayerDeaths(name, deaths):
+    global aPlayers
+    for player in aPlayers:
+        if (player.name == name):
+            player.deaths += deaths
+            return True
+    return False
+
+def UpdatePlayerFlagGrabs(name, grabs):
+    global aPlayers
+    for player in aPlayers:
+        if (player.name == name):
+            player.flag_grabs += grabs
+            return True
+    return False
+
+def UpdatePlayerFlagCaps(name, color, caps):
+    global aPlayers
+    for player in aPlayers:
+        if (player.name == name):
+            if (color == "blue"):
+                player.flag_caps_blue += caps
+            elif (color == "red"):
+                player.flag_caps_red += caps
+            else:
+                say("savage '" + name + "' captured the pink flag")
+            return True
+    return False
+
+def UpdatePlayerFlagTime(name, time):
+    global aPlayers
+    for player in aPlayers:
+        if (player.name == name):
+            player.flag_time += time
+            return True
+    return False
+
+

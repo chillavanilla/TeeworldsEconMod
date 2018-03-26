@@ -5,6 +5,7 @@ from chat import *
 from kills import *
 from player import *
 from game import *
+from flag import *
 
 def HandleData(data):
     if (data.startswith("[register]")):
@@ -21,6 +22,8 @@ def HandleData(data):
             HandlePlayerLeave(data)
     elif (data.startswith("[chat]")):
         if (data.startswith("[chat]: ***")):
+            if (data.startswith("[chat]: *** The blue flag was captured by '") or data.startswith("[chat]: *** The red flag was captured by '")):
+                HandleFlagCap(data)
             return
         #say("chat message: " + data)
         HandleChatMessage(data)
