@@ -2,7 +2,7 @@
 from chiller_essential import *
 
 def HandleKills(data):
-    from player import UpdatePlayerKills, UpdatePlayerDeaths
+    from player import UpdatePlayerKills, UpdatePlayerDeaths, SetFlagger, CheckFlaggerKill
     #sample kill messages:
     #[game]: kill killer='0:ChillerDragon' victim='1:ChillerDragon.*' weapon=3 special=0
     #[game]: kill killer='0:A' victim='1:ChillerDragon.*' weapon=3 special=0
@@ -27,10 +27,13 @@ def HandleKills(data):
     victim_name = data[victim_start:victim_end]
 
     if killer_name == victim_name: #ignore selfkills also because it would be annoying on disconnect
+        SetFlagger(victim_name, False)
         return
     if not UpdatePlayerKills(killer_name, 1):
         say("error adding kill for '" + killer_name + "'")
     if not UpdatePlayerDeaths(victim_name, killer_name, 1):
         say("error adding death for '" + victim_name + "'")
-    #say("[KILL] killer=" + killer_name + " victim=" + victim_name)
 
+    #say("[KILL] killer=" + killer_name + " victim=" + victim_name)
+    CheckFlaggerKill(victim_name, killer_name)
+    SetFlagger(victim_name, False)

@@ -25,6 +25,7 @@ def HandleFlagCap(data):
     else:
         UpdatePlayerFlagTime(name, 60) #cap slower than 60 seconds --> doesnt show time
 
+    SetFlagger(name, False)
     UpdatePlayerFlagCaps(name, flag_color, 1)
     #say("flag cap '" + name + "' in " + time + " secs color: " + flag_color)
 
