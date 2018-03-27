@@ -21,6 +21,7 @@ class Player:
         self.flag_caps_red = 0
         self.flag_caps_blue = 0
         self.flag_time = 0.0
+        self.flagger_kills = 0
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
@@ -84,7 +85,7 @@ def GetPlayerByName(name):
 def PrintStatsAll():
     global aPlayers
     for player in aPlayers:
-        say("player '" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " flag g" + str(player.flag_grabs) + "/r" + str(player.flag_caps_red) + "/b" + str(player.flag_caps_blue) + "/t" + str(player.flag_time))
+        say("player '" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " flag g" + str(player.flag_grabs) + "/r" + str(player.flag_caps_red) + "/b" + str(player.flag_caps_blue) + "/t" + str(player.flag_time) + "/k" + str(player.flagger_kills))
         #say("debug IsFlagger: " + str(player.IsFlagger))
 
 def HandlePlayerJoin(data):
@@ -127,6 +128,7 @@ def CheckFlaggerKill(victim, killer):
                 if (k.name == killer):
                     if (v.IsFlagger == True):
                         #say("'" + killer + "' killed the flagger '" + victim + "'")
+                        k.flagger_kills += 1
     return False
 
 # Update Player Values

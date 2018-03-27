@@ -29,6 +29,7 @@ def SaveStats(name):
     sf.write(str(player.flag_caps_red) + "\n")
     sf.write(str(player.flag_caps_blue) + "\n")
     sf.write(str(player.flag_time) + "\n")
+    sf.write(str(player.flagger_kills) + "\n")
     sf.close()
     return True
 
@@ -44,5 +45,6 @@ def LoadStats(name):
     player.flag_caps_red = int(sf.readline())
     player.flag_caps_blue = int(sf.readline())
     player.flag_time = float(sf.readline())
+    player.flagger_kills = int(sf.readline())
     sf.close()
     return player
