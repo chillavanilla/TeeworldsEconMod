@@ -139,7 +139,7 @@ def UpdatePlayerKills(name, kills):
         if (player.name == name):
             player.kills += kills
             player.killingspree += kills
-            if (player.killingspree % 5 == 0):
+            if (player.killingspree % 10 == 0):
                 broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
             return True
     return False
@@ -149,7 +149,7 @@ def UpdatePlayerDeaths(name, killer, deaths):
     for player in aPlayers:
         if (player.name == name):
             player.deaths += deaths
-            if player.killingspree > 4:
+            if player.killingspree > 9:
                 broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
             player.killingspree = 0
             return True
