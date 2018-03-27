@@ -17,11 +17,14 @@ def HandleFlagCap(data):
     name_end = data.rfind("'")
     name = data[name_start:name_end] 
 
-    time_start = data.rfind("(") + 1
-    time_end = data.rfind(" sec")
-    time = data[time_start:time_end]
-
-    #say("flag cap '" + name + "' in " + time + " secs color: " + flag_color)
+    if (data.endswith(" seconds)\n")):
+        time_start = data.rfind("(") + 1
+        time_end = data.rfind(" sec")
+        time = data[time_start:time_end]
+        UpdatePlayerFlagTime(name, time)
+    else:
+        UpdatePlayerFlagTime(name, 60) #cap slower than 60 seconds --> doesnt show time
 
     UpdatePlayerFlagCaps(name, flag_color, 1)
-    UpdatePlayerFlagTime(name, time)
+    #say("flag cap '" + name + "' in " + time + " secs color: " + flag_color)
+
