@@ -24,6 +24,8 @@ def HandleData(data):
         if (data.startswith("[chat]: ***")):
             if (data.startswith("[chat]: *** The blue flag was captured by '") or data.startswith("[chat]: *** The red flag was captured by '")):
                 HandleFlagCap(data)
+            elif (data.find("' changed name to '") != -1):
+                HandleNameChange(data)
             return
         #say("chat message: " + data)
         HandleChatMessage(data)

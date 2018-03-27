@@ -58,6 +58,12 @@ def DeletePlayer(name):
     del aPlayers[GetPlayerIndex(name)]
     #say("deleted player '" + name + "'")
 
+def SaveAndDeletePlayer(name):
+    if not GetPlayerByName(name):
+        return False
+    SaveStats(name)
+    DeletePlayer(name)
+
 def GetPlayerIndex(name):
     global aPlayers
     index = 0
@@ -91,11 +97,17 @@ def HandlePlayerLeave(data):
     name_start = data.find("'") + 1
     name_end = data.find("' has left the game", name_start)
     name = data[name_start:name_end]
+    SaveAndDeletePlayer(name)
 
-    if not GetPlayerByName(name):
-        return False
-    SaveStats(name)
-    DeletePlayer(name)
+def HandleNameChange(data):
+    old_start = data.find("'") + 1
+    old_end = data.find("' changed name to '")
+    old = data[old_start:old_end]
+    new_start = old_end + len("' changed name to '")
+    new_end = data.rfind("'")
+    new = data[new_start:new_end]
+    SaveAndDeletePlayer(old)
+    CreatePlayer(new)
 
 # Update Player Values
 
