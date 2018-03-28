@@ -22,16 +22,20 @@ def SaveStats(name):
             say("[stats] error loading stats for player '" + name + "'")
             return False
         player = player + load_player
-    sf = open("stats/" + name + ".acc", "w")
-    sf.write(str(player.kills) + "\n")
-    sf.write(str(player.deaths) + "\n")
-    sf.write(str(player.flag_grabs) + "\n")
-    sf.write(str(player.flag_caps_red) + "\n")
-    sf.write(str(player.flag_caps_blue) + "\n")
-    sf.write(str(player.flag_time) + "\n")
-    sf.write(str(player.flagger_kills) + "\n")
-    sf.close()
-    return True
+    try:
+        sf = open("stats/" + name + ".acc", "w")
+        sf.write(str(player.kills) + "\n")
+        sf.write(str(player.deaths) + "\n")
+        sf.write(str(player.flag_grabs) + "\n")
+        sf.write(str(player.flag_caps_red) + "\n")
+        sf.write(str(player.flag_caps_blue) + "\n")
+        sf.write(str(player.flag_time) + "\n")
+        sf.write(str(player.flagger_kills) + "\n")
+        sf.close()
+        return True
+    except:
+        say("[stats] error saving stats for '" + name + "'")
+    return False
 
 def LoadStats(name):
     from player import Player
