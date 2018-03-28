@@ -4,17 +4,25 @@ echo " Teeworlds Econ Mod  "
 echo " by ChillerDragon    "
 echo "====================="
 
-if [ ! -f tem.settings ]; then
-    echo "error tem.settings file not found"
+
+settings_file="tem.settings"
+
+if [ $# -gt 0 ]; then
+    echo "settings file=$1"
+    settings_file=$1
+fi
+
+if [ ! -f $settings_file ]; then
+    echo "error $settings_file not found"
     read -p "Do you want to create one? [y/n]" -n 1 -r
     echo 
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        echo "/path/to/your/teeworlds/directory" > tem.settings
-        echo "name_of_teeworlds_srv" >> tem.settings
-        echo "econ_password" >> tem.settings
-        echo "econ_port" >> tem.settings
-        nano tem.settings
+        echo "/path/to/your/teeworlds/directory" > $settings_file
+        echo "name_of_teeworlds_srv" >> $settings_file
+        echo "econ_password" >> $settings_file
+        echo "econ_port" >> $settings_file
+        nano $settings_file
     fi
     exit
 fi
@@ -26,7 +34,7 @@ echo "loading settings.."
 
 #crary i/o redirecting more details at: http://tldp.org/LDP/abs/html/x17974.html
 exec 6<&0 # Link file descriptor #6 with stdin.
-exec < tem.settings
+exec < $settings_file
 while read line ; do
 setting_lines+=($line)
 done
