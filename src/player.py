@@ -33,6 +33,7 @@ class Player:
         tmp_player.flag_caps_red = self.flag_caps_red + other.flag_caps_red
         tmp_player.flag_caps_blue = self.flag_caps_blue + other.flag_caps_blue
         tmp_player.flag_time = BestTime(self.flag_time, other.flag_time)       
+        tmp_player.flagger_kills = self.flagger_kills + other.flagger_kills
         """        
         say("== merging '" + other.name + "' -> into -> '" + self.name + "' ===")
         say("src: ")
