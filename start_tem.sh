@@ -75,5 +75,5 @@ cd ${setting_lines[0]}
 
 echo "start server | pipe into main.py | pipe into netcat connection: "
 echo "executing: ./${setting_lines[1]} | $econ_mod_path/src/main.py | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]}"
-./${setting_lines[1]} | $econ_mod_path/src/main.py | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]}
+./${setting_lines[1]} | $econ_mod_path/src/main.py settings=$settings_file | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file
 
