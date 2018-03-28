@@ -6,6 +6,7 @@ from kills import *
 from player import *
 from game import *
 from flag import *
+from sql_stats import InitDataBase
 
 def HandleData(data):
     if (data.startswith("[register]")):
@@ -31,13 +32,22 @@ def HandleData(data):
         HandleChatMessage(data)
     elif (data.startswith("[game]")):
         HandleGame(data)
-try:
-    while True:
-        #time.sleep(1)
-        line = sys.stdin.readline()
-        if not line:
-            break
-        HandleData(line[10:]) #cut off the timestamp
-except EOFError:
-    pass    # the telnet/netcat process finished; there's no more input
+
+def MainLoop():
+    try:
+        while True:
+            #time.sleep(1)
+            line = sys.stdin.readline()
+            if not line:
+                break
+            HandleData(line[10:]) #cut off the timestamp
+    except EOFError:
+        pass    # the telnet/netcat process finished; there's no more input
+
+def main():
+    InitDataBase()
+    MainLoop()
+
+if __name__ == "__main__":
+    main()
 
