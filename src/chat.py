@@ -17,6 +17,8 @@ def HandleChatMessage(msg):
         #say("sample rank message...")
         PrintStatsAll()
     elif (msg.find("/test") != -1):
-        say("msg[-5:]  [" + msg[-10:] + "]")
+        from global_stats import LoadGlobalStats
+        #LoadGlobalStats() #does shit and crashes server
+        pass
     elif (msg.endswith("test2\n")):
         say("test failed")
