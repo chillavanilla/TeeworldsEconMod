@@ -22,7 +22,7 @@ def HandleChatMessage(msg):
         PrintStatsAll()
     elif (msg.find("/test") != -1):
         from global_stats import LoadGlobalStats
-        #LoadGlobalStats() #does shit and crashes server
+        LoadGlobalStats() #does shit and crashes server
         pass
     elif (msg.endswith("test2\n")):
         say("test failed")
