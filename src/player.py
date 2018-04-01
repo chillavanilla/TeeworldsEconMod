@@ -22,6 +22,7 @@ class Player:
         self.flag_caps_blue = 0
         self.flag_time = 0.0
         self.flagger_kills = 0
+        self.best_spree = 0
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
@@ -34,6 +35,7 @@ class Player:
         tmp_player.flag_caps_blue = self.flag_caps_blue + other.flag_caps_blue
         tmp_player.flag_time = BestTime(self.flag_time, other.flag_time)       
         tmp_player.flagger_kills = self.flagger_kills + other.flagger_kills
+        tmp_player.best_spree = max(self.best_spree, other.best_spree)
         """        
         say("== merging '" + other.name + "' -> into -> '" + self.name + "' ===")
         say("src: ")
@@ -45,7 +47,7 @@ class Player:
         """
         return tmp_player
     def ShowStats(self):
-        say("[stats] '" + self.name + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths))
+        say("[stats] '" + self.name + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths) + " killingspree: " + str(self.best_spree))
 
 def CreatePlayer(name):
     global aPlayers
@@ -62,8 +64,13 @@ def DeletePlayer(name):
     #say("deleted player '" + name + "'")
 
 def SaveAndDeletePlayer(name):
-    if not GetPlayerByName(name):
+    player = GetPlayerByName(name)
+    if not player:
         return False
+    #dirty killingspree update
+    player.best_spree = max(player.killingspree, player.best_spree)
+    DeletePlayer(name) #delete old player without spree update
+    aPlayers.append(player) #add new player with spree update
     SaveStats(name)
     DeletePlayer(name)
 
@@ -152,6 +159,10 @@ def UpdatePlayerDeaths(name, killer, deaths):
             player.deaths += deaths
             if player.killingspree > 9:
                 broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
+            if player.killingspree > player.best_spree:
+                if (player.killingspree > 9):
+                    say("'" + player.name + "' new killingspree record! Old: " + str(player.best_spree) + " New: " + str(player.killingspree))
+                player.best_spree = player.killingspree
             player.killingspree = 0
             return True
     return False
