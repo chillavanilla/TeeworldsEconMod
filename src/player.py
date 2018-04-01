@@ -13,16 +13,16 @@ def BestTime(t1, t2):
     return t #if captured already use lowest time
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, time=0.0, spree=0):
         self.name = name
         self.kills = 0
         self.deaths = 0
         self.flag_grabs = 0
         self.flag_caps_red = 0
         self.flag_caps_blue = 0
-        self.flag_time = 0.0
+        self.flag_time = time
         self.flagger_kills = 0
-        self.best_spree = 0
+        self.best_spree = spree
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
@@ -54,7 +54,7 @@ def CreatePlayer(name):
     load_player = LoadStats(name)
     if load_player:
         load_player.ShowStats()
-    aPlayers.append(Player(name))
+    aPlayers.append(Player(name, load_player.flag_time, load_player.best_spree))
     #say("added player '" + name + "'")
 
 def DeletePlayer(name):
