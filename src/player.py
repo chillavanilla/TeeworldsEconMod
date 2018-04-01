@@ -90,11 +90,17 @@ def GetPlayerByName(name):
             return player
     return None
 
-def PrintStatsAll():
+def PrintStatsAll(debug=False):
     global aPlayers
-    for player in aPlayers:
-        say("player '" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " flag g" + str(player.flag_grabs) + "/r" + str(player.flag_caps_red) + "/b" + str(player.flag_caps_blue) + "/t" + str(player.flag_time) + "/k" + str(player.flagger_kills))
-        #say("debug IsFlagger: " + str(player.IsFlagger))
+    if (debug):
+        say("Kills/Deaths/Spree Grabs/RedCaps/BlueCaps/CapTime/FlaggerKills")
+        for player in aPlayers:
+            say("'" + player.name + "' k/d/s: " + str(player.kills) + "/" + str(player.deaths) + "/" + str(player.best_spree) + " flag g" + str(player.flag_grabs) + "/r" + str(player.flag_caps_red) + "/b" + str(player.flag_caps_blue) + "/t" + str(player.flag_time) + "/k" + str(player.flagger_kills))
+            #say("debug IsFlagger: " + str(player.IsFlagger))
+    else:
+        say("=== stats for all players ===")
+        for player in aPlayers:
+            say("'" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " spree: " + str(player.best_spree) + " flags: " + str(player.flag_caps_red + player.flag_caps_blue) + " fastest cap: " + str(player.flag_time))
 
 def HandlePlayerJoin(data):
     name_start = data.find("'") + 1

@@ -12,7 +12,11 @@ def HandleChatMessage(msg):
         say("==== Teeworlds Econ Mod (TEM) ====")
         say("developed by ChillerDragon")
         say("https://github.com/ChillerDragon/TeeworldsEconMod")
-        say("command list comming soon...")
+        say("'/help' to show this help")
+        say("'/stats' to show stats for all players")
+        say("'/stats_all' to show all stats (a bit messy)")
+    elif (msg.find("/stats_all") != -1):
+        PrintStatsAll(True)
     elif (msg.find("/stats") != -1):
         #say("sample rank message...")
         PrintStatsAll()
