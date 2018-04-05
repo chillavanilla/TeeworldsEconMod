@@ -41,16 +41,19 @@ def LoadStatsFile(name):
     from player import Player
     if not HasStats(name):
         return None
-    sf = open("stats/" + name + ".acc", "r")
-    player = Player(name)
-    player.kills = int(sf.readline())
-    player.deaths = int(sf.readline())
-    player.flag_grabs = int(sf.readline())
-    player.flag_caps_red = int(sf.readline())
-    player.flag_caps_blue = int(sf.readline())
-    player.flag_time = float(sf.readline())
-    player.flagger_kills = int(sf.readline())
-    player.best_spree = int(sf.readline())
-    sf.close()
-    return player
-
+    try:
+        sf = open("stats/" + name + ".acc", "r")
+        player = Player(name)
+        player.kills = int(sf.readline())
+        player.deaths = int(sf.readline())
+        player.flag_grabs = int(sf.readline())
+        player.flag_caps_red = int(sf.readline())
+        player.flag_caps_blue = int(sf.readline())
+        player.flag_time = float(sf.readline())
+        player.flagger_kills = int(sf.readline())
+        player.best_spree = int(sf.readline())
+        sf.close()
+        return player
+    except:
+        say("[ERROR] failed to loaded stats for '" + name + "'")
+        return None
