@@ -3,6 +3,8 @@ import sys
 import time
 from chiller_essential import *
 from player import *
+from sql_stats import *
+from sql_test import *
 from save_stats import *
 
 def HandleChatMessage(msg):
@@ -23,6 +25,9 @@ def HandleChatMessage(msg):
     elif (msg.find("/test") != -1):
         from global_stats import LoadGlobalStats
         #LoadGlobalStats() #does shit and crashes server
+        #from sql_stats import SaveStatsSQL
+        SaveStatsSQL("chiller")
         pass
     elif (msg.endswith("test2\n")):
         say("test failed")
+        TestSQL()

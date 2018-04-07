@@ -16,10 +16,11 @@ CREATE TABLE Players (
     FlagCapsBlue    INTEGER,
     FlagTime        REAL,
     FlaggerKills    INTEGER,
+    BestSpree       INTEGER
 );
 """
 
-create_stats_table = "CREATE TABLE Players (ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Kills INTEGER, Deaths INTEGER, FlagGrabs INTEGER, FlagCapsRed INTEGER, FlagCapsBlue INTEGER, FlagTime REAL, FlaggerKills INTEGER)"
+create_stats_table = "CREATE TABLE Players (ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Kills INTEGER, Deaths INTEGER, FlagGrabs INTEGER, FlagCapsRed INTEGER, FlagCapsBlue INTEGER, FlagTime REAL, FlaggerKills INTEGER, BestSpree INTEGER)"
 
 def InitDataBase():
     global create_stats_table
@@ -38,19 +39,17 @@ def SaveStatsSQL(player):
     '''
     with con:
         cur = con.cursor()
-        #cur.execute("INSERT INTO Players VALUES(" + player.name + ", 0,0,0,0,0,0,0);")
+        #cur.execute("INSERT INTO Players VALUES(" + player.name + ", 0,0,0,0,0,0,0,0);")
         show = "SELECT * FROM Players WHERE Name = '" + player.name + "';"
         cur.execute(show)
         row = cur.fetchall()
     '''
-    chiller = "ChillerDragon.*"
-    sql_str = "SELECT * FROM Players WHERE Name = '" + chiller + "';"
     with con:
         c = con.cursor()
-        c.execute(sql_str)
+        c.execute("SELECT * FROM Players WHERE Name = ? AND ID > ?;", (player, 0))
         row = c.fetchall()
         print(str(row))
-        say("sql: " + sql_str)
+        #say("sql: " + sql_str)
         say("row: " + str(row))
     pass
 
