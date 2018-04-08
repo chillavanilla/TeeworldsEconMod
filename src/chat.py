@@ -3,6 +3,7 @@ import sys
 import time
 from chiller_essential import *
 from player import *
+import global_settings
 
 def HandleChatMessage(msg):
     msg_normal = msg
@@ -19,6 +20,8 @@ def HandleChatMessage(msg):
     elif (msg.find("/stats") != -1):
         #say("sample rank message...")
         PrintStatsAll()
+    elif (msg.find("/dev") != -1):
+        say("debug=" + global_settings.IsDebug + " stats=" + global_settings.StatsMode)
     elif (msg.find("/test3") != -1):
         say("test 3 failed")
     elif (msg.find("/test2") != -1):

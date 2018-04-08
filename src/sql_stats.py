@@ -5,6 +5,7 @@ import os.path
 import sqlite3 as lite
 import sys
 from base_player import *
+import global_settings
 
 create_stats_table = """
 CREATE TABLE Players (
@@ -50,7 +51,8 @@ def LoadStatsSQL(name):
         c.execute("SELECT * FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
         row = c.fetchall()
         print(str(row))
-        #say("[stats-load] " + str(row[0]))
+        if global_settings.IsDebug:
+            say("[stats-load] " + str(row[0]))
         if not row:
             return None
         tmp_player = Player(row[0][1]) #row 0 0 is ID
@@ -88,7 +90,8 @@ def SaveStatsSQL(name):
             WHERE Name = ?;
             """
             cur.execute(update_str, (player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.name))
-        #say("[stats-SQL] updated player '" + name + "'")
+        if global_settings.IsDebug:
+            say("[stats-SQL] updated player '" + name + "'")
     else: #no stats yet --> add entry
         with con:
             cur = con.cursor()
@@ -100,6 +103,7 @@ def SaveStatsSQL(name):
             cur.execute(insert_str, (player.name, player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree))
             row = cur.fetchall()
             print(str(row))
-        #say("[stats-SQL] added new player to database '" + name + "'")
+        if global_settings.IsDebug:
+            say("[stats-SQL] added new player to database '" + name + "'")
     return True
 

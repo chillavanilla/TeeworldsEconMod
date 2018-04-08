@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
+import global_settings
 import sys
+import getopt
 import time
 from chat import *
 from kills import *
 from player import *
 from game import *
 from flag import *
-from sql_stats import InitDataBase
+#from sql_stats import InitDataBase
+from sql_stats import *
+
+global_settings.init()
 
 def HandleData(data):
     if (data.startswith("[register]")):
@@ -44,10 +49,38 @@ def MainLoop():
     except EOFError:
         pass    # the telnet/netcat process finished; there's no more input
 
-def main():
+def main(argv):
+    try:
+        opts, args = getopt.getopt(argv,"hd:s:",["debug=","stats="])
+    except getopt.GetoptError:
+        print("main.py -d <debug:true/false> -s <stats:SQL/file>")
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == "-h":
+             print("test.py -i <inputfile> -o <outputfile>")
+             sys.exit()
+        elif opt in ("-d", "--debug"):
+             IsDebug = arg
+        elif opt in ("-s", "--stats"):
+             StatsMode = arg
+    IsDebug = IsDebug.lower()
+    StatsMode = StatsMode.lower()
+    if IsDebug == "0":
+        IsDebug = "false"
+    elif IsDebug == "1":
+        IsDebug = "true"
+    if not IsDebug == "false" and not IsDebug == "true":
+        print("invalid debug argument")
+        exit()
+    if not StatsMode == "sql" and not StatsMode == "file":
+        print("invalid stats mode argument")
+        exit()
+    global_settings.IsDebug = IsDebug
+    global_settings.StatsMode = StatsMode
+    print("[TEM] debug=" + str(IsDebug) + " stats=" + str(StatsMode))
     InitDataBase()
     MainLoop()
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
 

@@ -22,6 +22,8 @@ if [ ! -f $settings_file ]; then
         echo "name_of_teeworlds_srv" >> $settings_file
         echo "econ_password" >> $settings_file
         echo "econ_port" >> $settings_file
+        echo "IsDebug(true/false)" >> $settings_file
+        echo "StatsMode(file/sql)" >> $settings_file
         nano $settings_file
     fi
     exit
@@ -48,10 +50,12 @@ done
 exec 0<&6 6<&- #normalize i/o agian: restore stdin from fd #6, where it had been saved
 
 # Settings:
-# - teeworlds path
-# - binary
-# - econ_password
-# - econ_port 
+# - teeworlds path  0
+# - binary          1
+# - econ_password   2
+# - econ_port       3
+# - IsDebug         4
+# - StatsMode       5
 
 stats_path="${setting_lines[0]}/stats"
 
@@ -74,6 +78,6 @@ echo "navigate to teeworlds path=${setting_lines[0]}"
 cd ${setting_lines[0]}
 
 echo "start server | pipe into main.py | pipe into netcat connection: "
-echo "executing: ./${setting_lines[1]} | $econ_mod_path/src/main.py | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]}"
-./${setting_lines[1]} | $econ_mod_path/src/main.py settings=$settings_file | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file
+echo "executing: ./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]}"
+./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} settings=$settings_file | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file
 
