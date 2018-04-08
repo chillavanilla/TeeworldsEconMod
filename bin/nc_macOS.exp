@@ -7,9 +7,9 @@ sleep 3
 #If it all goes pear shaped the script will timeout after 20 seconds.
 set timeout 20
 #Third argument is assigned to the variable password
-set password [lindex $argv 0];
+set password [lindex $argv 1];
 #This spawns the telnet program and connects it to the variable name
-spawn nc localhost [lindex $argv 1];
+spawn nc localhost [lindex $argv 0];
 #The script expects Password
 expect "Enter password:"
 #The script sends the password variable
