@@ -4,24 +4,22 @@ from kills import *
 import os.path
 import sqlite3 as lite
 import sys
-from player import Player
+from base_player import *
 
 create_stats_table = """
 CREATE TABLE Players (
     ID              INTEGER PRIMARY KEY AUTOINCREMENT,
     Name            TEXT,
-    Kills           INTEGER,
-    Deaths          INTEGER,
-    FlagGrabs       INTEGER,
-    FlagCapsRed     INTEGER,
-    FlagCapsBlue    INTEGER,
-    FlagTime        REAL,
-    FlaggerKills    INTEGER,
-    BestSpree       INTEGER
+    Kills           INTEGER DEFAULT 0,
+    Deaths          INTEGER DEFAULT 0,
+    FlagGrabs       INTEGER DEFAULT 0,
+    FlagCapsRed     INTEGER DEFAULT 0,
+    FlagCapsBlue    INTEGER DEFAULT 0,
+    FlagTime        REAL    DEFAULT 0.0,
+    FlaggerKills    INTEGER DEFAULT 0,
+    BestSpree       INTEGER DEFAULT 0
 );
 """
-
-create_stats_table = "CREATE TABLE Players (ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Kills INTEGER, Deaths INTEGER, FlagGrabs INTEGER, FlagCapsRed INTEGER, FlagCapsBlue INTEGER, FlagTime REAL, FlaggerKills INTEGER, BestSpree INTEGER)"
 
 def InitDataBase():
     global create_stats_table
@@ -52,11 +50,10 @@ def LoadStatsSQL(name):
         c.execute("SELECT * FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
         row = c.fetchall()
         print(str(row))
-        say("row: " + str(row))
+        #say("[stats-load] " + str(row[0]))
         if not row:
             return None
-        #say("row[0][1]: " + str(row[0][1]))
-        tmp_player = Player(row[0][1])
+        tmp_player = Player(row[0][1]) #row 0 0 is ID
         tmp_player.kills = row[0][2]
         tmp_player.deaths = row[0][3]
         tmp_player.flag_grabs = row[0][4]
@@ -70,29 +67,39 @@ def LoadStatsSQL(name):
 def SaveStatsSQL(name):
     from player import GetPlayerByName
     player = GetPlayerByName(name)
+    con = lite.connect("stats.db")
     if not player:
         say("[stats-sql] failed to load player '" + name + "'")
         return False
     if HasStats(name):
-        say("[stats-sql] found stats --> loading and appending")
+        #say("[stats-sql] found stats --> loading and appending")
         load_player = LoadStatsSQL(name)
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
             return False
         player = player + load_player
-
-    con = lite.connect("stats.db")
-    with con:
-        cur = con.cursor()
-        cur.execute("INSERT INTO Players (Name, Kills, Deaths) VALUES (?, ?, ?)", (player, player.kills, player.deaths))
-        row = cur.fetchall()
-        print(str(row))
+        with con:
+            cur = con.cursor()
+            update_str = """
+            UPDATE Players
+            SET Kills = ?, Deaths = ?,
+            FlagGrabs = ?, FlagCapsRed = ?, FlagCapsBlue = ?, FlagTime = ?, FlaggerKills = ?,
+            BestSpree = ?
+            WHERE Name = ?;
+            """
+            cur.execute(update_str, (player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.name))
+        #say("[stats-SQL] updated player '" + name + "'")
+    else: #no stats yet --> add entry
+        with con:
+            cur = con.cursor()
+            insert_str = """
+            INSERT INTO Players
+            (Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+            """
+            cur.execute(insert_str, (player.name, player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree))
+            row = cur.fetchall()
+            print(str(row))
+        #say("[stats-SQL] added new player to database '" + name + "'")
     return True
 
-def LoadAllPlayersSQL():
-    con = lite.connect("stats.db")
-    with con:
-        c = con.cursor()
-        c.execute("SELECT * FROM Players;")
-        row = c.fetchall()
-        print(str(row))

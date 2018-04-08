@@ -3,8 +3,6 @@ import sys
 import time
 from chiller_essential import *
 from player import *
-from sql_stats import *
-from save_stats import *
 
 def HandleChatMessage(msg):
     msg_normal = msg
@@ -22,8 +20,9 @@ def HandleChatMessage(msg):
         #say("sample rank message...")
         PrintStatsAll()
     elif (msg.find("/test3") != -1):
-        LoadAllPlayersSQL()
+        say("test 3 failed")
     elif (msg.find("/test2") != -1):
-        SaveStatsSQL("test test")
+        say("test 2 failed")
     elif (msg.find("/test") != -1):
-        SaveStatsSQL("ChillerDragon")
+        say("test failed")
+
