@@ -11,7 +11,7 @@ from flag import *
 #from sql_stats import InitDataBase
 from sql_stats import *
 
-global_settings.init()
+#global_settings.init()
 
 def HandleData(data):
     if (data.startswith("[register]")):
@@ -75,7 +75,13 @@ def main(argv):
     if not StatsMode == "sql" and not StatsMode == "file":
         print("invalid stats mode argument")
         exit()
-    global_settings.IsDebug = IsDebug
+    if IsDebug == "true":
+        global_settings.IsDebug = True
+    elif IsDebug == "false":
+        global_settings.IsDebug = False
+    else:
+        print("eror with debug mode")
+        exit()
     global_settings.StatsMode = StatsMode
     print("[TEM] debug=" + str(IsDebug) + " stats=" + str(StatsMode))
     InitDataBase()
