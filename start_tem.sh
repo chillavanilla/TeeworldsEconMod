@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 echo "====================="
 echo " Teeworlds Econ Mod  "
 echo " by ChillerDragon    "
@@ -74,10 +74,23 @@ if [ ! -d "$stats_path" ]; then
     fi
 fi
 
+nc_os="nc"
+
+if [ "$(uname)" == "Darwin" ]; then
+    nc_os="nc_macOS"
+    echo "detected macOS"
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    echo "detected Linux"
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    echo "warning MINGW support isnt guaranteed"
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+    echo "warning MINGW support isnt guaranteed"
+fi
+
 echo "navigate to teeworlds path=${setting_lines[0]}"
 cd ${setting_lines[0]}
 
 echo "start server | pipe into main.py | pipe into netcat connection: "
-echo "executing: ./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]}"
-./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} settings=$settings_file | $econ_mod_path/bin/nc.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file
+echo "executing: ./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} | $econ_mod_path/bin/$nc_os.exp ${setting_lines[2]} ${setting_lines[3]}"
+./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file
 
