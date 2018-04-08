@@ -31,7 +31,7 @@ and then respond via netcat connection to the teeworlds econ api.
 
 # Dependencies
 
-You need python3 installed and a teeworlds server with an autoexec including:
+You need python3 installed and a teeworlds server with an autoexec.cfg including:
 ```
 ec_port "port"
 ec_password "password"
