@@ -112,6 +112,20 @@ def SaveStatsSQL(name):
 # Stats
 #
 
+def BestSprees():
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT Name, BestSpree FROM Players WHERE BestSpree > 0 ORDER BY BestSpree DESC LIMIT 5;")
+        row = c.fetchall()
+        if not row:
+            say("something went wrong")
+            return None
+        for x in range(0, len(row)):
+            name = row[x][0]
+            value = row[x][1]
+            say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
+
 def BestTimes():
     con = lite.connect("stats.db")
     with con:
