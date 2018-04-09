@@ -26,14 +26,22 @@ def HandleKills(data):
     victim_end = data.find("' weapon=", victim_start + 1)
     victim_name = data[victim_start:victim_end]
 
+    weapon_start = data.rfind("weapon=") + 7
+    weapon_end = data.rfind(" special=")
+    weapon = data[weapon_start:weapon_end]
+
+    '''
     if killer_name == victim_name: #ignore selfkills also because it would be annoying on disconnect
         SetFlagger(victim_name, False)
         return
-    if not UpdatePlayerKills(killer_name, 1):
-        say("error adding kill for '" + killer_name + "'")
-    if not UpdatePlayerDeaths(victim_name, killer_name, 1):
-        say("error adding death for '" + victim_name + "'")
+    '''
+    if not killer_name == victim_name: #don't count suicide as kill
+        if not UpdatePlayerKills(killer_name, 1):
+            say("error adding kill for '" + killer_name + "'")
+    if not str(weapon) == "-3": #don't count disconnect or teamswitch as death
+        if not UpdatePlayerDeaths(victim_name, killer_name, 1):
+            say("error adding death for '" + victim_name + "'")
 
-    #say("[KILL] killer=" + killer_name + " victim=" + victim_name)
+    #say("[KILL] killer=" + killer_name + " victim=" + victim_name + " weapon=" + str(weapon))
     CheckFlaggerKill(victim_name, killer_name)
     SetFlagger(victim_name, False)
