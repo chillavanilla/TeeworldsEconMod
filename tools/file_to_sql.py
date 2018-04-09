@@ -212,15 +212,8 @@ def FileToSQL():
                     say("failed to load player from file")
             else:
                 say("weird error")
-    say("Finished with " + str(TotalPlayers) + " players in total") 
+    say("Finished with " + str(TotalPlayers) + " players in total")
     say("Updated: " + str(UpdatedPlayers) + " Added: " + str(AddedPlayers))
 
 FileToSQL()
-
-
-
-
-
-
-
 
