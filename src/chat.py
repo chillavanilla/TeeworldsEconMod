@@ -17,7 +17,9 @@ def HandleChatMessage(msg):
         say("'/stats' to show stats for all players")
         say("'/stats_all' to show all stats (a bit messy)")
         if global_settings.StatsMode == "sql":
-            say("'/top5' to see top5 killers of all time")
+            say("'/top_kills' to see top5 killers of all time")
+        if global_settings.StatsMode == "sql":
+            say("'/top_flags' to see top5 flag caps of all time")
     elif (msg.find("/stats_all") != -1):
         PrintStatsAll(True)
     elif (msg.find("/stats") != -1):
@@ -25,7 +27,12 @@ def HandleChatMessage(msg):
         PrintStatsAll()
     elif (msg.find("/dev") != -1):
         say("debug=" + str(global_settings.IsDebug) + " stats=" + global_settings.StatsMode)
-    elif (msg.find("/top5") != -1):
+    elif (msg.find("/top_flags") != -1):
+        if global_settings.StatsMode == "sql":
+            sql_stats.BestTimes()
+        else:
+            say("not supported in file stats mode")
+    elif (msg.find("/top_kills") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestKillers()
         else:

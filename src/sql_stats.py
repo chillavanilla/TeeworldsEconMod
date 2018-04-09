@@ -112,6 +112,20 @@ def SaveStatsSQL(name):
 # Stats
 #
 
+def BestTimes():
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT Name, FlagTime FROM Players WHERE FlagTime > 0.0 ORDER BY FlagTime ASC LIMIT 5;")
+        row = c.fetchall()
+        if not row:
+            say("something went wrong")
+            return None
+        for x in range(0, len(row)):
+            name = row[x][0]
+            value = row[x][1]
+            say(str(x + 1) + ". '" + str(name) + "' time: " + str(value))
+
 def BestKillers():
     con = lite.connect("stats.db")
     with con:
