@@ -125,7 +125,6 @@ def LoadStatsSQL(name):
         c = con.cursor()
         c.execute("SELECT * FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
         row = c.fetchall()
-        print(str(row))
         #say("[stats-load] " + str(row[0]))
         if not row:
             return None

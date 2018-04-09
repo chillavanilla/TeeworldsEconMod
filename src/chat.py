@@ -4,6 +4,7 @@ import time
 from chiller_essential import *
 from player import *
 import global_settings
+import sql_stats
 
 def HandleChatMessage(msg):
     msg_normal = msg
@@ -15,6 +16,8 @@ def HandleChatMessage(msg):
         say("'/help' to show this help")
         say("'/stats' to show stats for all players")
         say("'/stats_all' to show all stats (a bit messy)")
+        if global_settings.StatsMode == "sql":
+            say("'/top5' to see top5 killers of all time")
     elif (msg.find("/stats_all") != -1):
         PrintStatsAll(True)
     elif (msg.find("/stats") != -1):
@@ -22,6 +25,11 @@ def HandleChatMessage(msg):
         PrintStatsAll()
     elif (msg.find("/dev") != -1):
         say("debug=" + str(global_settings.IsDebug) + " stats=" + global_settings.StatsMode)
+    elif (msg.find("/top5") != -1):
+        if global_settings.StatsMode == "sql":
+            sql_stats.BestKillers()
+        else:
+            say("not supported in file stats mode")
     elif (msg.find("/test3") != -1):
         say("test 3 failed")
     elif (msg.find("/test2") != -1):

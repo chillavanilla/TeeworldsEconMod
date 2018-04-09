@@ -50,7 +50,7 @@ def LoadStatsSQL(name):
         c = con.cursor()
         c.execute("SELECT * FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
         row = c.fetchall()
-        print(str(row))
+        #print(str(row))
         if global_settings.IsDebug:
             say("[stats-load] " + str(row[0]))
         if not row:
@@ -106,4 +106,23 @@ def SaveStatsSQL(name):
         if global_settings.IsDebug:
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
+
+#
+# Display
+# Stats
+#
+
+def BestKillers():
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT Name, Kills FROM Players ORDER BY Kills DESC LIMIT 5;")
+        row = c.fetchall()
+        if not row:
+            say("something went wrong")
+            return None
+        for x in range(0, len(row)):
+            name = row[x][0]
+            kills = row[x][1]
+            say(str(x + 1) + ". '" + str(name) + "' kills: " + str(kills))
 
