@@ -5,13 +5,14 @@ from chiller_essential import *
 from player import *
 import global_settings
 import sql_stats
+import version
 
 def HandleChatMessage(msg):
     msg_normal = msg
     msg = msg.lower()
     if (msg.find("/help") != -1 or msg.find("/info") != -1 or msg.find("/cmdlist") != -1):
         say("==== Teeworlds Econ Mod (TEM) ====")
-        say("developed by ChillerDragon")
+        say("developed by ChillerDragon version: " + str(version.VERSION))
         say("https://github.com/ChillerDragon/TeeworldsEconMod")
         say("'/help' to show this help")
         say("'/stats' to show stats for all players")
