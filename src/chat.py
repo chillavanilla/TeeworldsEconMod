@@ -49,10 +49,4 @@ def HandleChatMessage(msg):
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/test3") != -1):
-        say("test 3 failed")
-    elif (msg.find("/test2") != -1):
-        say("test 2 failed")
-    elif (msg.find("/test") != -1):
-        say("test failed")
 
