@@ -112,6 +112,19 @@ def SaveStatsSQL(name):
 # Stats
 #
 
+def ShowRank(name):
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT Name, Kills FROM Players WHERE Name = ? AND ID > ?;", (name, 0)) 
+        row = c.fetchall()
+        if not row:
+            say("something went wrong")
+            return None
+        name = row[0][0]
+        kills = row[0][1]
+        say("'" + str(name) + "' kills " + str(kills))
+
 def BestSprees():
     con = lite.connect("stats.db")
     with con:
