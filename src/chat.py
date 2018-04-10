@@ -33,8 +33,6 @@ def HandleChatMessage(msg):
     elif (msg.find("/stats") != -1):
         #say("sample rank message...")
         PrintStatsAll()
-    elif (msg.find("/dev") != -1):
-        say("debug=" + str(global_settings.IsDebug) + " stats=" + global_settings.StatsMode)
     elif (msg.find("/top_flags") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
