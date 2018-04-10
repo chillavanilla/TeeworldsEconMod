@@ -116,9 +116,10 @@ def UpdatePlayerKills(name, kills):
     for player in aPlayers:
         if (player.name == name):
             player.kills += kills
-            player.killingspree += kills
-            if (player.killingspree % 10 == 0):
-                broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
+            if CountPlayers() > 7: # only activate killingsprees on 8+ players
+                player.killingspree += kills
+                if (player.killingspree % 10 == 0):
+                    broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
             return True
     return False
     
@@ -127,13 +128,14 @@ def UpdatePlayerDeaths(name, killer, deaths):
     for player in aPlayers:
         if (player.name == name):
             player.deaths += deaths
-            if player.killingspree > 9:
-                broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
-            if player.killingspree > player.best_spree:
-                if (player.killingspree > 9):
-                    say("'" + player.name + "' new killingspree record! Old: " + str(player.best_spree) + " New: " + str(player.killingspree))
-                player.best_spree = player.killingspree
-            player.killingspree = 0
+            if CountPlayers() > 7: # only activate killingsprees on 8+ players
+                if player.killingspree > 9:
+                    broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
+                if player.killingspree > player.best_spree:
+                    if (player.killingspree > 9):
+                        say("'" + player.name + "' new killingspree record! Old: " + str(player.best_spree) + " New: " + str(player.killingspree))
+                    player.best_spree = player.killingspree
+                player.killingspree = 0
             return True
     return False
 
