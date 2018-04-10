@@ -50,4 +50,6 @@ def HandleChatMessage(msg):
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
-
+    elif (msg.find("/test") != - 1):
+        echo(" hello test wolrd ")
+        say("test failed")

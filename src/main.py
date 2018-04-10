@@ -18,8 +18,10 @@ def HandleData(data):
         #say("register found: " + data) #working but was only useless chat spam for testing        
         pass
     elif (data.startswith("[Console]")):
-        if (data.find("No such command")):
+        if (data.find("No such command") != -1):
             return
+        elif (data.startswith("[Console]: !list")):
+            echo(str(CountPlayers()) + " players online")
     elif (data.find("' entered and joined the ") != -1):
         if (data.startswith("[chat]: ***")):
             HandlePlayerJoin(data)

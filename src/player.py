@@ -23,6 +23,10 @@ def DeletePlayer(name):
     del aPlayers[GetPlayerIndex(name)]
     #say("deleted player '" + name + "'")
 
+def CountPlayers():
+    global aPlayers
+    return len(aPlayers)
+
 def SaveAndDeletePlayer(name):
     player = GetPlayerByName(name)
     if not player:
