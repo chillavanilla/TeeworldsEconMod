@@ -2,6 +2,7 @@
 import sys
 import time
 from chiller_essential import *
+import cbase
 from player import *
 import global_settings
 import sql_stats
@@ -48,6 +49,12 @@ def HandleChatMessage(msg):
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
+    elif (msg.find("/rank") != - 1):
+        name_start = cbase.cfind(msg, ":", 3) + 1
+        name_end = msg.find(": /rank", name_start)
+        name_end = msg.rfind(": ", name_end)
+        name = msg_normal[name_start:name_end]
+        say("'" + name + "' is last rank lul")
     elif (msg.find("/test") != - 1):
         echo(" hello test wolrd ")
         say("test failed")
