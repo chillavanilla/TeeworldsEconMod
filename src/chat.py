@@ -11,6 +11,7 @@ import version
 def GetRankName(msg, rank_cmd):
     if not global_settings.StatsMode == "sql":
         say("not supported in file stats mode")
+        return None
     msg_normal = msg
     msg = msg.lower()
     name_start = cbase.cfind(msg, ":", 3) + 1
@@ -38,6 +39,7 @@ def HandleChatMessage(msg):
         say("'/stats_all' to show all stats (a bit messy)")
         if global_settings.StatsMode == "sql":
             say("'/top5' for all time stats commands")
+            say("'/rank' for all rank commands")
     elif (msg.find("/top5") != -1):
         if global_settings.StatsMode == "sql":
             say("'/top_kills' to see top5 killers of all time")
@@ -73,6 +75,14 @@ def HandleChatMessage(msg):
         sql_stats.RankFlagTime(GetRankName(msg_normal, ": /rank_flag"))
     elif (msg.find("/rank_spree") != - 1):
         sql_stats.RankSpree(GetRankName(msg_normal, ": /rank_spree"))
+    elif (msg.find("/rank_all") != - 1):
+        name = GetRankName(msg_normal, ": /rank_all")
+        if not name:
+            return
+        say("=== '" + str(name) + "'s stats ===")
+        sql_stats.RankKills(str(name))
+        sql_stats.RankFlagTime(str(name))
+        sql_stats.RankSpree(str(name))
     elif (msg.find("/rank") != - 1):
         if not global_settings.StatsMode == "sql":
             say("not supported in file stats mode")
