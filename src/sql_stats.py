@@ -113,6 +113,8 @@ def SaveStatsSQL(name):
 #
 
 def RankSpree(name):
+    if not name:
+        return False
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()
@@ -127,6 +129,8 @@ def RankSpree(name):
         say(str(rank) + ". '" + str(name) + "' spree " + str(value))
 
 def RankFlagTime(name):
+    if not name:
+        return False
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()
@@ -141,6 +145,8 @@ def RankFlagTime(name):
         say(str(rank) + ". '" + str(name) + "' time " + str(value))
 
 def RankKills(name):
+    if not name:
+        return False
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()

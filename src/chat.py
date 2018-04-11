@@ -86,7 +86,7 @@ def HandleChatMessage(msg):
     elif (msg.find("/rank") != - 1):
         if not global_settings.StatsMode == "sql":
             say("not supported in file stats mode")
-            pass
+            return
         say("'/rank_kills' to show global kills rank")
         say("'/rank_spree' to show global spree rank")
         say("'/rank_flag' to show global flag time rank")
