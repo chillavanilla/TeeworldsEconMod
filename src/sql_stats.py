@@ -116,14 +116,15 @@ def ShowRank(name):
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()
-        c.execute("SELECT Name, Kills FROM Players WHERE Name = ? AND ID > ?;", (name, 0)) 
+        c.execute("SELECT PlayerRank, Name, Kills FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE Kills > (SELECT Kills FROM Players WHERE Name = ?)), (SELECT Name, Kills FROM Players WHERE Name = ?);", (name, name))
         row = c.fetchall()
         if not row:
-            say("something went wrong")
+            say("'" + str(name) + "' is unranked.")
             return None
-        name = row[0][0]
-        kills = row[0][1]
-        say("'" + str(name) + "' kills " + str(kills))
+        rank = row[0][0] + 1 #first rank is 1 not 0
+        name = row[0][1]
+        kills = row[0][2]
+        say(str(rank) + ". '" + str(name) + "' kills " + str(kills))
 
 def BestSprees():
     con = lite.connect("stats.db")
