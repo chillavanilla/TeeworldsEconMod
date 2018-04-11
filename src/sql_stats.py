@@ -112,7 +112,35 @@ def SaveStatsSQL(name):
 # Stats
 #
 
-def ShowRank(name):
+def RankSpree(name):
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT PlayerRank, Name, BestSpree FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE BestSpree > (SELECT BestSpree FROM Players WHERE Name = ?)), (SELECT Name, BestSpree FROM Players WHERE Name = ?);", (name, name))
+        row = c.fetchall()
+        if not row:
+            say("'" + str(name) + "' is unranked.")
+            return None
+        rank = row[0][0] + 1 #first rank is 1 not 0
+        name = row[0][1]
+        value = row[0][2]
+        say(str(rank) + ". '" + str(name) + "' spree " + str(value))
+
+def RankFlagTime(name):
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT PlayerRank, Name, FlagTime FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE FlagTime < (SELECT FlagTime FROM Players WHERE Name = ?)), (SELECT Name, FlagTime FROM Players WHERE Name = ?);", (name, name))
+        row = c.fetchall()
+        if not row:
+            say("'" + str(name) + "' is unranked.")
+            return None
+        rank = row[0][0] + 1 #first rank is 1 not 0
+        name = row[0][1]
+        value = row[0][2]
+        say(str(rank) + ". '" + str(name) + "' time " + str(value))
+
+def RankKills(name):
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()

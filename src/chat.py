@@ -8,6 +8,24 @@ import global_settings
 import sql_stats
 import version
 
+def GetRankName(msg, rank_cmd):
+    if not global_settings.StatsMode == "sql":
+        say("not supported in file stats mode")
+    msg_normal = msg
+    msg = msg.lower()
+    name_start = cbase.cfind(msg, ":", 3) + 1
+    name_end = msg.find(rank_cmd, name_start)
+    name_end = msg.rfind(": ", name_end)
+    name = msg_normal[name_start:name_end]
+    rankname_start = -1
+    if (msg.find(rank_cmd + " ") != -1):
+        rankname_start = msg.find(rank_cmd + " ", name_end) + len(rank_cmd + " ")
+    rankname_end = len(msg) - 1 #cut off newline
+    rankname = msg_normal[rankname_start:rankname_end]
+    if not rankname or rankname == "" or rankname_start == -1:
+        return name
+    return rankname
+
 def HandleChatMessage(msg):
     msg_normal = msg
     msg = msg.lower()
@@ -34,38 +52,34 @@ def HandleChatMessage(msg):
     elif (msg.find("/stats") != -1):
         #say("sample rank message...")
         PrintStatsAll()
-    elif (msg.find("/top_flags") != -1):
+    elif (msg.find("/top_flag") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/top_kills") != -1):
+    elif (msg.find("/top_kill") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestKillers()
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/top_sprees") != -1):
+    elif (msg.find("/top_spree") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
+    elif (msg.find("/rank_kill") != - 1):
+        sql_stats.RankKills(GetRankName(msg_normal, ": /rank_kill"))
+    elif (msg.find("/rank_flag") != - 1):
+        sql_stats.RankFlagTime(GetRankName(msg_normal, ": /rank_flag"))
+    elif (msg.find("/rank_spree") != - 1):
+        sql_stats.RankSpree(GetRankName(msg_normal, ": /rank_spree"))
     elif (msg.find("/rank") != - 1):
-        name_start = cbase.cfind(msg, ":", 3) + 1
-        name_end = msg.find(": /rank", name_start)
-        name_end = msg.rfind(": ", name_end)
-        name = msg_normal[name_start:name_end]
-        rankname_start = -1
-        if (msg.find(": /rank ") != -1):
-            rankname_start = msg.find(": /rank ", name_end) + len(": /rank ")
-        rankname_end = len(msg) - 1 #cut off newline
-        rankname = msg_normal[rankname_start:rankname_end]
-        if not rankname or rankname == "" or rankname_start == -1:
-            sql_stats.ShowRank(name)
-        else:
-            sql_stats.ShowRank(rankname)
-            #say(" name start: " + str(name_start) + " end: " + str(name_end))
-            #say(" rankname start: " + str(rankname_start) + " end: " + str(rankname_end))
-            #say(" showing rank for '" + str(rankname) + "'")
+        if not global_settings.StatsMode == "sql":
+            say("not supported in file stats mode")
+            pass
+        say("'/rank_kills' to show global kills rank")
+        say("'/rank_spree' to show global spree rank")
+        say("'/rank_flag' to show global flag time rank")
     elif (msg.find("/test") != - 1):
         echo(" hello test wolrd ")
         say("test failed")
