@@ -54,8 +54,18 @@ def HandleChatMessage(msg):
         name_end = msg.find(": /rank", name_start)
         name_end = msg.rfind(": ", name_end)
         name = msg_normal[name_start:name_end]
-        #say("'" + name + "' is last rank lul")
-        sql_stats.ShowRank(name)
+        rankname_start = -1
+        if (msg.find(": /rank ") != -1):
+            rankname_start = msg.find(": /rank ", name_end) + len(": /rank ")
+        rankname_end = len(msg) - 1 #cut off newline
+        rankname = msg_normal[rankname_start:rankname_end]
+        if not rankname or rankname == "" or rankname_start == -1:
+            sql_stats.ShowRank(name)
+        else:
+            sql_stats.ShowRank(rankname)
+            #say(" name start: " + str(name_start) + " end: " + str(name_end))
+            #say(" rankname start: " + str(rankname_start) + " end: " + str(rankname_end))
+            #say(" showing rank for '" + str(rankname) + "'")
     elif (msg.find("/test") != - 1):
         echo(" hello test wolrd ")
         say("test failed")
