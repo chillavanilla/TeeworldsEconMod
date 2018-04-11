@@ -6,7 +6,7 @@ import time
 from chat import *
 from kills import *
 from player import *
-from game import *
+import game
 from flag import *
 #from sql_stats import InitDataBase
 from sql_stats import *
@@ -40,7 +40,7 @@ def HandleData(data):
         #say("chat message: " + data)
         HandleChatMessage(data)
     elif (data.startswith("[game]")):
-        HandleGame(data)
+        game.HandleGame(data)
 
 def MainLoop():
     try:

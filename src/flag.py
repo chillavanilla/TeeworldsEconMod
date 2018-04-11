@@ -4,14 +4,16 @@ import time
 from chat import *
 from kills import *
 from player import *
-from game import *
+import game
 
 def HandleFlagCap(data):
     flag_color = "pink"
     if (data.find("blue", 5, 20) != -1):
         flag_color = "blue"
+        game.UpdateFlags(True)
     elif (data.find("red", 5, 20) != -1):
         flag_color = "red"
+        game.UpdateFlags(False)
 
     name_start = data.find("'") + 1
     name_end = data.rfind("'")
