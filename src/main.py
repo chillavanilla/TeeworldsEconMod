@@ -3,15 +3,11 @@ import global_settings
 import sys
 import getopt
 import time
-from chat import *
-from kills import *
-from player import *
+import chat
 import game
-from flag import *
-#from sql_stats import InitDataBase
-from sql_stats import *
-
-#global_settings.init()
+import player
+import flag
+import sql_stats
 
 def HandleData(data):
     if (data.startswith("[register]")):
@@ -25,31 +21,30 @@ def HandleData(data):
         elif (data.startswith("[Console]: !dev")):
             echo("debug=" + str(global_settings.IsDebug) + " stats=" + global_settings.StatsMode)
     elif (data.endswith("' joined the spectators\n")):
-        HandlePlayerTeamSwap(data, True)
+        player.HandlePlayerTeamSwap(data, True)
     elif (data.find("' entered and joined the ") != -1):
         if (data.startswith("[chat]: ***")):
-            HandlePlayerJoin(data)
+            player.HandlePlayerJoin(data)
     elif (data.find("' joined the ") != -1 and data.endswith(" team\n")):
         if (data.startswith("[chat]: ***")):
-            HandlePlayerTeamSwap(data)
+            player.HandlePlayerTeamSwap(data)
     elif (data.find("' has left the game") != -1):
         if (data.startswith("[chat]: ***")):
-            HandlePlayerLeave(data)
+            player.HandlePlayerLeave(data)
     elif (data.startswith("[chat]") or data.startswith("[teamchat]")):
         if (data.startswith("[chat]: ***")):
             if (data.startswith("[chat]: *** The blue flag was captured by '") or data.startswith("[chat]: *** The red flag was captured by '")):
-                HandleFlagCap(data)
+                flag.HandleFlagCap(data)
             elif (data.find("' changed name to '") != -1):
-                HandleNameChange(data)
+                player.HandleNameChange(data)
             return
-        HandleChatMessage(data)
+        chat.HandleChatMessage(data)
     elif (data.startswith("[game]")):
         game.HandleGame(data)
 
 def MainLoop():
     try:
         while True:
-            #time.sleep(1)
             line = sys.stdin.readline()
             if not line:
                 break
@@ -92,7 +87,7 @@ def main(argv):
         exit()
     global_settings.StatsMode = StatsMode
     print("[TEM] debug=" + str(IsDebug) + " stats=" + str(StatsMode))
-    InitDataBase()
+    sql_stats.InitDataBase()
     MainLoop()
 
 if __name__ == "__main__":
