@@ -5,8 +5,7 @@ from chiller_essential import *
 from save_stats import *
 from base_player import *
 import global_settings
-
-aPlayers=[]
+import datetime
 
 def CreatePlayer(name, team=""):
     global aPlayers
@@ -139,6 +138,25 @@ def CheckFlaggerKill(victim, killer):
     return False
 
 # Update Player Values
+
+def UpdateAchivement(name, ach):
+    ts = str(datetime.datetime.now().year) + "-" +  str(datetime.datetime.now().month) + "-" + str(datetime.datetime.now().day)
+    global aPlayers
+    for player in aPlayers:
+        if (player.name == name):
+            if ach == "haxx0r":
+                player.a_haxx0r = A_Best(ts, player.a_haxx0r)
+            elif ach == "blazeit":
+                player.a_blazeit = A_Best(ts, player.a_blazeit)
+            elif ach == "satan":
+                player.a_satan = A_Best(ts, player.a_satan)
+            elif ach == "virgin":
+                player.a_virgin = A_Best(ts, player.a_virgin)
+            else:
+                say("[WARNING] unknown achivement '" + str(ach) + "'")
+                return
+            return True
+    return False
 
 def UpdatePlayerKills(name, kills):
     global aPlayers

@@ -8,6 +8,7 @@ import global_settings
 import sql_stats
 import version
 import game
+import achivements
 
 def GetRankName(msg, rank_cmd):
     if not global_settings.StatsMode == "sql":
@@ -93,6 +94,8 @@ def HandleChatMessage(msg):
         say("'/rank_flags' to show global flag time rank")
     elif (msg.find("/test") != - 1):
         name = GetRankName(msg_normal, ": /test")
+        achivements.ShowAchivements(name)
+        '''
         pPlayer = player.GetPlayerByName(name)
         if not pPlayer:
             say("error")
@@ -101,3 +104,4 @@ def HandleChatMessage(msg):
         say("wins: " + str(pPlayer.wins) + " looses: " + str(pPlayer.looses))
         echo(" hello test wolrd ")
         #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))
+        '''

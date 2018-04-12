@@ -1,11 +1,22 @@
 #!/usr/bin/env python3
 from chiller_essential import *
 
+aPlayers=[]
+
 def BestTime(t1, t2):
     t = min(t1,t2)
     if t == 0:
         return max(t1, t2) #if no time yet --> set the highest
     return t #if captured already use lowest time
+
+def A_Best(a1, a2):
+    if a1 == "":
+        return a2
+    elif a2 == "":
+        return a1
+    if a1 < a2:
+        return a1 # use oldest time
+    return a2
 
 class Player:
     def __init__(self, name, time=0.0, spree=0, team=""):
@@ -20,6 +31,10 @@ class Player:
         self.best_spree = spree
         self.wins = 0
         self.looses = 0
+        self.a_haxx0r = ""
+        self.a_blazeit = ""
+        self.a_satan = ""
+        self.a_virgin = ""
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
@@ -36,6 +51,10 @@ class Player:
         tmp_player.best_spree = max(self.best_spree, other.best_spree)
         tmp_player.wins = self.wins + other.wins
         tmp_player.looses = self.looses + other.looses
+        tmp_player.a_haxx0r = A_Best(self.a_haxx0r, other.a_haxx0r)
+        tmp_player.a_blazeit = A_Best(self.a_blazeit, other.a_blazeit)
+        tmp_player.a_satan = A_Best(self.a_satan, other.a_satan)
+        tmp_player.a_virgin = A_Best(self.a_virgin, other.a_virgin)
         """
         say("== merging '" + other.name + "' -> into -> '" + self.name + "' ===")
         say("src: ")
