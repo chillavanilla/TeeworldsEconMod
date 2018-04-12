@@ -48,4 +48,5 @@ class Player:
         return tmp_player
     def ShowStats(self):
         say("[stats] '" + self.name + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths) + " killingspree: " + str(self.best_spree))
+        #say("[stats] '" + self.name + "' flagtime: " + str(self.flag_time))
 

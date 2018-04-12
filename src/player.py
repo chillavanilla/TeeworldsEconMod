@@ -14,7 +14,7 @@ def CreatePlayer(name, team=""):
         load_player.ShowStats()
         aPlayers.append(Player(name, load_player.flag_time, load_player.best_spree, team))
     else:
-        aPlayers.append(Player(name, team))
+        aPlayers.append(Player(name, team=team))
     #say("added player '" + name + "'")
 
 def DeletePlayer(name):
