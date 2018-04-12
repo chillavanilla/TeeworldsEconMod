@@ -35,14 +35,13 @@ def HandleData(data):
     elif (data.find("' has left the game") != -1):
         if (data.startswith("[chat]: ***")):
             HandlePlayerLeave(data)
-    elif (data.startswith("[chat]")):
+    elif (data.startswith("[chat]") or data.startswith("[teamchat]")):
         if (data.startswith("[chat]: ***")):
             if (data.startswith("[chat]: *** The blue flag was captured by '") or data.startswith("[chat]: *** The red flag was captured by '")):
                 HandleFlagCap(data)
             elif (data.find("' changed name to '") != -1):
                 HandleNameChange(data)
             return
-        #say("chat message: " + data)
         HandleChatMessage(data)
     elif (data.startswith("[game]")):
         game.HandleGame(data)
