@@ -199,14 +199,17 @@ def UpdatePlayerFlagTime(name, time):
     time = float(time)
     for player in aPlayers:
         if (player.name == name):
-            if (time < player.flag_time):
-                diff = player.flag_time - time
-                diff = float("{0:.2f}".format(diff))
-                say("'" + name + "' captured the flag " + str(diff) + " seconds faster")
-                player.flag_time = time
-            elif (int(player.flag_time) == 0):  
-                player.flag_time = time
-            return True
+            try: # TypeError: unorderable types: float() < str()
+                if (time < float(player.flag_time)):
+                    diff = player.flag_time - time
+                    diff = float("{0:.2f}".format(diff))
+                    say("'" + name + "' captured the flag " + str(diff) + " seconds faster")
+                    player.flag_time = time
+                elif (int(player.flag_time) == 0):
+                    player.flag_time = time
+                return True
+            except:
+                say("[WARNING] error calculating flag time (" + str(time) + ") and (" + str(player.flag_time) + ")")
     return False
 
 
