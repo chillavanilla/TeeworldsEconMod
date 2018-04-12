@@ -98,5 +98,6 @@ def HandleChatMessage(msg):
             say("error")
             return
         say("'" + str(pPlayer.name) + "' team: " + str(pPlayer.team))
+        say("wins: " + str(pPlayer.wins) + " looses: " + str(pPlayer.looses))
         echo(" hello test wolrd ")
         #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))

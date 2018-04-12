@@ -163,6 +163,16 @@ def UpdatePlayerDeaths(name, killer, deaths):
             return True
     return False
 
+def TeamWon(team):
+    global aPlayers
+    if not team == "red" and not team == "blue":
+        say("[WARNING] invalid team won " + str(team))
+    for player in aPlayers:
+        if player.team == team:
+            player.wins += 1
+        elif not player.team == "" and not player.team == "spectator":
+            player.looses += 1
+
 def UpdatePlayerFlagGrabs(name, grabs):
     global aPlayers
     for player in aPlayers:

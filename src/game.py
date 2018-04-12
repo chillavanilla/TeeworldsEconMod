@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from chiller_essential import *
-from player import *
-from kills import *
+import player
+import kills
 
 caps_red = 0 # they are seen as score
 caps_blue = 0 # it doesnt track how often the blue flag was captured but how often the blue team capped teh red flag
@@ -25,12 +25,14 @@ def UpdateWins(IsRed):
     caps_blue = 0
     if IsRed:
         echo("red won")
+        player.TeamWon("red")
     else:
         echo("blue won")
+        player.TeamWon("blue")
 
 def HandleGame(data):
     if (data.find("kill killer") != -1):
-        HandleKills(data)    
+        kills.HandleKills(data)
     elif (data.startswith("[game]: start round type='")):
         say("[SERVER] ChillerDragon wishes you all hf & gl c:")
         #TODO: reset IsFlagger value here and maybe reset all values here
@@ -39,6 +41,6 @@ def HandleGame(data):
         name_start = data.find(":", 10) + 1  # first '
         name_end   = data.rfind("'")     # last '
         name = data[name_start:name_end]
-        UpdatePlayerFlagGrabs(name, 1)
-        SetFlagger(name, True)
+        player.UpdatePlayerFlagGrabs(name, 1)
+        player.SetFlagger(name, True)
         #say("'" + name + "' grabbed the flag")

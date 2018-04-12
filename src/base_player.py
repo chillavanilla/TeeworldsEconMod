@@ -18,6 +18,8 @@ class Player:
         self.flag_time = time
         self.flagger_kills = 0
         self.best_spree = spree
+        self.wins = 0
+        self.looses = 0
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
@@ -32,6 +34,8 @@ class Player:
         tmp_player.flag_time = BestTime(self.flag_time, other.flag_time)
         tmp_player.flagger_kills = self.flagger_kills + other.flagger_kills
         tmp_player.best_spree = max(self.best_spree, other.best_spree)
+        tmp_player.wins = self.wins + other.wins
+        tmp_player.looses = self.looses + other.looses
         """
         say("== merging '" + other.name + "' -> into -> '" + self.name + "' ===")
         say("src: ")
