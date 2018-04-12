@@ -70,12 +70,12 @@ def HandleChatMessage(msg):
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/rank_kill") != - 1):
-        sql_stats.RankKills(GetRankName(msg_normal, ": /rank_kill"))
-    elif (msg.find("/rank_flag") != - 1):
-        sql_stats.RankFlagTime(GetRankName(msg_normal, ": /rank_flag"))
-    elif (msg.find("/rank_spree") != - 1):
-        sql_stats.RankSpree(GetRankName(msg_normal, ": /rank_spree"))
+    elif (msg.find("/rank_kills") != - 1):
+        sql_stats.RankKills(GetRankName(msg_normal, ": /rank_kills"))
+    elif (msg.find("/rank_flags") != - 1):
+        sql_stats.RankFlagTime(GetRankName(msg_normal, ": /rank_flags"))
+    elif (msg.find("/rank_sprees") != - 1):
+        sql_stats.RankSpree(GetRankName(msg_normal, ": /rank_sprees"))
     elif (msg.find("/rank_all") != - 1):
         name = GetRankName(msg_normal, ": /rank_all")
         if not name:
@@ -89,8 +89,8 @@ def HandleChatMessage(msg):
             say("not supported in file stats mode")
             return
         say("'/rank_kills' to show global kills rank")
-        say("'/rank_spree' to show global spree rank")
-        say("'/rank_flag' to show global flag time rank")
+        say("'/rank_sprees' to show global spree rank")
+        say("'/rank_flags' to show global flag time rank")
     elif (msg.find("/test") != - 1):
         name = GetRankName(msg_normal, ": /test")
         pPlayer = player.GetPlayerByName(name)
