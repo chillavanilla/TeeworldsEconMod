@@ -111,8 +111,12 @@ def HandleNameChange(data):
     new_start = old_end + len("' changed name to '")
     new_end = data.rfind("'")
     new = data[new_start:new_end]
+    team = ""
+    player = GetPlayerByName(old)
+    if player:
+        team = player.team
     SaveAndDeletePlayer(old)
-    CreatePlayer(new)
+    CreatePlayer(new, team=team)
 
 def SetFlagger(name, IsFlag):
     global aPlayers
