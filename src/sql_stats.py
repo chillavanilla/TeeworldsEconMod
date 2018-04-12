@@ -139,7 +139,7 @@ def RankFlagTime(name):
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()
-        c.execute("SELECT PlayerRank, Name, FlagTime FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE FlagTime < (SELECT FlagTime FROM Players WHERE Name = ?)), (SELECT Name, FlagTime FROM Players WHERE Name = ?);", (name, name))
+        c.execute("SELECT PlayerRank, Name, FlagTime FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE FlagTime > 0.0 AND FlagTime < (SELECT FlagTime FROM Players WHERE Name = ?)), (SELECT Name, FlagTime FROM Players WHERE Name = ?);", (name, name))
         row = c.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
