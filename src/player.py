@@ -4,6 +4,7 @@ import time
 from chiller_essential import *
 from save_stats import *
 from base_player import *
+import global_settings
 
 aPlayers=[]
 
@@ -178,6 +179,8 @@ def TeamWon(team):
             player.looses += 1
 
 def UpdatePlayerFlagGrabs(name, grabs):
+    if not CountPlayers() > global_settings.FlagPlayers:
+        return
     global aPlayers
     for player in aPlayers:
         if (player.name == name):
@@ -186,6 +189,8 @@ def UpdatePlayerFlagGrabs(name, grabs):
     return False
 
 def UpdatePlayerFlagCaps(name, color, caps):
+    if not CountPlayers() > global_settings.FlagPlayers:
+        return
     global aPlayers
     for player in aPlayers:
         if (player.name == name):

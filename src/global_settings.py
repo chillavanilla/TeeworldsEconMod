@@ -2,12 +2,5 @@
 
 IsDebug = False
 StatsMode = "file"
+FlagPlayers = 7     # More than x players needed to count flag caps and grabs
 
-
-'''
-def init():
-    global IsDebug
-    global StatsMode
-    IsDebug = "false"
-    StatsMode = "file"
-'''
