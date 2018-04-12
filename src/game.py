@@ -34,9 +34,20 @@ def HandleGame(data):
     if (data.find("kill killer") != -1):
         kills.HandleKills(data)
     elif (data.startswith("[game]: start round type='")):
+        global caps_red
+        global caps_blue
+        # [game]: start round type='CTF' teamplay='1'
         say("[SERVER] ChillerDragon wishes you all hf & gl c:")
         #TODO: reset IsFlagger value here and maybe reset all values here
-        pass
+        if (data.startswith("[game]: start round type='CTF'")):
+            if caps_red == 0 and caps_blue == 0: #already catched by 10 flags auto detection
+                return
+            if caps_red > caps_blue:
+                UpdateWins(True)
+            elif caps_red < caps_blue:
+                UpdateWins(False)
+            else:
+                say("draw lul")
     elif (data.startswith("[game]: flag_grab player='")):
         name_start = data.find(":", 10) + 1  # first '
         name_end   = data.rfind("'")     # last '
