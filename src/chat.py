@@ -3,7 +3,7 @@ import sys
 import time
 from chiller_essential import *
 import cbase
-from player import *
+import player
 import global_settings
 import sql_stats
 import version
@@ -51,10 +51,10 @@ def HandleChatMessage(msg):
         else:
             say("not supported in file stats mode")
     elif (msg.find("/stats_all") != -1):
-        PrintStatsAll(True)
+        player.PrintStatsAll(True)
     elif (msg.find("/stats") != -1):
         #say("sample rank message...")
-        PrintStatsAll()
+        player.PrintStatsAll()
     elif (msg.find("/top_flag") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
@@ -92,5 +92,11 @@ def HandleChatMessage(msg):
         say("'/rank_spree' to show global spree rank")
         say("'/rank_flag' to show global flag time rank")
     elif (msg.find("/test") != - 1):
+        name = GetRankName(msg_normal, ": /test")
+        pPlayer = player.GetPlayerByName(name)
+        if not pPlayer:
+            say("error")
+            return
+        say("'" + str(pPlayer.name) + "' team: " + str(pPlayer.team))
         echo(" hello test wolrd ")
-        say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))
+        #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))

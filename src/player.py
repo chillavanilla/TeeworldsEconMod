@@ -7,14 +7,14 @@ from base_player import *
 
 aPlayers=[]
 
-def CreatePlayer(name):
+def CreatePlayer(name, team=""):
     global aPlayers
     load_player = LoadStats(name)
     if load_player:
         load_player.ShowStats()
-        aPlayers.append(Player(name, load_player.flag_time, load_player.best_spree))
+        aPlayers.append(Player(name, load_player.flag_time, load_player.best_spree, team))
     else:
-        aPlayers.append(Player(name))
+        aPlayers.append(Player(name, team))
     #say("added player '" + name + "'")
 
 def DeletePlayer(name):
@@ -66,13 +66,37 @@ def PrintStatsAll(debug=False):
         for player in aPlayers:
             say("'" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " spree: " + str(player.best_spree) + " flags: " + str(player.flag_caps_red + player.flag_caps_blue) + " fastest cap: " + str(player.flag_time))
 
+def HandlePlayerTeamSwap(data, IsSpec=False):
+    name_start = data.find("'") + 1
+    name_end = data.rfind("' joined the ", name_start)
+    name = data[name_start:name_end]
+    player = GetPlayerByName(name)
+    if not player: #something went wrong
+        say("[WARNING] something went wrong with '" + str(name) + "' s team switch")
+        return False
+    DeletePlayer(name)
+    team = ""
+    if IsSpec:
+        team = "spectator"
+    elif data.find("' joined the red", name_start) != -1:
+        team = "red"
+    elif data.find("' joined the blue", name_start) != -1:
+        team = "blue"
+    player.team = team
+    aPlayers.append(player)
+
 def HandlePlayerJoin(data):
     name_start = data.find("'") + 1
     name_end = data.find("' entered and joined the ", name_start)
     name = data[name_start:name_end]    
     if GetPlayerByName(name): #filter double names (could happen due rejoining or team switch)
         return False
-    CreatePlayer(name)
+    team = ""
+    if data.find("' entered and joined the red", name_start) != -1:
+        team = "red"
+    elif data.find("' entered and joined the blue", name_start) != -1:
+        team = "blue"
+    CreatePlayer(name, team)
             
 def HandlePlayerLeave(data):
     name_start = data.find("'") + 1

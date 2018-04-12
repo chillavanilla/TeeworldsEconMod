@@ -24,9 +24,14 @@ def HandleData(data):
             echo(str(CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
             echo("debug=" + str(global_settings.IsDebug) + " stats=" + global_settings.StatsMode)
+    elif (data.endswith("' joined the spectators\n")):
+        HandlePlayerTeamSwap(data, True)
     elif (data.find("' entered and joined the ") != -1):
         if (data.startswith("[chat]: ***")):
             HandlePlayerJoin(data)
+    elif (data.find("' joined the ") != -1 and data.endswith(" team\n")):
+        if (data.startswith("[chat]: ***")):
+            HandlePlayerTeamSwap(data)
     elif (data.find("' has left the game") != -1):
         if (data.startswith("[chat]: ***")):
             HandlePlayerLeave(data)

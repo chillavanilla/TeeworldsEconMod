@@ -8,7 +8,7 @@ def BestTime(t1, t2):
     return t #if captured already use lowest time
 
 class Player:
-    def __init__(self, name, time=0.0, spree=0):
+    def __init__(self, name, time=0.0, spree=0, team=""):
         self.name = name
         self.kills = 0
         self.deaths = 0
@@ -21,6 +21,7 @@ class Player:
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
+        self.team = team
     def __add__(self, other):
         tmp_player = Player(self.name)
         tmp_player.kills = self.kills + other.kills
