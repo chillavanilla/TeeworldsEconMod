@@ -238,7 +238,7 @@ def UpdatePlayerFlagTime(name, time):
                 if (time < float(player.flag_time)):
                     diff = player.flag_time - time
                     diff = float("{0:.2f}".format(diff))
-                    say("'" + name + "' captured the flag " + str(diff) + " seconds faster")
+                    say("[FastCap] '" + name + "' " + str(diff) + " seconds faster")
                     player.flag_time = time
                 elif (int(player.flag_time) == 0):
                     player.flag_time = time
