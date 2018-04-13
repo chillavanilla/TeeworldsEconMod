@@ -5,7 +5,7 @@ from chat import *
 from kills import *
 from player import *
 import game
-import achivements
+import achievements
 
 def HandleFlagCap(data):
     flag_color = "pink"
@@ -25,7 +25,7 @@ def HandleFlagCap(data):
         time_start = data.rfind("(") + 1
         time_end = data.rfind(" sec")
         time = data[time_start:time_end]
-    achivements.CheckFlag(name, time)
+    achievements.CheckFlag(name, time)
     UpdatePlayerFlagTime(name, time)
     SetFlagger(name, False)
     UpdatePlayerFlagCaps(name, flag_color, 1)

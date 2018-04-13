@@ -152,11 +152,15 @@ def RankFlagTime(name):
         row = c.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
-            return None
+            return False
         rank = row[0][0] + 1 #first rank is 1 not 0
         name = row[0][1]
         value = row[0][2]
+        if str(value) == "0.0":
+            say("[FastCap] '" + str(name) + "' is unranked.")
+            return False
         say(str(rank) + ". '" + str(name) + "' time " + str(value))
+    return True
 
 def RankKills(name):
     if not name:
