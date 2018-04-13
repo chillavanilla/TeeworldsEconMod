@@ -24,16 +24,16 @@ def ShowAchivements(name):
 
 def CheckFlag(name, time):
     if str(time) == str(13.37):
-        say("[achivement] '" + str(name) + "' unlocked: haxx0r")
-        player.UpdateAchivement(name, "haxx0r")
+        if player.UpdateAchivement(name, "haxx0r"):
+            say("[achivement] '" + str(name) + "' unlocked: haxx0r")
     elif str(time) == str(4.2):
-        say("[achivement] '" + str(name) + "' unlocked: blaze it")
-        player.UpdateAchivement(name, "blazeit")
+        if player.UpdateAchivement(name, "blazeit"):
+            say("[achivement] '" + str(name) + "' unlocked: blaze it")
     elif str(time) == str(6.66):
-        say("[achivement] '" + str(name) + "' unlocked: satam")
-        player.UpdateAchivement(name, "satan")
+        if player.UpdateAchivement(name, "satan"):
+            say("[achivement] '" + str(name) + "' unlocked: satam")
     elif str(time) == str(6.9):
-        say("[achivement] '" + str(name) + "' unlocked: virgin")
-        player.UpdateAchivement(name, "virgin")
+        if player.UpdateAchivement(name, "virgin"):
+            say("[achivement] '" + str(name) + "' unlocked: virgin")
     #else:
         #say("'" + str(time) + "' is no achivement time")

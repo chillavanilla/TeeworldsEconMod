@@ -145,12 +145,20 @@ def UpdateAchivement(name, ach):
     for player in aPlayers:
         if (player.name == name):
             if ach == "haxx0r":
+                if not player.a_haxx0r == "":
+                    return False
                 player.a_haxx0r = A_Best(ts, player.a_haxx0r)
             elif ach == "blazeit":
+                if not player.a_blazeit == "":
+                    return False
                 player.a_blazeit = A_Best(ts, player.a_blazeit)
             elif ach == "satan":
+                if not player.a_satan == "":
+                    return False
                 player.a_satan = A_Best(ts, player.a_satan)
             elif ach == "virgin":
+                if not plaer.a_virgin == "":
+                    return False
                 player.a_virgin = A_Best(ts, player.a_virgin)
             else:
                 say("[WARNING] unknown achivement '" + str(ach) + "'")
