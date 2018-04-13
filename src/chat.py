@@ -33,8 +33,8 @@ def HandleChatMessage(msg):
     msg_normal = msg
     msg = msg.lower()
     chat_cmd_start = cbase.cfind(msg, ":", 4) # the first possible occurence of a chat command (to filter chat command names)
-    cmd = msg[chat_cmd_start:]
-    if (cmd.find("/help") != -1 or cmd.find("/info") != -1 or cmd.find("/cmdlist") != -1):
+    cmd = msg[chat_cmd_start:-1] #cut newline at end
+    if (cmd.endswith(": /help") or cmd.endswith(": /info") or cmd.endswith(": /cmdlist")):
         say("==== Teeworlds Econ Mod (TEM) ====")
         say("developed by ChillerDragon version: " + str(version.VERSION))
         say("https://github.com/ChillerDragon/TeeworldsEconMod")
@@ -45,7 +45,7 @@ def HandleChatMessage(msg):
         if global_settings.StatsMode == "sql":
             say("'/top5' for all time stats commands")
             say("'/rank' for all rank commands")
-    elif (cmd.find("/top5") != -1):
+    elif (cmd.endswith(": /top5")):
         if global_settings.StatsMode == "sql":
             say("'/top_kills' to see top5 killers of all time")
         if global_settings.StatsMode == "sql":
@@ -54,22 +54,22 @@ def HandleChatMessage(msg):
             say("'/top_sprees' to see top5 killing sprees of all time")
         else:
             say("not supported in file stats mode")
-    elif (cmd.find("/stats_all") != -1):
+    elif (cmd.endswith(": /stats_all")):
         player.PrintStatsAll(True)
-    elif (msg.find("/stats") != -1):
+    elif (cmd.endswith(": /stats")):
         #say("sample rank message...")
         player.PrintStatsAll()
-    elif (cmd.find("/top_flag") != -1):
+    elif (cmd.endswith(": /top_flag")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
         else:
             say("not supported in file stats mode")
-    elif (cmd.find("/top_kill") != -1):
+    elif (cmd.endswith(": /top_kill")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestKillers()
         else:
             say("not supported in file stats mode")
-    elif (cmd.find("/top_spree") != -1):
+    elif (cmd.endswith(": /top_spree")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestSprees()
         else:
@@ -98,7 +98,7 @@ def HandleChatMessage(msg):
     elif (cmd.find("/achievements") != - 1):
         name = GetRankName(msg_normal, ": /achievements")
         achievements.ShowAchievements(name)
-    elif (cmd.find("/test") != - 1):
+    elif (cmd.endswith(": /test")):
         say("test failed")
         '''
         str = "\"test'hello#world"
