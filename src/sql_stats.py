@@ -111,7 +111,7 @@ def SaveStatsSQL(name):
             cur = con.cursor()
             insert_str = """
             INSERT INTO Players
-            (Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses)
+            (Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses, A_haxx0r, A_blazeit, A_satan, A_virgin)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """
             cur.execute(insert_str, (player.name, player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.wins, player.looses, player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin))
