@@ -33,6 +33,10 @@ def SaveStatsFile(name):
         sf.write(str(player.best_spree) + "\n")
         sf.write(str(player.wins) + "\n")
         sf.write(str(player.looses) + "\n")
+        sf.write(str(player.a_haxx0r) + "\n")
+        sf.write(str(player.a_blazeit) + "\n")
+        sf.write(str(player.a_satan) + "\n")
+        sf.write(str(player.a_virgin) + "\n")
         sf.close()
         return True
     except:
@@ -56,6 +60,10 @@ def LoadStatsFile(name):
         player.best_spree = int(sf.readline())
         player.wins = int(sf.readline())
         player.looses = int(sf.readline())
+        player.a_haxx0r = str(sf.readline())
+        player.a_blazeit = str(sf.readline())
+        player.a_satan = str(sf.readline())
+        player.a_virgin = str(sf.readline())
         sf.close()
         return player
     except:

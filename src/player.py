@@ -12,7 +12,12 @@ def CreatePlayer(name, team=""):
     load_player = LoadStats(name)
     if load_player:
         load_player.ShowStats()
-        aPlayers.append(Player(name, load_player.flag_time, load_player.best_spree, team))
+        add_player = Player(name, load_player.flag_time, load_player.best_spree, team)
+        add_player.a_haxx0r = load_player.a_haxx0r
+        add_player.a_blazeit = load_player.a_blazeit
+        add_player.a_satan = load_player.a_satan
+        add_player.a_virgin = load_player.a_virgin
+        aPlayers.append(add_player)
     else:
         aPlayers.append(Player(name, team=team))
     #say("added player '" + name + "'")
@@ -157,7 +162,7 @@ def UpdateAchivement(name, ach):
                     return False
                 player.a_satan = A_Best(ts, player.a_satan)
             elif ach == "virgin":
-                if not plaer.a_virgin == "":
+                if not player.a_virgin == "":
                     return False
                 player.a_virgin = A_Best(ts, player.a_virgin)
             else:

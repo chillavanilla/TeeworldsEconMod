@@ -20,7 +20,11 @@ CREATE TABLE Players (
     FlaggerKills    INTEGER DEFAULT 0,
     BestSpree       INTEGER DEFAULT 0,
     Wins            INTEGER DEFAULT 0,
-    Looses          INTEGER DEFAULT 0
+    Looses          INTEGER DEFAULT 0,
+    A_haxx0r        TEXT    DEFAULT '',
+    A_blazeit       TEXT    DEFAULT '',
+    A_satan         TEXT    DEFAULT '',
+    A_virgin        TEXT    DEFAULT ''
 );
 """
 
@@ -50,7 +54,7 @@ def LoadStatsSQL(name):
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()
-        c.execute("SELECT ID, Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
+        c.execute("SELECT ID, Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses, A_haxx0r, A_blazeit, A_satan, A_virgin FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
         row = c.fetchall()
         #print(str(row))
         if global_settings.IsDebug:
@@ -68,6 +72,10 @@ def LoadStatsSQL(name):
         tmp_player.best_spree = row[0][9]
         tmp_player.wins = row[0][10]
         tmp_player.looses = row[0][11]
+        tmp_player.a_haxx0r = row[0][12]
+        tmp_player.a_blazeit = row[0][13]
+        tmp_player.a_satan = row[0][14]
+        tmp_player.a_virgin = row[0][15]
     return tmp_player
 
 def SaveStatsSQL(name):
@@ -91,10 +99,11 @@ def SaveStatsSQL(name):
             SET Kills = ?, Deaths = ?,
             FlagGrabs = ?, FlagCapsRed = ?, FlagCapsBlue = ?, FlagTime = ?, FlaggerKills = ?,
             BestSpree = ?,
-            Wins = ?, Looses = ?
+            Wins = ?, Looses = ?,
+            A_haxx0r = ?, A_blazeit = ?, A_satan = ?, A_virgin = ?
             WHERE Name = ?;
             """
-            cur.execute(update_str, (player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.wins, player.looses, player.name))
+            cur.execute(update_str, (player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.wins, player.looses, player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin, player.name))
         if global_settings.IsDebug:
             say("[stats-SQL] updated player '" + name + "'")
     else: #no stats yet --> add entry
@@ -103,9 +112,9 @@ def SaveStatsSQL(name):
             insert_str = """
             INSERT INTO Players
             (Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
             """
-            cur.execute(insert_str, (player.name, player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.wins, player.looses))
+            cur.execute(insert_str, (player.name, player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.wins, player.looses, player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin))
             row = cur.fetchall()
             print(str(row))
         if global_settings.IsDebug:

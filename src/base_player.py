@@ -19,6 +19,7 @@ def A_Best(a1, a2):
     return a2
 
 class Player:
+    #def __init__(self, name, time=0.0, spree=0, team="", a_haxx0r = "", a_blazeit = "", a_satan = "", a_virgin = ""):
     def __init__(self, name, time=0.0, spree=0, team=""):
         self.name = name
         self.kills = 0
@@ -35,6 +36,12 @@ class Player:
         self.a_blazeit = ""
         self.a_satan = ""
         self.a_virgin = ""
+        '''
+        self.a_haxx0r = a_haxx0r
+        self.a_blazeit = a_blazeit
+        self.a_satan = a_satan
+        self.a_virgin = a_virgin
+        '''
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
