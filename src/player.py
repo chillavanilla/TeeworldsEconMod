@@ -144,7 +144,7 @@ def CheckFlaggerKill(victim, killer):
 
 # Update Player Values
 
-def UpdateAchivement(name, ach):
+def UpdateAchievement(name, ach):
     ts = str(datetime.datetime.now().year) + "-" +  str(datetime.datetime.now().month) + "-" + str(datetime.datetime.now().day)
     global aPlayers
     for player in aPlayers:
@@ -166,7 +166,7 @@ def UpdateAchivement(name, ach):
                     return False
                 player.a_virgin = A_Best(ts, player.a_virgin)
             else:
-                say("[WARNING] unknown achivement '" + str(ach) + "'")
+                say("[WARNING] unknown achievement '" + str(ach) + "'")
                 return
             return True
     return False
