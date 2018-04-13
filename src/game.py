@@ -2,6 +2,7 @@
 from chiller_essential import *
 import player
 import kills
+import global_settings
 
 caps_red = 0 # they are seen as score
 caps_blue = 0 # it doesnt track how often the blue flag was captured but how often the blue team capped teh red flag
@@ -25,10 +26,12 @@ def UpdateWins(IsRed):
     caps_blue = 0
     if IsRed:
         echo("red won")
-        player.TeamWon("red")
+        if player.CountPlayers() > global_settings.WinPlayers:
+            player.TeamWon("red")
     else:
         echo("blue won")
-        player.TeamWon("blue")
+        if player.CountPlayers() > global_settings.WinPlayers:
+            player.TeamWon("blue")
 
 def HandleGame(data):
     if (data.find("kill killer") != -1):
