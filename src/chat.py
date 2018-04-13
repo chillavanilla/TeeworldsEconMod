@@ -32,7 +32,9 @@ def GetRankName(msg, rank_cmd):
 def HandleChatMessage(msg):
     msg_normal = msg
     msg = msg.lower()
-    if (msg.find("/help") != -1 or msg.find("/info") != -1 or msg.find("/cmdlist") != -1):
+    chat_cmd_start = cbase.cfind(msg, ":", 4) # the first possible occurence of a chat command (to filter chat command names)
+    cmd = msg[chat_cmd_start:]
+    if (cmd.find("/help") != -1 or cmd.find("/info") != -1 or cmd.find("/cmdlist") != -1):
         say("==== Teeworlds Econ Mod (TEM) ====")
         say("developed by ChillerDragon version: " + str(version.VERSION))
         say("https://github.com/ChillerDragon/TeeworldsEconMod")
@@ -43,7 +45,7 @@ def HandleChatMessage(msg):
         if global_settings.StatsMode == "sql":
             say("'/top5' for all time stats commands")
             say("'/rank' for all rank commands")
-    elif (msg.find("/top5") != -1):
+    elif (cmd.find("/top5") != -1):
         if global_settings.StatsMode == "sql":
             say("'/top_kills' to see top5 killers of all time")
         if global_settings.StatsMode == "sql":
@@ -52,33 +54,33 @@ def HandleChatMessage(msg):
             say("'/top_sprees' to see top5 killing sprees of all time")
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/stats_all") != -1):
+    elif (cmd.find("/stats_all") != -1):
         player.PrintStatsAll(True)
     elif (msg.find("/stats") != -1):
         #say("sample rank message...")
         player.PrintStatsAll()
-    elif (msg.find("/top_flag") != -1):
+    elif (cmd.find("/top_flag") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/top_kill") != -1):
+    elif (cmd.find("/top_kill") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestKillers()
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/top_spree") != -1):
+    elif (cmd.find("/top_spree") != -1):
         if global_settings.StatsMode == "sql":
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
-    elif (msg.find("/rank_kills") != - 1):
+    elif (cmd.find("/rank_kills") != - 1):
         sql_stats.RankKills(GetRankName(msg_normal, ": /rank_kills"))
     elif (msg.find("/rank_flags") != - 1):
         sql_stats.RankFlagTime(GetRankName(msg_normal, ": /rank_flags"))
-    elif (msg.find("/rank_sprees") != - 1):
+    elif (cmd.find("/rank_sprees") != - 1):
         sql_stats.RankSpree(GetRankName(msg_normal, ": /rank_sprees"))
-    elif (msg.find("/rank_all") != - 1):
+    elif (cmd.find("/rank_all") != - 1):
         name = GetRankName(msg_normal, ": /rank_all")
         if not name:
             return
@@ -86,17 +88,17 @@ def HandleChatMessage(msg):
         sql_stats.RankKills(str(name))
         sql_stats.RankFlagTime(str(name))
         sql_stats.RankSpree(str(name))
-    elif (msg.find("/rank") != - 1):
+    elif (cmd.find("/rank") != - 1):
         if not global_settings.StatsMode == "sql":
             say("not supported in file stats mode")
             return
         say("'/rank_kills' to show global kills rank")
         say("'/rank_sprees' to show global spree rank")
         say("'/rank_flags' to show global flag time rank")
-    elif (msg.find("/achievements") != - 1):
+    elif (cmd.find("/achievements") != - 1):
         name = GetRankName(msg_normal, ": /achievements")
         achievements.ShowAchievements(name)
-    elif (msg.find("/test") != - 1):
+    elif (cmd.find("/test") != - 1):
         say("test failed")
         '''
         str = "\"test'hello#world"
