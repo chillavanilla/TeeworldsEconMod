@@ -97,6 +97,12 @@ def HandleChatMessage(msg):
         name = GetRankName(msg_normal, ": /achivements")
         achivements.ShowAchivements(name)
     elif (msg.find("/test") != - 1):
+        say("test failed")
+        '''
+        str = "\"test'hello#world"
+        say(str)
+        echo(str)
+        broadcast(str)
         name = GetRankName(msg_normal, ": /test")
         pPlayer = player.GetPlayerByName(name)
         if not pPlayer:
@@ -106,3 +112,4 @@ def HandleChatMessage(msg):
         say("wins: " + str(pPlayer.wins) + " looses: " + str(pPlayer.looses))
         echo(" hello test wolrd ")
         #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))
+        '''
