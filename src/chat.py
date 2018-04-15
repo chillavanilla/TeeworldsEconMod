@@ -59,17 +59,17 @@ def HandleChatMessage(msg):
     elif (cmd.endswith(": /stats")):
         #say("sample rank message...")
         player.PrintStatsAll()
-    elif (cmd.endswith(": /top_flag")):
+    elif (cmd.endswith(": /top_flags")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": /top_kill")):
+    elif (cmd.endswith(": /top_kills")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestKillers()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": /top_spree")):
+    elif (cmd.endswith(": /top_sprees")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestSprees()
         else:
