@@ -3,6 +3,13 @@ from chiller_essential import *
 
 aPlayers=[]
 
+def CalcKD(k, d):
+    if k == 0:
+        return str(0)
+    if d == 0:
+        return str(k)
+    return str(k / d)
+
 def BestTime(t1, t2):
     t = min(t1,t2)
     if t == 0:
@@ -75,4 +82,6 @@ class Player:
     def ShowStats(self):
         say("[stats] '" + str(self.name) + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths) + " killingspree: " + str(self.best_spree))
         #say("[stats] '" + self.name + "' flagtime: " + str(self.flag_time))
+    def ShowStatsRound(self):
+        say("[round-stats] '" + str(self.name) + "' kd: " + CalcKD(self.kills,self.deaths) + " (" + str(self.kills) + "/" + str(self.deaths) + ")")
 

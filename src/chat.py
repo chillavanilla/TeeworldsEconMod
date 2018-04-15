@@ -39,8 +39,7 @@ def HandleChatMessage(msg):
         say("developed by ChillerDragon version: " + str(version.VERSION))
         say("https://github.com/ChillerDragon/TeeworldsEconMod")
         say("'/help' to show this help")
-        say("'/stats' to show stats for all players")
-        say("'/stats_all' to show all stats (a bit messy)")
+        say("'/stats' to show round stats")
         say("'/achievements' to show achievements")
         if global_settings.StatsMode == "sql":
             say("'/top5' for all time stats commands")
@@ -54,11 +53,16 @@ def HandleChatMessage(msg):
             say("'/top_sprees' to see top5 killing sprees of all time")
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": /stats_all")):
-        player.PrintStatsAll(True)
-    elif (cmd.endswith(": /stats")):
-        #say("sample rank message...")
-        player.PrintStatsAll()
+    #elif (cmd.endswith(": /stats_all")):
+        #player.PrintStatsAll(True)
+    elif (cmd.find(": /stats") != -1):
+        name = GetRankName(msg_normal, ": /stats")
+        p = player.GetPlayerByName(name)
+        if not p:
+            say("[stats] player '" + str(name) + "' is not online.")
+            return
+        p.ShowStatsRound()
+        #player.PrintStatsAll()
     elif (cmd.endswith(": /top_flags")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
