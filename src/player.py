@@ -7,16 +7,18 @@ from base_player import *
 import global_settings
 import datetime
 
-def CreatePlayer(name, team=""):
+def CreatePlayer(name, team="", ShowStats=True, spree=0):
     global aPlayers
     load_player = LoadStats(name)
     if load_player:
-        load_player.ShowStats()
+        if ShowStats:
+            load_player.ShowStats()
         add_player = Player(name, load_player.flag_time, load_player.best_spree, team)
         add_player.a_haxx0r = load_player.a_haxx0r
         add_player.a_blazeit = load_player.a_blazeit
         add_player.a_satan = load_player.a_satan
         add_player.a_virgin = load_player.a_virgin
+        add_player.killingspree = spree
         aPlayers.append(add_player)
     else:
         aPlayers.append(Player(name, team=team))
@@ -42,6 +44,13 @@ def SaveAndDeletePlayer(name):
     aPlayers.append(player) #add new player with spree update
     SaveStats(name)
     DeletePlayer(name)
+
+def RefreshAllPlayers():
+    global aPlayers
+    for player in aPlayers:
+        p = player
+        SaveAndDeletePlayer(player.name)
+        CreatePlayer(p.name, p.team, ShowStats=False, spree=p.killingspree)
 
 def GetPlayerIndex(name):
     global aPlayers
@@ -176,7 +185,7 @@ def UpdatePlayerKills(name, kills):
     for player in aPlayers:
         if (player.name == name):
             player.kills += kills
-            if CountPlayers() > 7: # only activate killingsprees on 8+ players
+            if CountPlayers() > global_settings.SpreePlayers: # only activate killingsprees on 8+ players
                 player.killingspree += kills
                 if (player.killingspree % 10 == 0):
                     broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
@@ -188,7 +197,7 @@ def UpdatePlayerDeaths(name, killer, deaths):
     for player in aPlayers:
         if (player.name == name):
             player.deaths += deaths
-            if CountPlayers() > 7: # only activate killingsprees on 8+ players
+            if CountPlayers() > global_settings.SpreePlayers: # only activate killingsprees on 8+ players
                 if player.killingspree > 9:
                     broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
                 if player.killingspree > player.best_spree:

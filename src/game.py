@@ -41,7 +41,7 @@ def HandleGame(data):
         global caps_blue
         # [game]: start round type='CTF' teamplay='1'
         say("[SERVER] ChillerDragon wishes you all hf & gl c:")
-        #TODO: reset IsFlagger value here and maybe reset all values here
+        player.RefreshAllPlayers()
         if (data.startswith("[game]: start round type='CTF'")):
             if caps_red == 0 and caps_blue == 0: #already catched by 10 flags auto detection
                 return

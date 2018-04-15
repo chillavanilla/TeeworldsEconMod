@@ -103,7 +103,12 @@ def HandleChatMessage(msg):
         name = GetRankName(msg_normal, ": /achievements")
         achievements.ShowAchievements(name)
     elif (cmd.endswith(": /test")):
-        say("test failed")
+        name = GetRankName(msg_normal, ": /test")
+        pPlayer = player.GetPlayerByName(name)
+        if not pPlayer:
+            say("error")
+            return
+        say("current spree: " + str(pPlayer.killingspree))
         '''
         str = "\"test'hello#world"
         say(str)
