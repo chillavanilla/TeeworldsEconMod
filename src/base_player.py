@@ -8,7 +8,7 @@ def CalcKD(k, d):
         return str(0)
     if d == 0:
         return str(k)
-    return str(k / d)
+    return str("%.2f" % (k / d))
 
 def BestTime(t1, t2):
     t = min(t1,t2)
