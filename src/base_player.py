@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from chiller_essential import *
+import datetime
 
 aPlayers=[]
 
@@ -53,6 +54,9 @@ class Player:
         self.killingspree = 0
         self.IsFlagger = False
         self.team = team
+        self.LastChat = datetime.datetime.now()
+        self.MuteScore = 0
+        self.IsMuted = False
     def __add__(self, other):
         tmp_player = Player(self.name)
         tmp_player.kills = self.kills + other.kills

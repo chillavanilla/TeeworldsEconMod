@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import time
+import datetime
 from chiller_essential import *
 import cbase
 import player
@@ -29,7 +30,36 @@ def GetRankName(msg, rank_cmd):
         return name
     return rankname
 
+def GetSpamName(msg):
+    name_start = cbase.cfind(msg, ":", 3) + 1
+    name_end = msg.find(": ", name_start + 1)
+    name = msg[name_start:name_end]
+    return name
+
+def SpamProtection(msg):
+    name = GetSpamName(msg)
+    p = player.GetPlayerByName(name)
+    now = datetime.datetime.now()
+    diff = now - p.LastChat
+    p.LastChat = now
+    #say("chat diff seconds: " + str(diff.seconds) + " LastChat: " + str(p.LastChat))
+    seconds = diff.seconds
+    if (seconds < 15):
+        p.MuteScore += 1
+    if (p.MuteScore > 5):
+        if not p.IsMuted:
+            p.IsMuted = True
+            say("'" + str(name) + "' is banned from the command system (spam)")
+    if (seconds > 120):
+        p.IsMuted = False
+        p.MuteScore = 0
+    if (p.IsMuted):
+        return True
+    return False
+
 def HandleChatMessage(msg):
+    if SpamProtection(msg):
+        return
     msg_normal = msg
     msg = msg.lower()
     chat_cmd_start = cbase.cfind(msg, ":", 4) # the first possible occurence of a chat command (to filter chat command names)
