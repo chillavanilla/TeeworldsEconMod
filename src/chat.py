@@ -36,6 +36,10 @@ def GetSpamName(msg):
     name = msg[name_start:name_end]
     return name
 
+def GetSpamPlayer(msg):
+    name = GetSpamName(msg)
+    return player.GetPlayerByName(name)
+
 def SpamProtection(msg):
     name = GetSpamName(msg)
     p = player.GetPlayerByName(name)
@@ -57,9 +61,16 @@ def SpamProtection(msg):
         return True
     return False
 
+def IsMuted(msg):
+    p = GetSpamPlayer(msg)
+    if (p.IsMuted):
+        return True
+    return False
+
 def HandleChatMessage(msg):
-    if SpamProtection(msg):
+    if IsMuted(msg):
         return
+    IsCmd = True
     msg_normal = msg
     msg = msg.lower()
     chat_cmd_start = cbase.cfind(msg, ":", 4) # the first possible occurence of a chat command (to filter chat command names)
@@ -154,3 +165,7 @@ def HandleChatMessage(msg):
         echo(" hello test wolrd ")
         #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))
         '''
+    else:
+        IsCmd = False
+    if IsCmd:
+        SpamProtection(msg_normal)
