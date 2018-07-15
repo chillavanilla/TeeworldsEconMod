@@ -162,6 +162,24 @@ def RankFlagTime(name):
         say(str(rank) + ". '" + str(name) + "' time " + str(value))
     return True
 
+def RankFlagCaps(name):
+    if not name:
+        return False
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("""SELECT PlayerRank, Name, FlagCaps FROM 
+                    (SELECT COUNT(*) AS PlayerRank FROM Players WHERE FlagCapsRed + FlagCapsBlue > (SELECT (FlagCapsRed + FlagCapsBlue) AS FlagCaps FROM Players WHERE Name = ?)), 
+                    (SELECT Name, (FlagCapsRed + FlagCapsBlue) AS FlagCaps FROM Players WHERE Name = ?);""", (name, name))
+        row = c.fetchall()
+        if not row:
+            say("'" + str(name) + "' is unranked.")
+            return None
+        rank = row[0][0] + 1 #first rank is 1 not 0
+        name = row[0][1]
+        value = row[0][2]
+        say(str(rank) + ". '" + str(name) + "' flagcaps " + str(value))
+
 def RankKills(name):
     if not name:
         return False
@@ -177,6 +195,34 @@ def RankKills(name):
         name = row[0][1]
         kills = row[0][2]
         say(str(rank) + ". '" + str(name) + "' kills " + str(kills))
+
+def BestFlagCaps():
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT Name, (FlagCapsRed + FlagCapsBlue) AS FlagCaps FROM Players WHERE  FlagCaps > 0 ORDER BY FlagCaps DESC LIMIT 5;")
+        row = c.fetchall()
+        if not row:
+            say("something went wrong")
+            return None
+        for x in range(0, len(row)):
+            name = row[x][0]
+            value = row[x][1]
+            say(str(x + 1) + ". '" + str(name) + "' flagcaps: " + str(value))
+
+def BestSprees():
+    con = lite.connect("stats.db")
+    with con:
+        c = con.cursor()
+        c.execute("SELECT Name, BestSpree FROM Players WHERE BestSpree > 0 ORDER BY BestSpree DESC LIMIT 5;")
+        row = c.fetchall()
+        if not row:
+            say("something went wrong")
+            return None
+        for x in range(0, len(row)):
+            name = row[x][0]
+            value = row[x][1]
+            say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
 
 def BestSprees():
     con = lite.connect("stats.db")

@@ -89,7 +89,9 @@ def HandleChatMessage(msg):
         if global_settings.StatsMode == "sql":
             say("'/top_kills' to see top5 killers of all time")
         if global_settings.StatsMode == "sql":
-            say("'/top_flags' to see top5 flag caps of all time")
+            say("'/top_flags' to see top5 flag cap times of all time")
+        if global_settings.StatsMode == "sql":
+            say("'/top_caps' to see top5 flag amount of all time")
         if global_settings.StatsMode == "sql":
             say("'/top_sprees' to see top5 killing sprees of all time")
         else:
@@ -104,6 +106,11 @@ def HandleChatMessage(msg):
             return
         p.ShowStatsRound()
         #player.PrintStatsAll()
+    elif (cmd.endswith(": /top_caps")):
+        if global_settings.StatsMode == "sql":
+            sql_stats.BestFlagCaps()
+        else:
+            say("not supported in file stats mode")
     elif (cmd.endswith(": /top_flags")):
         if global_settings.StatsMode == "sql":
             sql_stats.BestTimes()
@@ -123,6 +130,8 @@ def HandleChatMessage(msg):
         sql_stats.RankKills(GetRankName(msg_normal, ": /rank_kills"))
     elif (msg.find("/rank_flags") != - 1):
         sql_stats.RankFlagTime(GetRankName(msg_normal, ": /rank_flags"))
+    elif (msg.find("/rank_caps") != - 1):
+        sql_stats.RankFlagCaps(GetRankName(msg_normal, ": /rank_caps"))
     elif (cmd.find("/rank_sprees") != - 1):
         sql_stats.RankSpree(GetRankName(msg_normal, ": /rank_sprees"))
     elif (cmd.find("/rank_all") != - 1):
@@ -132,6 +141,7 @@ def HandleChatMessage(msg):
         say("=== '" + str(name) + "'s stats ===")
         sql_stats.RankKills(str(name))
         sql_stats.RankFlagTime(str(name))
+        sql_stats.RankFlagCaps(str(name))
         sql_stats.RankSpree(str(name))
     elif (cmd.find("/rank") != - 1):
         if not global_settings.StatsMode == "sql":
@@ -140,6 +150,7 @@ def HandleChatMessage(msg):
         say("'/rank_kills' to show global kills rank")
         say("'/rank_sprees' to show global spree rank")
         say("'/rank_flags' to show global flag time rank")
+        say("'/rank_caps' to show global flag capture rank")
     elif (cmd.find("/achievements") != - 1):
         name = GetRankName(msg_normal, ": /achievements")
         achievements.ShowAchievements(name)
