@@ -51,6 +51,9 @@ def MainLoop():
             HandleData(line[10:]) #cut off the timestamp
     except EOFError:
         pass    # the telnet/netcat process finished; there's no more input
+    except UnicodeDecodeError:
+        say("[WARNING] UnicodeDecodeError! Please contact an admin.")
+        pass
 
 def main(argv):
     try:
