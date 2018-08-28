@@ -43,6 +43,10 @@ def GetSpamPlayer(msg):
 def SpamProtection(msg):
     name = GetSpamName(msg)
     p = player.GetPlayerByName(name)
+    if not p:
+        say("[WARNING] SpamProtection() failed! please contact an admin")
+        say("[WARNING] detected name was '" + str(name) + "'")
+        return False
     now = datetime.datetime.now()
     diff = now - p.LastChat
     p.LastChat = now
@@ -63,6 +67,9 @@ def SpamProtection(msg):
 
 def IsMuted(msg):
     p = GetSpamPlayer(msg)
+    if not p:
+        say("[WARNING] IsMuted() failed! please contact an admin")
+        return False
     if (p.IsMuted):
         return True
     return False
