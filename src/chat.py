@@ -183,6 +183,8 @@ def HandleChatMessage(msg):
         echo(" hello test wolrd ")
         #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))
         '''
+    elif (cmd.find("kick") or cmd.find("ban") or cmd.find("hooker") or cmd.find("fuck")): # handle this like a chat command (spam prot)
+        say("[INFO] Contact the admin on discord (" + str(global_settings.AdminDiscord) + ") to report players.")
     else:
         IsCmd = False
     if IsCmd:
