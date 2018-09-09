@@ -37,6 +37,13 @@ ec_port "port"
 ec_password "password"
 ```
 
+# Advanced config
+
+Additional config variables can be found in
+```
+src/global_settings.py
+```
+
 # Bugs
 
 ``sv_scorelimit 1000`` is strongly recommended
