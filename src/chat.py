@@ -11,6 +11,17 @@ import version
 import game
 import achievements
 
+def IsBanReasonInStr(str):
+    if (str.find("kick") != -1 or str.find("ban") != -1):
+        return True
+    if (str.find("hook") != -1 or str.find("botter") != -1 or str.find("troll") != -1 or str.find("hack") != -1):
+        return True
+    if (str.find("fuck") != -1 or str.find("stop it") != -1):
+        return True
+    if (str.find("admin") != -1 or str.find("report") != -1):
+        return True
+    return False
+
 def GetRankName(msg, rank_cmd):
     if not global_settings.StatsMode == "sql":
         say("not supported in file stats mode")
@@ -183,7 +194,8 @@ def HandleChatMessage(msg):
         echo(" hello test wolrd ")
         #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))
         '''
-    elif (cmd.find("kick") or cmd.find("ban") or cmd.find("hooker") or cmd.find("fuck")): # handle this like a chat command (spam prot)
+    # handle this like a chat command (so it has spam prot)
+    elif (IsBanReasonInStr(cmd)): 
         say("[INFO] Contact the admin on discord (" + str(global_settings.AdminDiscord) + ") to report players.")
     else:
         IsCmd = False
