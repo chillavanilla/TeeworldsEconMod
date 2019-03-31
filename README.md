@@ -44,6 +44,16 @@ Additional config variables can be found in
 src/global_settings.py
 ```
 
+# Logs
+
+Currently the logs have some weird binary chunks in it and ``grep`` doesn't work well with it.
+
+If you want to convert the logs to text only you could use a command like:
+
+```
+for f in logs/*; do echo "[`basename $f`]... (`wc -l $f`)"; strings $f > txt_logs/`basename $f`; done
+```
+
 # Bugs
 
 ``sv_scorelimit 1000`` is strongly recommended
