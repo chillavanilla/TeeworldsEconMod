@@ -96,7 +96,7 @@ def HandleChatMessage(msg):
     if (cmd.endswith(": /help") or cmd.endswith(": /info") or cmd.endswith(": /cmdlist")):
         say("==== Teeworlds Econ Mod (TEM) ====")
         say("developed by ChillerDragon version: " + str(version.VERSION))
-        say("https://github.com/ChillerDragon/TeeworldsEconMod")
+        say("https://github.com/ChillaVanilla/TeeworldsEconMod")
         say("'/help' to show this help")
         say("'/stats' to show round stats")
         say("'/achievements' to show achievements")
