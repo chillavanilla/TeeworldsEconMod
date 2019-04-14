@@ -4,6 +4,16 @@ echo " Teeworlds Econ Mod  "
 echo " by ChillerDragon    "
 echo "====================="
 
+# check dependencys
+command -v expect >/dev/null 2>&1 || {
+  echo >&2 "Error: expect is not found please install it!";
+  if [ "$(uname)" == "Darwin" ]; then
+    echo >&2 "MacOS: brew install expect";
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    echo >&2 "Debian/Ubuntu: sudo apt install expect";
+  fi
+  exit 1;
+}
 
 settings_file="tem.settings"
 
