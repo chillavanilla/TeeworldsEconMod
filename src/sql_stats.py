@@ -57,10 +57,10 @@ def LoadStatsSQL(name):
         c.execute("SELECT ID, Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses, A_haxx0r, A_blazeit, A_satan, A_virgin FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
         row = c.fetchall()
         #print(str(row))
-        if global_settings.IsDebug:
-            say("[stats-load] " + str(row[0]))
         if not row:
             return None
+        if global_settings.IsDebug:
+            say("[stats-load] " + str(row[0]))
         tmp_player = Player(row[0][1]) #row 0 0 is ID
         tmp_player.kills = row[0][2]
         tmp_player.deaths = row[0][3]
