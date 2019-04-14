@@ -16,3 +16,12 @@ def echo(str):
     sys.stdout.write('echo "' + EscapeStringKillers(str) + '"\n')
     sys.stdout.flush()
 
+WEAPONS = {
+    0: "hammer",
+    1: "gun",
+    2: "shotgun",
+    3: "grenade",
+    4: "rifle",
+    5: "ninja"
+}
+

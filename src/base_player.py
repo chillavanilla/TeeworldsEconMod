@@ -27,10 +27,17 @@ def A_Best(a1, a2):
     return a2
 
 class Player:
-    #def __init__(self, name, time=0.0, spree=0, team="", a_haxx0r = "", a_blazeit = "", a_satan = "", a_virgin = ""):
     def __init__(self, name, time=0.0, spree=0, team=""):
         self.name = name
         self.kills = 0
+        self.WEAPON_KILLS = {
+            0: 0, # hammer
+            1: 0, # gun
+            2: 0, # shotgun
+            3: 0, # grenade
+            4: 0, # rifle
+            5: 0  # ninja
+        }
         self.deaths = 0
         self.flag_grabs = 0
         self.flag_caps_red = 0
@@ -44,12 +51,6 @@ class Player:
         self.a_blazeit = ""
         self.a_satan = ""
         self.a_virgin = ""
-        '''
-        self.a_haxx0r = a_haxx0r
-        self.a_blazeit = a_blazeit
-        self.a_satan = a_satan
-        self.a_virgin = a_virgin
-        '''
         #round variables (not saved)
         self.killingspree = 0
         self.IsFlagger = False
@@ -60,6 +61,20 @@ class Player:
     def __add__(self, other):
         tmp_player = Player(self.name)
         tmp_player.kills = self.kills + other.kills
+        """
+        tmp_player.WEAPON_KILLS[0] = self.WEAPON_KILLS[0] + other.WEAPON_KILLS[0] # hammer
+        tmp_player.WEAPON_KILLS[1] = self.WEAPON_KILLS[1] + other.WEAPON_KILLS[1] # gun
+        tmp_player.WEAPON_KILLS[2] = self.WEAPON_KILLS[2] + other.WEAPON_KILLS[2] # shotgun
+        tmp_player.WEAPON_KILLS[3] = self.WEAPON_KILLS[3] + other.WEAPON_KILLS[3] # grenade
+        tmp_player.WEAPON_KILLS[4] = self.WEAPON_KILLS[4] + other.WEAPON_KILLS[4] # rilfe
+        tmp_player.WEAPON_KILLS[5] = self.WEAPON_KILLS[5] + other.WEAPON_KILLS[5] # ninja
+        """
+        tmp_player.WEAPON_KILLS[0] = max(self.WEAPON_KILLS[0], other.WEAPON_KILLS[0]) # hammer
+        tmp_player.WEAPON_KILLS[1] = max(self.WEAPON_KILLS[1], other.WEAPON_KILLS[1]) # gun
+        tmp_player.WEAPON_KILLS[2] = max(self.WEAPON_KILLS[2], other.WEAPON_KILLS[2]) # shotgun
+        tmp_player.WEAPON_KILLS[3] = max(self.WEAPON_KILLS[3], other.WEAPON_KILLS[3]) # grenade
+        tmp_player.WEAPON_KILLS[4] = max(self.WEAPON_KILLS[4], other.WEAPON_KILLS[4]) # rilfe
+        tmp_player.WEAPON_KILLS[5] = max(self.WEAPON_KILLS[5], other.WEAPON_KILLS[5]) # ninja
         tmp_player.deaths = self.deaths + other.deaths
         tmp_player.flag_grabs = self.flag_grabs + other.flag_grabs
         tmp_player.flag_caps_red = self.flag_caps_red + other.flag_caps_red
@@ -88,4 +103,10 @@ class Player:
         #say("[stats] '" + self.name + "' flagtime: " + str(self.flag_time))
     def ShowStatsRound(self):
         say("[round-stats] '" + str(self.name) + "' kd: " + CalcKD(self.kills,self.deaths) + " (" + str(self.kills) + "/" + str(self.deaths) + ")")
+        # say("hammer: " + str(self.WEAPON_KILLS[0]))
+        # say("gun: " + str(self.WEAPON_KILLS[1]))
+        # say("shotgun: " + str(self.WEAPON_KILLS[2]))
+        # say("grenade: " + str(self.WEAPON_KILLS[3]))
+        # say("rifle: " + str(self.WEAPON_KILLS[4]))
+        # say("ninja: " + str(self.WEAPON_KILLS[5]))
 

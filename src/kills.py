@@ -36,7 +36,7 @@ def HandleKills(data):
         return
     '''
     if not killer_name == victim_name: #don't count suicide as kill
-        if not UpdatePlayerKills(killer_name, 1):
+        if not UpdatePlayerKills(killer_name, 1, int(weapon)):
             say("error adding kill for '" + killer_name + "'")
     if not str(weapon) == "-3": #don't count disconnect or teamswitch as death
         if not UpdatePlayerDeaths(victim_name, killer_name, 1):

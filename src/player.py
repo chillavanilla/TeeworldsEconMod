@@ -19,6 +19,12 @@ def CreatePlayer(name, team="", ShowStats=True, spree=0):
         add_player.a_satan = load_player.a_satan
         add_player.a_virgin = load_player.a_virgin
         add_player.killingspree = spree
+        add_player.WEAPON_KILLS[0] = load_player.WEAPON_KILLS[0]
+        add_player.WEAPON_KILLS[1] = load_player.WEAPON_KILLS[1]
+        add_player.WEAPON_KILLS[2] = load_player.WEAPON_KILLS[2]
+        add_player.WEAPON_KILLS[3] = load_player.WEAPON_KILLS[3]
+        add_player.WEAPON_KILLS[4] = load_player.WEAPON_KILLS[4]
+        add_player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
         aPlayers.append(add_player)
     else:
         aPlayers.append(Player(name, team=team))
@@ -180,11 +186,13 @@ def UpdateAchievement(name, ach):
             return True
     return False
 
-def UpdatePlayerKills(name, kills):
+def UpdatePlayerKills(name, kills, weapon):
+    # say("kill weapon=" + WEAPONS[weapon])
     global aPlayers
     for player in aPlayers:
         if (player.name == name):
             player.kills += kills
+            player.WEAPON_KILLS[weapon] += kills
             if CountPlayers() > global_settings.SpreePlayers: # only activate killingsprees on 8+ players
                 player.killingspree += kills
                 if (player.killingspree % 10 == 0):

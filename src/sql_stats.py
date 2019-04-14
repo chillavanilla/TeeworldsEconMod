@@ -12,6 +12,12 @@ CREATE TABLE Players (
     ID              INTEGER PRIMARY KEY AUTOINCREMENT,
     Name            TEXT,
     Kills           INTEGER DEFAULT 0,
+    KillsHammer     INTEGER DEFAULT 0,
+    KillsGun        INTEGER DEFAULT 0,
+    KillsShotgun    INTEGER DEFAULT 0,
+    KillsGrenade    INTEGER DEFAULT 0,
+    KillsRifle      INTEGER DEFAULT 0,
+    KillsNinja      INTEGER DEFAULT 0,
     Deaths          INTEGER DEFAULT 0,
     FlagGrabs       INTEGER DEFAULT 0,
     FlagCapsRed     INTEGER DEFAULT 0,
@@ -54,7 +60,31 @@ def LoadStatsSQL(name):
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()
-        c.execute("SELECT ID, Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses, A_haxx0r, A_blazeit, A_satan, A_virgin FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
+        c.execute("""
+            SELECT ID,
+            Name,
+            Kills,
+            KillsHammer,
+            KillsGun,
+            KillsShotgun,
+            KillsGrenade,
+            KillsRifle,
+            KillsNinja,
+            Deaths,
+            FlagGrabs,
+            FlagCapsRed,
+            FlagCapsBlue,
+            FlagTime,
+            FlaggerKills,
+            BestSpree,
+            Wins,
+            Looses,
+            A_haxx0r,
+            A_blazeit,
+            A_satan,
+            A_virgin
+            FROM Players WHERE Name = ? AND ID > ?;""",
+        (name, 0))
         row = c.fetchall()
         #print(str(row))
         if not row:
@@ -63,19 +93,25 @@ def LoadStatsSQL(name):
             say("[stats-load] " + str(row[0]))
         tmp_player = Player(row[0][1]) #row 0 0 is ID
         tmp_player.kills = row[0][2]
-        tmp_player.deaths = row[0][3]
-        tmp_player.flag_grabs = row[0][4]
-        tmp_player.flag_caps_red = row[0][5]
-        tmp_player.flag_caps_blue = row[0][6]
-        tmp_player.flag_time = row[0][7]
-        tmp_player.flagger_kills = row[0][8]
-        tmp_player.best_spree = row[0][9]
-        tmp_player.wins = row[0][10]
-        tmp_player.looses = row[0][11]
-        tmp_player.a_haxx0r = row[0][12]
-        tmp_player.a_blazeit = row[0][13]
-        tmp_player.a_satan = row[0][14]
-        tmp_player.a_virgin = row[0][15]
+        tmp_player.WEAPON_KILLS[0] = row[0][3]
+        tmp_player.WEAPON_KILLS[1] = row[0][4]
+        tmp_player.WEAPON_KILLS[2] = row[0][5]
+        tmp_player.WEAPON_KILLS[3] = row[0][6]
+        tmp_player.WEAPON_KILLS[4] = row[0][7]
+        tmp_player.WEAPON_KILLS[5] = row[0][8]
+        tmp_player.deaths = row[0][9]
+        tmp_player.flag_grabs = row[0][10]
+        tmp_player.flag_caps_red = row[0][11]
+        tmp_player.flag_caps_blue = row[0][12]
+        tmp_player.flag_time = row[0][13]
+        tmp_player.flagger_kills = row[0][14]
+        tmp_player.best_spree = row[0][15]
+        tmp_player.wins = row[0][16]
+        tmp_player.looses = row[0][17]
+        tmp_player.a_haxx0r = row[0][18]
+        tmp_player.a_blazeit = row[0][19]
+        tmp_player.a_satan = row[0][20]
+        tmp_player.a_virgin = row[0][21]
     return tmp_player
 
 def SaveStatsSQL(name):
@@ -97,13 +133,25 @@ def SaveStatsSQL(name):
             update_str = """
             UPDATE Players
             SET Kills = ?, Deaths = ?,
+            KillsHammer = ?, KillsGun = ?, KillsShotgun = ?, KillsGrenade = ?, KillsRifle = ?, KillsNinja = ?,
             FlagGrabs = ?, FlagCapsRed = ?, FlagCapsBlue = ?, FlagTime = ?, FlaggerKills = ?,
             BestSpree = ?,
             Wins = ?, Looses = ?,
             A_haxx0r = ?, A_blazeit = ?, A_satan = ?, A_virgin = ?
             WHERE Name = ?;
             """
-            cur.execute(update_str, (player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.wins, player.looses, player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin, player.name))
+            cur.execute(
+                update_str,
+                (
+                    player.kills, player.deaths,
+                    player.WEAPON_KILLS[0], player.WEAPON_KILLS[1], player.WEAPON_KILLS[2], player.WEAPON_KILLS[3], player.WEAPON_KILLS[4], player.WEAPON_KILLS[5],
+                    player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills,
+                    player.best_spree,
+                    player.wins, player.looses,
+                    player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin,
+                    player.name
+                )
+            )
         if global_settings.IsDebug:
             say("[stats-SQL] updated player '" + name + "'")
     else: #no stats yet --> add entry
@@ -111,20 +159,47 @@ def SaveStatsSQL(name):
             cur = con.cursor()
             insert_str = """
             INSERT INTO Players
-            (Name, Kills, Deaths, FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills, BestSpree, Wins, Looses, A_haxx0r, A_blazeit, A_satan, A_virgin)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            (
+                Name,
+                Kills, Deaths,
+                KillsHammer, KillsGun, KillsShotgun, KillsGrenade, KillsRifle, KillsNinja,
+                FlagGrabs, FlagCapsRed, FlagCapsBlue, FlagTime, FlaggerKills,
+                BestSpree,
+                Wins, Looses,
+                A_haxx0r, A_blazeit, A_satan, A_virgin
+            )
+            VALUES (
+                ?,
+                ?, ?,
+                ?, ?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?,
+                ?,
+                ?, ?,
+                ?, ?, ?, ?
+            );
             """
-            cur.execute(insert_str, (player.name, player.kills, player.deaths, player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills, player.best_spree, player.wins, player.looses, player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin))
+            cur.execute(
+                insert_str,
+                (
+                    player.name,
+                    player.kills, player.deaths,
+                    player.WEAPON_KILLS[0], player.WEAPON_KILLS[1], player.WEAPON_KILLS[2], player.WEAPON_KILLS[3], player.WEAPON_KILLS[4], player.WEAPON_KILLS[5],
+                    player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills,
+                    player.best_spree,
+                    player.wins, player.looses,
+                    player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin
+                )
+            )
             row = cur.fetchall()
             print(str(row))
         if global_settings.IsDebug:
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
 
-#
-# Display
-# Stats
-#
+###################
+#  D i s p l a y  #
+#    S t a t s    #
+###################
 
 def RankSpree(name):
     if not name:
