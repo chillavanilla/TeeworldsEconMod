@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.7
 from chiller_essential import *
 from save_stats import *
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.7
 
 def cfind(str, substr, n):
     start = str.find(substr)
