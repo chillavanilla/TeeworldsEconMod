@@ -186,16 +186,35 @@ def UpdateAchievement(name, ach):
             return True
     return False
 
+def ProcessMultiKills(p, weapon):
+    now = time.perf_counter_ns()
+    diff = now - p.LastKill
+    if (diff > 300_000_000):
+        return now
+    if (p.LastKill == p.LastMultiKill):
+        p.CurrentMulti += 1
+        if (p.CurrentMulti > 32):
+            p.CurrentMulti = 2 # after Duotriguple start from double agian
+    else:
+        p.CurrentMulti = 2
+        p.IsComboMulti = False
+    if (p.LastKillWeapon != weapon):
+        p.IsComboMulti = True
+    weapon_str = WEAPONS[weapon]
+    if (p.IsComboMulti):
+        weapon_str = "combo"
+    say("'" + p.name + "' did a " + weapon_str + " " + MULTIS[p.CurrentMulti] + " kill!")
+    p.DOUBLE_KILLS[weapon] += 1
+    p.LastMultiKill = now
+    return now
+
 def UpdatePlayerKills(name, kills, weapon):
     # say("kill weapon=" + WEAPONS[weapon])
     global aPlayers
     for player in aPlayers:
         if (player.name == name):
-            if (player.LastKill):
-                diff = time.perf_counter_ns() - player.LastKill
-                if (diff < 300_000_000):
-                    say("double kill!")
-            player.LastKill = time.perf_counter_ns()
+            player.LastKill = ProcessMultiKills(player, weapon)
+            player.LastKillWeapon = weapon
             player.kills += kills
             player.WEAPON_KILLS[weapon] += kills
             if CountPlayers() > global_settings.SpreePlayers: # only activate killingsprees on 8+ players

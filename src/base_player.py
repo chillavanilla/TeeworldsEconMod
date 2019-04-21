@@ -38,6 +38,14 @@ class Player:
             4: 0, # rifle
             5: 0  # ninja
         }
+        self.DOUBLE_KILLS = {
+            0: 0, # hammer
+            1: 0, # gun
+            2: 0, # shotgun
+            3: 0, # grenade
+            4: 0, # rifle
+            5: 0  # ninja
+        }
         self.deaths = 0
         self.flag_grabs = 0
         self.flag_caps_red = 0
@@ -51,9 +59,13 @@ class Player:
         self.a_blazeit = ""
         self.a_satan = ""
         self.a_virgin = ""
-        #round variables (not saved)
+        # round variables (not saved)
         self.killingspree = 0
-        self.LastKill = None # time
+        self.LastKill = 0               # time
+        self.LastMultiKill = None       # time
+        self.LastMultiKillWeapon = None # weapon id
+        self.CurrentMulti = 0           # max 32
+        self.IsComboMulti = False       # gets set to true if weapons switch during multi
         self.IsFlagger = False
         self.team = team
         self.LastChat = datetime.datetime.now()
@@ -62,6 +74,12 @@ class Player:
     def __add__(self, other):
         tmp_player = Player(self.name)
         tmp_player.kills = self.kills + other.kills
+        tmp_player.DOUBLE_KILLS[0] = self.DOUBLE_KILLS[0] + other.DOUBLE_KILLS[0] # hammer
+        tmp_player.DOUBLE_KILLS[1] = self.DOUBLE_KILLS[1] + other.DOUBLE_KILLS[1] # gun
+        tmp_player.DOUBLE_KILLS[2] = self.DOUBLE_KILLS[2] + other.DOUBLE_KILLS[2] # shotgun
+        tmp_player.DOUBLE_KILLS[3] = self.DOUBLE_KILLS[3] + other.DOUBLE_KILLS[3] # grenade
+        tmp_player.DOUBLE_KILLS[4] = self.DOUBLE_KILLS[4] + other.DOUBLE_KILLS[4] # rilfe
+        tmp_player.DOUBLE_KILLS[5] = self.DOUBLE_KILLS[5] + other.DOUBLE_KILLS[5] # ninja
         """
         tmp_player.WEAPON_KILLS[0] = self.WEAPON_KILLS[0] + other.WEAPON_KILLS[0] # hammer
         tmp_player.WEAPON_KILLS[1] = self.WEAPON_KILLS[1] + other.WEAPON_KILLS[1] # gun
