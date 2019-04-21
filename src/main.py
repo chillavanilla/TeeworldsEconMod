@@ -52,7 +52,7 @@ def MainLoop():
     except EOFError:
         pass    # the telnet/netcat process finished; there's no more input
     except UnicodeDecodeError:
-        say("[WARNING] UnicodeDecodeError! Please contact an admin.")
+        chat.say("[WARNING] UnicodeDecodeError! Please contact an admin.")
         pass
 
 def main(argv):
