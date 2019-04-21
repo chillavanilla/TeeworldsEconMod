@@ -89,7 +89,7 @@ def main(argv):
         print("eror with debug mode")
         exit()
     global_settings.StatsMode = StatsMode
-    print("[TEM] debug=" + str(IsDebug) + " stats=" + str(StatsMode))
+    chat.log("[TEM] debug=" + str(IsDebug) + " stats=" + str(StatsMode))
     sql_stats.InitDataBase()
     MainLoop()
 

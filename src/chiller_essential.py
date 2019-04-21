@@ -16,6 +16,10 @@ def echo(str):
     sys.stdout.write('echo "' + EscapeStringKillers(str) + '"\n')
     sys.stdout.flush()
 
+def log(s):
+    sys.stdout.write("###[log]: " + str(s) + "\n")
+    sys.stdout.flush()
+
 WEAPONS = {
     0: "hammer",
     1: "gun",

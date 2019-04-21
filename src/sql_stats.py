@@ -38,13 +38,13 @@ def InitDataBase():
     global create_stats_table
     IsTable = False
     if os.path.isfile("stats.db"):
-        print("stats.db found")
+        log("stats.db found")
         return True
     con = lite.connect("stats.db")
     with con:
         cur = con.cursor()
         cur.execute(create_stats_table)
-        print("created stats.db Players table")
+        log("created stats.db Players table")
 
 def HasStats(name):
     con = lite.connect("stats.db")
@@ -86,7 +86,7 @@ def LoadStatsSQL(name):
             FROM Players WHERE Name = ? AND ID > ?;""",
         (name, 0))
         row = c.fetchall()
-        #print(str(row))
+        #echo(str(row))
         if not row:
             return None
         if global_settings.IsDebug:
@@ -191,8 +191,8 @@ def SaveStatsSQL(name):
                 )
             )
             row = cur.fetchall()
-            print(str(row))
         if global_settings.IsDebug:
+            echo(str(row))
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
 

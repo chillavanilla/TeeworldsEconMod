@@ -15,7 +15,7 @@ def HandleKills(data):
     regex = re.compile("^\[game\]: kill killer='(?P<killer_id>[0-9]+):(.+?)' victim='([0-9]+)+:(.+?)' weapon=([0-9-]+) special=[0-9]+$")
     m = regex.match("[game]: kill killer='0:ChillerDragon' victim='1:ChillerDragon.*' weapon=3 special=0")
     if m:
-        print(m.group("killer_id"))
+        echo(m.group("killer_id"))
     """
 
     killer_start = data.find(":", 10) + 1
