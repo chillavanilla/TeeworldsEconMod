@@ -191,6 +191,11 @@ def UpdatePlayerKills(name, kills, weapon):
     global aPlayers
     for player in aPlayers:
         if (player.name == name):
+            if (player.LastKill):
+                diff = time.perf_counter_ns() - player.LastKill
+                if (diff < 300_000_000):
+                    say("double kill!")
+            player.LastKill = time.perf_counter_ns()
             player.kills += kills
             player.WEAPON_KILLS[weapon] += kills
             if CountPlayers() > global_settings.SpreePlayers: # only activate killingsprees on 8+ players

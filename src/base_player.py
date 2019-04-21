@@ -53,6 +53,7 @@ class Player:
         self.a_virgin = ""
         #round variables (not saved)
         self.killingspree = 0
+        self.LastKill = None # time
         self.IsFlagger = False
         self.team = team
         self.LastChat = datetime.datetime.now()
