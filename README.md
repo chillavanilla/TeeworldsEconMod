@@ -12,6 +12,7 @@ econ_password
 econ_port
 Debug (true/false)
 Stats (file/sql)
+/path/to/logs/dir
 ```
 a sample config could look like:
 ```
@@ -21,6 +22,7 @@ sample_password
 8203
 false
 sql
+/home/chiller/logs
 ```
 
 

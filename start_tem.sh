@@ -32,8 +32,9 @@ if [ ! -f $settings_file ]; then
         echo "name_of_teeworlds_srv" >> $settings_file
         echo "econ_password" >> $settings_file
         echo "econ_port" >> $settings_file
-        echo "IsDebug(true/false)" >> $settings_file
-        echo "StatsMode(file/sql)" >> $settings_file
+        echo "IsDebug (true/false)" >> $settings_file
+        echo "StatsMode (file/sql)" >> $settings_file
+        echo "/path/to/log/dir (optional)" >> $settings_file
         nano $settings_file
     fi
     exit
@@ -66,6 +67,7 @@ exec 0<&6 6<&- #normalize i/o agian: restore stdin from fd #6, where it had been
 # - econ_port       3
 # - IsDebug         4
 # - StatsMode       5
+# - log path        6
 
 stats_path="${setting_lines[0]}/stats"
 
@@ -97,10 +99,18 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
     echo "warning MINGW support isnt guaranteed"
 fi
 
+twsettings=""
+if [ ${setting_lines[6]} ]
+then
+    if [ -d ${setting_}]
+    echo "adding log path: ${setting_lines[6]}"
+    twsettings="logfile ${setting_lines[6]}/${setting_lines[1]}_$(date +%F_%H-%M-%S).log;"
+fi
+
 echo "navigate to teeworlds path=${setting_lines[0]}"
 cd ${setting_lines[0]}
 
 echo "start server | pipe into main.py | pipe into netcat connection: "
-echo "executing: ./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} | $econ_mod_path/bin/$nc_os.exp ${setting_lines[2]} ${setting_lines[3]}"
-./${setting_lines[1]} | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file
+echo "executing: ./${setting_lines[1]} \"$twsettings\" | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file"
+./${setting_lines[1]} "$twsettings" | $econ_mod_path/src/main.py --debug ${setting_lines[4]} --stats ${setting_lines[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp ${setting_lines[2]} ${setting_lines[3]} settings=$settings_file
 
