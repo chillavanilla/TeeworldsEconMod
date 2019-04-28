@@ -102,7 +102,11 @@ fi
 twsettings=""
 if [ ${setting_lines[6]} ]
 then
-    if [ -d ${setting_}]
+    if [ ! -d ${setting_lines[6]} ]
+    then
+        echo "ERROR: log path is invalid"
+        exit
+    fi
     echo "adding log path: ${setting_lines[6]}"
     twsettings="logfile ${setting_lines[6]}/${setting_lines[1]}_$(date +%F_%H-%M-%S).log;"
 fi
