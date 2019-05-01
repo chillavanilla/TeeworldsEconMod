@@ -6,23 +6,23 @@ A python script which communicates with teeworlds server log as input and econ c
 create a ``tem.settings`` file and write line by line these configurations:
 
 ```
-/path/to/your/teeworlds/directory
-name_of_teeworlds_srv
-econ_password
-econ_port
-Debug (true/false)
-Stats (file/sql)
-/path/to/logs/dir
+tw_path=/path/to/your/teeworlds/directory
+tw_binary=name_of_teeworlds_srv
+econ_password=password
+econ_port=8203
+debug=0
+stats_mode=file
+logpath=/path/to/log/directory
 ```
 a sample config could look like:
 ```
-/home/chiller/teeworlds
-teeworlds_srv
-sample_password
-8203
-false
-sql
-/home/chiller/logs
+tw_path=/home/chiller/teeworlds
+tw_binary=teeworlds_srv
+econ_password=7h9had8a9
+econ_port=8203
+debug=1
+stats_mode=sql
+logpath=/home/chiller/logs
 ```
 
 
