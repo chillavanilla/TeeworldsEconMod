@@ -174,6 +174,6 @@ log "navigate to teeworlds path=${aSettVal[0]}"
 cd ${aSettVal[0]}
 
 log "run server | pipe into main.py | pipe into netcat connection: "
-log "executing: ./${aSettVal[1]} \"$twsettings\" | $econ_mod_path/src/main.py --debug ${aSettVal[4]} --stats ${aSettVal[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file"
+log "executing: ./${aSettVal[1]} \"$twsettings\" | $econ_mod_path/src/main.py --debug ${aSettVal[4]} --stats ${aSettVal[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp *** ${aSettVal[3]} settings=$settings_file"
 ./${aSettVal[1]} "$twsettings" | $econ_mod_path/src/main.py --debug ${aSettVal[4]} --stats ${aSettVal[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file
 
