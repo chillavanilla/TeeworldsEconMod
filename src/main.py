@@ -14,15 +14,15 @@ import sql_stats
 
 def HandleData(data):
     if (data.startswith("[register]")):
-        #say("register found: " + data) #working but was only useless chat spam for testing
+        # chat.say("register found: " + data) #working but was only useless chat spam for testing
         pass
     elif (data.startswith("[Console]")):
         if (data.find("No such command") != -1):
             return
         elif (data.startswith("[Console]: !list")):
-            echo(str(CountPlayers()) + " players online")
+            chat.echo(str(CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
-            echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
+            chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
     elif (data.endswith("' joined the spectators\n")):
         player.HandlePlayerTeamSwap(data, True)
     elif (data.find("' entered and joined the ") != -1):
