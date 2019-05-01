@@ -1,10 +1,11 @@
 #!/usr/bin/env python3.7
 from chiller_essential import *
 from kills import *
+import g_settings
 import os.path
 
 def HasStats(name):
-    if os.path.isfile("stats/" + name + ".acc"):
+    if os.path.isfile(g_settings.get("file_database") + name + ".acc"):
         return True
     return False
 
@@ -22,7 +23,7 @@ def SaveStatsFile(name):
             return False
         player = player + load_player
     try:
-        sf = open("stats/" + name + ".acc", "w")
+        sf = open(g_settings.get("file_database") + name + ".acc", "w")
         sf.write(str(player.kills) + "\n")
         sf.write(str(player.deaths) + "\n")
         sf.write(str(player.flag_grabs) + "\n")
@@ -48,7 +49,7 @@ def LoadStatsFile(name):
     if not HasStats(name):
         return None
     try:
-        sf = open("stats/" + name + ".acc", "r")
+        sf = open(g_settings.get("file_database") + name + ".acc", "r")
         player = Player(name)
         player.kills = int(sf.readline())
         player.deaths = int(sf.readline())

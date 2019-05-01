@@ -37,17 +37,17 @@ CREATE TABLE Players (
 def InitDataBase():
     global create_stats_table
     IsTable = False
-    if os.path.isfile("stats.db"):
-        log("stats.db found")
+    if os.path.isfile(g_settings.get("sql_database")):
+        log("database found.")
         return True
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         cur = con.cursor()
         cur.execute(create_stats_table)
-        log("created stats.db Players table")
+        log("created '" + str(g_settings.get("sql_database")) + "' Players table")
 
 def HasStats(name):
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT Name FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
@@ -57,7 +57,7 @@ def HasStats(name):
     return False
 
 def LoadStatsSQL(name):
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("""
@@ -117,7 +117,7 @@ def LoadStatsSQL(name):
 def SaveStatsSQL(name):
     from player import GetPlayerByName
     player = GetPlayerByName(name)
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     if not player:
         say("[stats-sql] failed to load player '" + name + "'")
         return False
@@ -204,7 +204,7 @@ def SaveStatsSQL(name):
 def RankSpree(name):
     if not name:
         return False
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT PlayerRank, Name, BestSpree FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE BestSpree > (SELECT BestSpree FROM Players WHERE Name = ?)), (SELECT Name, BestSpree FROM Players WHERE Name = ?);", (name, name))
@@ -220,7 +220,7 @@ def RankSpree(name):
 def RankFlagTime(name):
     if not name:
         return False
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT PlayerRank, Name, FlagTime FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE FlagTime > 0.0 AND FlagTime < (SELECT FlagTime FROM Players WHERE Name = ?)), (SELECT Name, FlagTime FROM Players WHERE Name = ?);", (name, name))
@@ -240,7 +240,7 @@ def RankFlagTime(name):
 def RankFlagCaps(name):
     if not name:
         return False
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("""SELECT PlayerRank, Name, FlagCaps FROM 
@@ -258,7 +258,7 @@ def RankFlagCaps(name):
 def RankKills(name):
     if not name:
         return False
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT PlayerRank, Name, Kills FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE Kills > (SELECT Kills FROM Players WHERE Name = ?)), (SELECT Name, Kills FROM Players WHERE Name = ?);", (name, name))
@@ -272,7 +272,7 @@ def RankKills(name):
         say(str(rank) + ". '" + str(name) + "' kills " + str(kills))
 
 def BestFlagCaps():
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT Name, (FlagCapsRed + FlagCapsBlue) AS FlagCaps FROM Players WHERE  FlagCaps > 0 ORDER BY FlagCaps DESC LIMIT 5;")
@@ -286,7 +286,7 @@ def BestFlagCaps():
             say(str(x + 1) + ". '" + str(name) + "' flagcaps: " + str(value))
 
 def BestSprees():
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT Name, BestSpree FROM Players WHERE BestSpree > 0 ORDER BY BestSpree DESC LIMIT 5;")
@@ -300,7 +300,7 @@ def BestSprees():
             say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
 
 def BestSprees():
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT Name, BestSpree FROM Players WHERE BestSpree > 0 ORDER BY BestSpree DESC LIMIT 5;")
@@ -314,7 +314,7 @@ def BestSprees():
             say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
 
 def BestTimes():
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT Name, FlagTime FROM Players WHERE FlagTime > 0.0 ORDER BY FlagTime ASC LIMIT 5;")
@@ -328,7 +328,7 @@ def BestTimes():
             say(str(x + 1) + ". '" + str(name) + "' time: " + str(value))
 
 def BestKillers():
-    con = lite.connect("stats.db")
+    con = lite.connect(g_settings.get("sql_database"))
     with con:
         c = con.cursor()
         c.execute("SELECT Name, Kills FROM Players ORDER BY Kills DESC LIMIT 5;")

@@ -6,7 +6,9 @@ SETTINGS = {
     "flag_players": ["int", 7],      # more than x players needed to count flag caps and grabs
     "win_players": ["int", 1],       # more than x players needed to count team wins
     "spree_players": ["int", 7],     # more than x players needed to count killingsprees
-    "admin_discord": ["str", "ChillerDragon#0643"]
+    "admin_discord": ["str", "ChillerDragon#0643"],
+    "sql_database": ["str", "stats.db"],
+    "file_database": ["str", "stats/"]
 }
 
 def get(setting):

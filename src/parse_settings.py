@@ -30,6 +30,11 @@ def ReadSettingsLine(line):
         print("[ERROR] unknown setting setting[" + str(sett) + "] value[" + str(val) + "]")
         sys.exit(2)
 
+    # make sure file_database is a folder
+    if sett == "file_database":
+        if val[-1] != "/":
+            val += "/"
+
     if g_settings.SETTINGS[sett][0] == "str":
         g_settings.SETTINGS[sett][1] = str(val)
     elif g_settings.SETTINGS[sett][0] == "int":
