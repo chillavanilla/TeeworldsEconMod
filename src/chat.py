@@ -3,9 +3,9 @@ import sys
 import time
 import datetime
 from chiller_essential import *
+import g_settings
 import cbase
 import player
-import global_settings
 import sql_stats
 import version
 import game
@@ -23,7 +23,7 @@ def IsBanReasonInStr(str):
     return False
 
 def GetRankName(msg, rank_cmd):
-    if not global_settings.StatsMode == "sql":
+    if not g_settings.get("stats_mode") == "sql":
         say("not supported in file stats mode")
         return None
     msg_normal = msg
@@ -100,17 +100,17 @@ def HandleChatMessage(msg):
         say("'/help' to show this help")
         say("'/stats' to show round stats")
         say("'/achievements' to show achievements")
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             say("'/top5' for all time stats commands")
             say("'/rank' for all rank commands")
     elif (cmd.endswith(": /top5")):
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             say("'/top_kills' to see top5 killers of all time")
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             say("'/top_flags' to see top5 flag cap times of all time")
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             say("'/top_caps' to see top5 flag amount of all time")
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             say("'/top_sprees' to see top5 killing sprees of all time")
         else:
             say("not supported in file stats mode")
@@ -125,22 +125,22 @@ def HandleChatMessage(msg):
         p.ShowStatsRound()
         #player.PrintStatsAll()
     elif (cmd.endswith(": /top_caps")):
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             sql_stats.BestFlagCaps()
         else:
             say("not supported in file stats mode")
     elif (cmd.endswith(": /top_flags")):
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             sql_stats.BestTimes()
         else:
             say("not supported in file stats mode")
     elif (cmd.endswith(": /top_kills")):
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             sql_stats.BestKillers()
         else:
             say("not supported in file stats mode")
     elif (cmd.endswith(": /top_sprees")):
-        if global_settings.StatsMode == "sql":
+        if g_settings.get("stats_mode") == "sql":
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
@@ -162,7 +162,7 @@ def HandleChatMessage(msg):
         sql_stats.RankFlagCaps(str(name))
         sql_stats.RankSpree(str(name))
     elif (cmd.find("/rank") != - 1):
-        if not global_settings.StatsMode == "sql":
+        if not g_settings.get("stats_mode") == "sql":
             say("not supported in file stats mode")
             return
         say("'/rank_kills' to show global kills rank")
@@ -196,7 +196,7 @@ def HandleChatMessage(msg):
         '''
     # handle this like a chat command (so it has spam prot)
     elif (IsBanReasonInStr(cmd)): 
-        say("[INFO] Contact the admin on discord (" + str(global_settings.AdminDiscord) + ") to report players.")
+        say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
     else:
         IsCmd = False
     if IsCmd:

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 from chiller_essential import *
 from kills import *
+import g_settings
 import os.path
 import sqlite3 as lite
 import sys
 from base_player import *
-import global_settings
 
 create_stats_table = """
 CREATE TABLE Players (
@@ -89,7 +89,7 @@ def LoadStatsSQL(name):
         #echo(str(row))
         if not row:
             return None
-        if global_settings.IsDebug:
+        if g_settings.get("debug"):
             say("[stats-load] " + str(row[0]))
         tmp_player = Player(row[0][1]) #row 0 0 is ID
         tmp_player.kills = row[0][2]
@@ -152,7 +152,7 @@ def SaveStatsSQL(name):
                     player.name
                 )
             )
-        if global_settings.IsDebug:
+        if g_settings.get("debug"):
             say("[stats-SQL] updated player '" + name + "'")
     else: #no stats yet --> add entry
         with con:
@@ -191,7 +191,7 @@ def SaveStatsSQL(name):
                 )
             )
             row = cur.fetchall()
-        if global_settings.IsDebug:
+        if g_settings.get("debug"):
             echo(str(row))
             say("[stats-SQL] added new player to database '" + name + "'")
     return True

@@ -22,13 +22,11 @@ command -v expect >/dev/null 2>&1 || {
 # init variables
 settings_file="tem.settings"
 aSettStr=();aSettVal=()
-aSettStr+=("tw_path");aSettVal+=("/path/to/your/teeworlds/directory")
-aSettStr+=("tw_binary");aSettVal+=("name_of_teeworlds_srv")
-aSettStr+=("econ_password");aSettVal+=("password")
-aSettStr+=("econ_port");aSettVal+=("8203")
-aSettStr+=("debug");aSettVal+=("0")
-aSettStr+=("stats_mode");aSettVal+=("file")
-aSettStr+=("logpath");aSettVal+=("/path/to/log/directory")
+aSettStr+=("sh_tw_path");aSettVal+=("/path/to/your/teeworlds/directory")
+aSettStr+=("sh_tw_binary");aSettVal+=("name_of_teeworlds_srv")
+aSettStr+=("sh_econ_password");aSettVal+=("password")
+aSettStr+=("sh_econ_port");aSettVal+=("8203")
+aSettStr+=("sh_logs_path");aSettVal+=("/path/to/log/directory")
 
 if [ $# -gt 0 ]; then
     log "settings file=$1"
@@ -90,7 +88,7 @@ function parse_settings_line() {
         do
             if  [ "$sett" == "${aSettStr[$i]}" ]
             then
-                printf "[TEM:setting] (%s)%-16s=  %s\n" "$i" "$sett" "$val"
+                printf "[TEM:setting] (%s)%-16s=  %s\n" "$i" "${sett:3}" "$val"
                 aSettVal[$i]="$val"
                 return
             fi
@@ -103,7 +101,10 @@ function read_settings_file() {
     local i
     while read line
     do
-        if [ ${line:0:1} == "#" ]
+        if [ "${line:0:1}" == "#" ]
+        then
+            continue
+        elif [ "${line:0:3}" == "py_" ]
         then
             continue
         fi
@@ -142,19 +143,17 @@ read_settings_file
 # - binary          1
 # - econ_password   2
 # - econ_port       3
-# - IsDebug         4
-# - StatsMode       5
-# - log path        6
+# - log path        4
 
 twsettings=""
 
 check_path "${aSettVal[0]}" "The teeworlds path is invalid" "0" # 0=dont create on fail
 check_path "${aSettVal[0]}/stats" "No stats/ folder found in your teeworlds directory" "1" # 1=create on fail
-if [ "${aSettVal[6]}" ]
+if [ "${aSettVal[4]}" ]
 then
-    check_path "${aSettVal[6]}" "The logpath is invalid" "1" # 1=create on fail
-    log "adding log path: ${aSettVal[6]}"
-    twsettings="logfile ${aSettVal[6]}/${aSettVal[1]}_$(date +%F_%H-%M-%S).log;"
+    check_path "${aSettVal[4]}" "The logpath is invalid" "1" # 1=create on fail
+    log "adding log path: ${aSettVal[4]}"
+    twsettings="logfile ${aSettVal[4]}/${aSettVal[1]}_$(date +%F_%H-%M-%S).log;"
 fi
 
 nc_os="nc"
@@ -174,6 +173,6 @@ log "navigate to teeworlds path=${aSettVal[0]}"
 cd ${aSettVal[0]}
 
 log "run server | pipe into main.py | pipe into netcat connection: "
-log "executing: ./${aSettVal[1]} \"$twsettings\" | $econ_mod_path/src/main.py --debug ${aSettVal[4]} --stats ${aSettVal[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp *** ${aSettVal[3]} settings=$settings_file"
-./${aSettVal[1]} "$twsettings" | $econ_mod_path/src/main.py --debug ${aSettVal[4]} --stats ${aSettVal[5]} settings=$settings_file | $econ_mod_path/bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file
+log "executing: ./${aSettVal[1]} \"$twsettings\" | cd $econ_mod_path;./src/main.py --settings=$settings_file | ./bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file"
+(./${aSettVal[1]} "$twsettings") | (cd $econ_mod_path;./src/main.py --settings=$settings_file) | (cd $econ_mod_path;./bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file)
 

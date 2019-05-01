@@ -1,8 +1,11 @@
 #!/usr/bin/env python3.7
-import global_settings
+
+import os.path
 import sys
 import getopt
 import time
+import g_settings
+import parse_settings
 import chat
 import game
 import player
@@ -11,7 +14,7 @@ import sql_stats
 
 def HandleData(data):
     if (data.startswith("[register]")):
-        #say("register found: " + data) #working but was only useless chat spam for testing        
+        #say("register found: " + data) #working but was only useless chat spam for testing
         pass
     elif (data.startswith("[Console]")):
         if (data.find("No such command") != -1):
@@ -19,7 +22,7 @@ def HandleData(data):
         elif (data.startswith("[Console]: !list")):
             echo(str(CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
-            echo("debug=" + str(global_settings.IsDebug) + " stats=" + global_settings.StatsMode)
+            echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
     elif (data.endswith("' joined the spectators\n")):
         player.HandlePlayerTeamSwap(data, True)
     elif (data.find("' entered and joined the ") != -1):
@@ -56,40 +59,30 @@ def MainLoop():
         pass
 
 def main(argv):
+    settings_file = ""
     try:
-        opts, args = getopt.getopt(argv,"hd:s:",["debug=","stats="])
+        opts, args = getopt.getopt(argv,"hs:",["settings="])
     except getopt.GetoptError:
-        print("main.py -d <debug:true/false> -s <stats:SQL/file>")
+        print("main.py -s <settings file>")
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
-             print("test.py -i <inputfile> -o <outputfile>")
+             print("main.py settings=/path/to/tem.settings")
              sys.exit()
-        elif opt in ("-d", "--debug"):
-             IsDebug = arg
-        elif opt in ("-s", "--stats"):
-             StatsMode = arg
-    IsDebug = IsDebug.lower()
-    StatsMode = StatsMode.lower()
-    if IsDebug == "0":
-        IsDebug = "false"
-    elif IsDebug == "1":
-        IsDebug = "true"
-    if not IsDebug == "false" and not IsDebug == "true":
-        print("invalid debug argument")
-        exit()
-    if not StatsMode == "sql" and not StatsMode == "file":
-        print("invalid stats mode argument")
-        exit()
-    if IsDebug == "true":
-        global_settings.IsDebug = True
-    elif IsDebug == "false":
-        global_settings.IsDebug = False
-    else:
-        print("eror with debug mode")
-        exit()
-    global_settings.StatsMode = StatsMode
-    chat.log("[TEM] debug=" + str(IsDebug) + " stats=" + str(StatsMode))
+        elif opt in ("-s", "--settings"):
+            settings_file = arg
+
+    if settings_file == "":
+        print("Missing argument settings file.")
+        sys.exit(2)
+
+    if not os.path.isfile(settings_file):
+        print("[ERROR] settings file path invalid '" + str(settings_file) + "'")
+        sys.exit(2)
+    parse_settings.ReadSettingsFile(settings_file)
+
+    chat.log("[TEM] loaded settings: ")
+    chat.log(g_settings.SETTINGS)
     sql_stats.InitDataBase()
     MainLoop()
 

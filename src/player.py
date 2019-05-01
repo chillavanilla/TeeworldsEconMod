@@ -1,10 +1,10 @@
 #!/usr/bin/env python3.7
 import sys
 import time
+import g_settings
 from chiller_essential import *
 from save_stats import *
 from base_player import *
-import global_settings
 import datetime
 
 def CreatePlayer(name, team="", ShowStats=True, spree=0):
@@ -217,7 +217,7 @@ def UpdatePlayerKills(name, kills, weapon):
             player.LastKillWeapon = weapon
             player.kills += kills
             player.WEAPON_KILLS[weapon] += kills
-            if CountPlayers() > global_settings.SpreePlayers: # only activate killingsprees on 8+ players
+            if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
                 player.killingspree += kills
                 if (player.killingspree % 10 == 0):
                     broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
@@ -229,7 +229,7 @@ def UpdatePlayerDeaths(name, killer, deaths):
     for player in aPlayers:
         if (player.name == name):
             player.deaths += deaths
-            if CountPlayers() > global_settings.SpreePlayers: # only activate killingsprees on 8+ players
+            if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
                 if player.killingspree > 9:
                     broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
                 if player.killingspree > player.best_spree:
@@ -251,7 +251,7 @@ def TeamWon(team):
             player.looses += 1
 
 def UpdatePlayerFlagGrabs(name, grabs):
-    if not CountPlayers() > global_settings.FlagPlayers:
+    if not CountPlayers() > g_settings.get("flag_players"):
         return
     global aPlayers
     for player in aPlayers:
@@ -261,7 +261,7 @@ def UpdatePlayerFlagGrabs(name, grabs):
     return False
 
 def UpdatePlayerFlagCaps(name, color, caps):
-    if not CountPlayers() > global_settings.FlagPlayers:
+    if not CountPlayers() > g_settings.get("flag_players"):
         return
     global aPlayers
     for player in aPlayers:

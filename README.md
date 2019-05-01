@@ -12,7 +12,7 @@ econ_password=password
 econ_port=8203
 debug=0
 stats_mode=file
-logpath=/path/to/log/directory
+logs_path=/path/to/log/directory
 ```
 a sample config could look like:
 ```
@@ -22,7 +22,7 @@ econ_password=7h9had8a9
 econ_port=8203
 debug=1
 stats_mode=sql
-logpath=/home/chiller/logs
+logs_path=/home/chiller/logs
 ```
 
 
