@@ -54,4 +54,6 @@ def ReadSettingsFile(file):
                 continue # ignore comments
             elif line[:3] == "sh_":
                 continue # ignore shell settings
+            elif not line.strip():
+                continue # ignore empty lines
             ReadSettingsLine(line)

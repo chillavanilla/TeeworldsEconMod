@@ -103,10 +103,13 @@ function read_settings_file() {
     do
         if [ "${line:0:1}" == "#" ]
         then
-            continue
+            continue # ignore comments
         elif [ "${line:0:3}" == "py_" ]
         then
-            continue
+            continue # ignore python settings
+        elif [ -z "$line" ]
+        then
+            continue # ignore empty lines
         fi
         line_set=""
         line_val=""
