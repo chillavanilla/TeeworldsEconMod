@@ -1,6 +1,18 @@
 # TeeworldsEconMod
 A python script which communicates with teeworlds server log as input and econ connection as output.
 
+# Setup
+
+on debian based systems do:
+```
+sudo apt install python3.7 git
+sudo apt install python3-pip
+git clone https://github.com/ChillaVanilla/TeeworldsEconMod.git
+cd TeeworldsEconMod
+pip3 install -r requirements.txt
+./start_tem.sh
+```
+
 # How to use?
 
 create a ``tem.settings`` file and write line by line these configurations:
