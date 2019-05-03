@@ -197,6 +197,8 @@ def HandleChatMessage(msg):
     # handle this like a chat command (so it has spam prot)
     elif (IsBanReasonInStr(cmd)): 
         say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
+        name = GetRankName(msg_normal, ": ") # players containing : will be cutted in discord message but this is fine for now
+        send_discord("'" + str(name) + "' needs help ingame!")
     else:
         IsCmd = False
     if IsCmd:

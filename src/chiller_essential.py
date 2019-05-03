@@ -1,5 +1,7 @@
 #!/usr/bin/env python3.7
 import sys
+import g_settings
+import discord_thread
 
 def EscapeStringKillers(str):
     return str.replace('"', '\\"')
@@ -19,6 +21,10 @@ def echo(str):
 def log(s):
     sys.stdout.write("###[log]: " + str(s) + "\n")
     sys.stdout.flush()
+
+def send_discord(message):
+    dt = discord_thread.send_discord(message)
+    dt.start()
 
 WEAPONS = {
     0: "hammer",
