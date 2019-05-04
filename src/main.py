@@ -12,13 +12,24 @@ import player
 import flag
 import sql_stats
 
+settings_file = ""
+
+
 def HandleData(data):
+    global settings_file
     if (data.startswith("[register]")):
         # chat.say("register found: " + data) #working but was only useless chat spam for testing
         pass
     elif (data.startswith("[Console]")):
         if (data.find("No such command") != -1):
             return
+        elif (data.startswith("[Console]: !cmdlist")) or (data.startswith("[Console]: !help")) or (data.startswith("[Console]: !info")):
+            chat.echo("Commands: !help, !list, !dev, !reload_settings")
+        elif (data.startswith("[Console]: !reload_settings")):
+            parse_settings.ReadSettingsFile(settings_file)
+            chat.echo("[==== SETTINGS ====]")
+            for key, value in g_settings.SETTINGS.items():
+                chat.echo("[tem:setting] " + str(key) + " : " + str(value[1]))
         elif (data.startswith("[Console]: !list")):
             chat.echo(str(CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
@@ -59,7 +70,7 @@ def MainLoop():
         pass
 
 def main(argv):
-    settings_file = ""
+    global settings_file
     try:
         opts, args = getopt.getopt(argv,"hs:",["settings="])
     except getopt.GetoptError:
