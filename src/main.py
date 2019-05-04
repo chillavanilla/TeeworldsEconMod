@@ -14,7 +14,6 @@ import sql_stats
 
 settings_file = ""
 
-
 def HandleData(data):
     global settings_file
     if (data.startswith("[register]")):
@@ -26,10 +25,13 @@ def HandleData(data):
         elif (data.startswith("[Console]: !cmdlist")) or (data.startswith("[Console]: !help")) or (data.startswith("[Console]: !info")):
             chat.echo("Commands: !help, !list, !dev, !reload_settings")
         elif (data.startswith("[Console]: !reload_settings")):
-            parse_settings.ReadSettingsFile(settings_file)
-            chat.echo("[==== SETTINGS ====]")
-            for key, value in g_settings.SETTINGS.items():
-                chat.echo("[tem:setting] " + str(key) + " : " + str(value[1]))
+            try:
+                parse_settings.ReadSettingsFile(settings_file)
+                chat.echo("[==== SETTINGS ====]")
+                for key, value in g_settings.SETTINGS.items():
+                    chat.echo("[tem:setting] " + str(key) + " : " + str(value[1]))
+            except parse_settings.TemParseError as x:
+                chat.echo(str(x))
         elif (data.startswith("[Console]: !list")):
             chat.echo(str(CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
