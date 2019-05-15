@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.4
 
 # this bot takes a discord webhook token as argument
 # and then posts stdin to the webhook
@@ -14,6 +14,8 @@ token=""
 
 def HandleData(line):
     global token
+    if (line.find("][chat]: ") == -1):
+        return
     print("line: " + str(line))
     requests.post("https://discordapp.com/api/webhooks/" + token, data={"content": line})
 
