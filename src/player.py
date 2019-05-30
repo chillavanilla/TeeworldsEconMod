@@ -2,6 +2,7 @@
 import sys
 import time
 import g_settings
+import game
 from chiller_essential import *
 from save_stats import *
 from base_player import *
@@ -257,6 +258,7 @@ def UpdatePlayerFlagGrabs(name, grabs):
     for player in aPlayers:
         if (player.name == name):
             player.flag_grabs += grabs
+            game.UpdateFlagGrabs(player.team == "red")
             return True
     return False
 

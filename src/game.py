@@ -4,9 +4,28 @@ import player
 import kills
 
 caps_red = 0 # they are seen as score
-caps_blue = 0 # it doesnt track how often the blue flag was captured but how often the blue team capped teh red flag
+caps_blue = 0 # it doesnt track how often the blue flag was captured but how often the blue team capped the red flag
+grabs_red = 0
+grabs_blue = 0
 
-def UpdateFlags(IsRed):
+def GetBestScore():
+    return max(GetScoreRed(), GetScoreBlue())
+
+def GetScoreRed():
+    return caps_red * 100 + grabs_red
+
+def GetScoreBlue():
+    return caps_blue * 100 + grabs_blue
+
+def UpdateFlagGrabs(IsRed):
+    global grabs_red
+    global grabs_blue
+    if IsRed:
+        grabs_red += 1
+    else:
+        grabs_blue += 1
+
+def UpdateFlagCaps(IsRed):
     global caps_red
     global caps_blue
     if IsRed:
@@ -42,7 +61,7 @@ def HandleGame(data):
         say("[SERVER] ChillerDragon wishes you all hf & gl c:")
         player.RefreshAllPlayers()
         if (data.startswith("[game]: start round type='CTF'")):
-            if caps_red == 0 and caps_blue == 0: #already catched by 10 flags auto detection
+            if caps_red == 0 and caps_blue == 0: # already catched by 10 flags auto detection
                 return
             if caps_red > caps_blue:
                 UpdateWins(True)
