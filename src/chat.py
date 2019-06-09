@@ -12,14 +12,10 @@ import game
 import achievements
 
 def IsBanReasonInStr(str):
-    if (str.find("kick") != -1 or str.find("ban") != -1):
-        return True
-    if (str.find("hook") != -1 or str.find("botter") != -1 or str.find("troll") != -1 or str.find("hack") != -1):
-        return True
-    if (str.find("fuck") != -1 or str.find("stop it") != -1):
-        return True
-    if (str.find("admin") != -1 or str.find("report") != -1):
-        return True
+    words = g_settings.get("discord_filter")
+    for word in words:
+        if (str.find(word) != -1):
+            return True
     return False
 
 def GetRankName(msg, rank_cmd):

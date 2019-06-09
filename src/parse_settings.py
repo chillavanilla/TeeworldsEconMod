@@ -22,6 +22,11 @@ def parse_bool(sett, val, line_num):
         else:
             parse_error("BoolError", "cannot parse bool " + str(line_num) + ":'" + str(val) + "'")
 
+def parse_list_dyn(sett, val, line_num):
+    if val == None or val == "" or val == ",":
+        return None
+    return val.split(',')
+
 def parse_list(sett, val, line_num):
     raw_list = g_settings.SETTINGS[sett][0]
     raw_list = raw_list[1:-1]
@@ -49,7 +54,10 @@ def ReadSettingsLine(line, line_num):
     elif g_settings.SETTINGS[sett][0] == "bool":
         g_settings.SETTINGS[sett][1] = parse_bool(sett, val, line_num)
     elif g_settings.SETTINGS[sett][0][0] == "[":
-        g_settings.SETTINGS[sett][1] = parse_list(sett, val, line_num)
+        if g_settings.SETTINGS[sett][0][1] == "]": # empty list ( no limit )
+            g_settings.SETTINGS[sett][1] = parse_list_dyn(sett, val, line_num)
+        else: # pre defined allowed values in list
+            g_settings.SETTINGS[sett][1] = parse_list(sett, val, line_num)
     else:
         parse_error("TypeError", "invalid type " + str(line_num) + ":'" + str(g_settings.SETTINGS[sett][0]) + "'")
 

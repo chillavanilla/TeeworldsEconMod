@@ -9,7 +9,8 @@ SETTINGS = {
     "admin_discord": ["str", "ChillerDragon#0643"],
     "sql_database": ["str", "stats.db"],
     "file_database": ["str", "stats/"],
-    "discord_token": ["str", None]
+    "discord_token": ["str", None],
+    "discord_filter": ["[]", None]
 }
 
 def get(setting):
