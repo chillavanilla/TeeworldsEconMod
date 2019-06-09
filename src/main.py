@@ -33,7 +33,7 @@ def HandleData(data):
             except parse_settings.TemParseError as x:
                 chat.echo(str(x))
         elif (data.startswith("[Console]: !list")):
-            chat.echo(str(CountPlayers()) + " players online")
+            chat.echo(str(player.CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
             chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
     elif (data.endswith("' joined the spectators\n")):
