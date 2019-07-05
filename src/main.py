@@ -59,17 +59,19 @@ def HandleData(data):
         game.HandleGame(data)
 
 def MainLoop():
-    try:
-        while True:
+    while True:
+        try:
             line = sys.stdin.readline()
             if not line:
                 break
             HandleData(line[10:]) #cut off the timestamp
-    except EOFError:
-        pass    # the telnet/netcat process finished; there's no more input
-    except UnicodeDecodeError:
-        chat.say("[WARNING] UnicodeDecodeError! Please contact an admin.")
-        pass
+        except EOFError:
+            # the telnet/netcat process finished; there's no more input
+            chat.echo("[WARNING] End of file error.")
+            sys.exit(2)
+        except UnicodeDecodeError:
+            chat.say("[WARNING] UnicodeDecodeError! Please contact an admin.")
+            pass
 
 def main(argv):
     global settings_file
