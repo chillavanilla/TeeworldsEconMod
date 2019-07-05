@@ -13,6 +13,8 @@ import achievements
 
 def IsBanReasonInStr(str):
     words = g_settings.get("discord_filter")
+    if not words:
+        return False
     for word in words:
         if (str.find(word) != -1):
             return True
