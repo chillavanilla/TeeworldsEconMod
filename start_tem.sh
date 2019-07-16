@@ -18,6 +18,15 @@ command -v expect >/dev/null 2>&1 || {
   fi
   exit 1;
 }
+command -v nc >/dev/null 2>&1 || {
+  echo >&2 "Error: netcat is not found please install it!";
+  if [ "$(uname)" == "Darwin" ]; then
+    echo >&2 "MacOS: brew install netcat";
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    echo >&2 "Debian/Ubuntu: sudo apt install netcat";
+  fi
+  exit 1;
+}
 
 # init variables
 settings_file="tem.settings"
