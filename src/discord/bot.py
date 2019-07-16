@@ -14,9 +14,13 @@ token=""
 
 def HandleData(line):
     global token
-    if (line.find("][chat]: ") == -1):
+    line = str(line)
+    chat_str = "][chat]: "
+    if (line.find(chat_str) == -1):
         return
-    print("line: " + str(line))
+    line_start = line.find(chat_str) + len(chat_str)
+    line = line[line_start:]
+    print("line: " + line)
     requests.post("https://discordapp.com/api/webhooks/" + token, data={"content": line})
 
 def main():
@@ -30,7 +34,8 @@ def main():
             line = sys.stdin.readline()
             if not line:
                 break
-            HandleData(line[:-1]) # cut newline at the end
+            line = line[:-1] # cut timestamp and newline at the end
+            HandleData(line)
     except EOFError:
         pass    # the telnet/netcat process finished; there's no more input
     except UnicodeDecodeError:
