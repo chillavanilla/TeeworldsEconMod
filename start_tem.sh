@@ -58,7 +58,7 @@ function check_path() {
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
-            mkdir $path
+            mkdir -p $path
             log "created folder at: $path"
             return
         fi
