@@ -1,8 +1,9 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
 import sys
 import time
 import g_settings
 import game
+import cbase
 from chiller_essential import *
 from save_stats import *
 from base_player import *
@@ -188,9 +189,9 @@ def UpdateAchievement(name, ach):
     return False
 
 def ProcessMultiKills(p, weapon):
-    now = time.perf_counter_ns()
+    now = cbase.get_timestamp()
     diff = now - p.LastKill
-    if (diff > 300_000_000):
+    if (diff > 300000000):
         return now
     if (p.LastKill == p.LastMultiKill):
         p.CurrentMulti += 1

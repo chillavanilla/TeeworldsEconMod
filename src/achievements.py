@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3
 from chiller_essential import *
 from base_player import *
 import player
