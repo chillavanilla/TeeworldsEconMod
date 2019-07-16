@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.4
+#!/usr/bin/env python3
 
 # this bot takes a discord webhook token as argument
 # and then posts stdin to the webhook
