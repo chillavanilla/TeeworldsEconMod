@@ -18,25 +18,25 @@ pip3 install -r requirements.txt
 create a ``tem.settings`` file and write line by line these configurations:
 
 ```
-tw_path=/path/to/your/teeworlds/directory/
-tw_binary=name_of_teeworlds_srv
-econ_password=password
-econ_port=8203
-debug=0
-stats_mode=file
-file_database=stats/
-logs_path=/path/to/log/directory/
+sh_tw_path=/path/to/your/teeworlds/directory/
+sh_tw_binary=name_of_teeworlds_srv
+sh_logs_path=/path/to/log/directory/
+sh_econ_password=password
+sh_econ_port=8203
+py_debug=0
+py_stats_mode=file
+py_file_database=stats/
 ```
 a sample config could look like:
 ```
-tw_path=/home/chiller/teeworlds/
-tw_binary=teeworlds_srv
-econ_password=7h9had8a9
-econ_port=8203
-debug=1
-stats_mode=sql
-sql_database=stats.db
-logs_path=/home/chiller/logs/
+sh_tw_path=/home/chiller/teeworlds/
+sh_tw_binary=teeworlds_srv
+sh_logs_path=/home/chiller/logs/
+sh_econ_password=7h9had8a9
+sh_econ_port=8203
+py_debug=1
+py_stats_mode=sql
+py_sql_database=stats.db
 ```
 
 
