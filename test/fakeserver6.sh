@@ -6,6 +6,8 @@ function log()
 }
 log "starting fake server..."
 sleep 0.5
+log "[server]: version 0.6 626fce9a778df4d4"
+sleep 0.1
 log "[chat]: *** 'ChillerDragon' entered and joined the red team"
 sleep 0.5
 log "[chat]: *** 'ChillerDragon.*' entered and joined the blue team"
