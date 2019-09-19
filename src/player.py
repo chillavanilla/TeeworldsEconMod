@@ -9,13 +9,13 @@ from save_stats import *
 from base_player import *
 import datetime
 
-def CreatePlayer(name, team="", ShowStats=True, spree=0):
+def CreatePlayer(name, ID=-1, team="", ShowStats=True, spree=0):
     global aPlayers
     load_player = LoadStats(name)
     if load_player:
         if ShowStats:
             load_player.ShowStats()
-        add_player = Player(name, load_player.flag_time, load_player.best_spree, team)
+        add_player = Player(name, ID, load_player.flag_time, load_player.best_spree, team)
         add_player.a_haxx0r = load_player.a_haxx0r
         add_player.a_blazeit = load_player.a_blazeit
         add_player.a_satan = load_player.a_satan
@@ -29,7 +29,7 @@ def CreatePlayer(name, team="", ShowStats=True, spree=0):
         add_player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
         aPlayers.append(add_player)
     else:
-        aPlayers.append(Player(name, team=team))
+        aPlayers.append(Player(name, ID=ID, team=team))
     #say("added player '" + name + "'")
 
 def GetPlayersArray():
@@ -62,7 +62,7 @@ def RefreshAllPlayers():
     for player in aPlayers:
         p = player
         SaveAndDeletePlayer(player.name)
-        CreatePlayer(p.name, p.team, ShowStats=False, spree=p.killingspree)
+        CreatePlayer(p.name, p.ID, p.team, ShowStats=False, spree=p.killingspree)
 
 def GetPlayerIndex(name):
     global aPlayers
@@ -80,6 +80,13 @@ def GetPlayerByName(name):
             return player
     return None
 
+def GetPlayerByID(id):
+    global aPlayers
+    for p in aPlayers:
+        if (p.ID == id):
+            return p
+    return None
+
 def PrintStatsAll(debug=False):
     global aPlayers
     if (debug):
@@ -92,43 +99,51 @@ def PrintStatsAll(debug=False):
         for player in aPlayers:
             say("'" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " spree: " + str(player.best_spree) + " flags: " + str(player.flag_caps_red + player.flag_caps_blue) + " fastest cap: " + str(player.flag_time))
 
-def HandlePlayerTeamSwap(data, IsSpec=False):
-    name_start = data.find("'") + 1
-    name_end = data.rfind("' joined the ", name_start)
-    name = data[name_start:name_end]
-    player = GetPlayerByName(name)
-    if not player: #something went wrong
-        say("[WARNING] something went wrong with '" + str(name) + "' s team switch")
-        return False
-    DeletePlayer(name)
-    team = ""
-    if IsSpec:
-        team = "spectator"
-    elif data.find("' joined the red", name_start) != -1:
-        team = "red"
-    elif data.find("' joined the blue", name_start) != -1:
-        team = "blue"
-    player.team = team
-    aPlayers.append(player)
+# [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
+def HandlePlayerEnter(data):
+    id_start = data.find("=") + 1
+    id_end = data.find(" ", id_start)
+    id = data[id_start:id_end]
+    CreatePlayer(name=None, ID=id)
 
-def HandlePlayerJoin(data):
-    name_start = data.find("'") + 1
-    name_end = data.find("' entered and joined the ", name_start)
-    name = data[name_start:name_end]    
-    if GetPlayerByName(name): #filter double names (could happen due rejoining or team switch)
-        return False
-    team = ""
-    if data.find("' entered and joined the red", name_start) != -1:
-        team = "red"
-    elif data.find("' entered and joined the blue", name_start) != -1:
-        team = "blue"
-    CreatePlayer(name, team)
-            
+# [server]: client dropped. cid=1 addr=172.20.10.9:53784 reason=''
 def HandlePlayerLeave(data):
-    name_start = data.find("'") + 1
-    name_end = data.find("' has left the game", name_start)
+    id_start = data.find("=") + 1
+    id_end = data.find(" ", id_start)
+    id = data[id_start:id_end]
+    player = GetPlayerByID(id)
+    if player == None:
+        say("[ERROR] invalid player left id=" + str(id))
+        sys.exit(1)
+    SaveAndDeletePlayer(player.name)
+
+# [game]: team_join player='0:ChillerDragon' team=0
+def HandlePlayerTeam(data):
+    id_start = data.find("'") + 1
+    id_end = cbase.cfind(data, ":", 2)
+    id = data[id_start:id_end]
+    player = GetPlayerByID(id)
+    if player == None:
+        say("[ERROR] teamchange failed id=" + str(id) + " data=" + str(data))
+        sys.exit(1)
+    team = str(data[data.rfind("=") + 1:])
+    if team == "0":
+        player.team = "red"
+    elif team == "1":
+        player.team = "blue"
+    elif team == "-1":
+        player.team = "spectator"
+    else:
+        say("[ERROR] invalid team=" + str(team))
+        sys.exit(1)
+    name_start = cbase.cfind(data, ":", 2) + 1
+    name_end = data.rfind("'")
     name = data[name_start:name_end]
-    SaveAndDeletePlayer(name)
+    if player.name == None:
+        player.name = name
+    elif player.name != name:
+        say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
+        sys.exit(1)
 
 def HandleNameChange(data):
     old_start = data.find("'") + 1
@@ -139,10 +154,12 @@ def HandleNameChange(data):
     new = data[new_start:new_end]
     team = ""
     player = GetPlayerByName(old)
-    if player:
-        team = player.team
+    if not player:
+        say("[ERROR] name_change player not found name=" + str(old))
+        sys.exit(1)
+    team = player.team
     SaveAndDeletePlayer(old)
-    CreatePlayer(new, team=team)
+    CreatePlayer(new, player.ID, team=team)
 
 def SetFlagger(name, IsFlag):
     global aPlayers
@@ -299,5 +316,3 @@ def UpdatePlayerFlagTime(name, time):
             except:
                 say("[WARNING] error calculating flag time (" + str(time) + ") and (" + str(player.flag_time) + ")")
     return False
-
-

@@ -17,7 +17,7 @@ tw_version=None
 
 def DebugListPlayers():
     for p in player.GetPlayersArray():
-        chat.echo("name='" + str(p.name) + "' team=" + str(p.team))
+        chat.echo("id=" + str(p.ID) + " name='" + str(p.name) + "' team=" + str(p.team))
 
 def HandleData(data):
     global settings_file
@@ -50,17 +50,12 @@ def HandleData(data):
             chat.echo(str(player.CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
             chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
-    elif (data.endswith("' joined the spectators\n")):
-        player.HandlePlayerTeamSwap(data, True)
-    elif (data.find("' entered and joined the ") != -1):
-        if (data.startswith("[chat]: ***")):
-            player.HandlePlayerJoin(data)
-    elif (data.find("' joined the ") != -1 and data.endswith(" team\n")):
-        if (data.startswith("[chat]: ***")):
-            player.HandlePlayerTeamSwap(data)
-    elif (data.find("' has left the game") != -1):
-        if (data.startswith("[chat]: ***")):
-            player.HandlePlayerLeave(data)
+    elif (data.startswith("[server]: client dropped. cid=")):
+        player.HandlePlayerLeave(data[:-1]) # chop of newline
+    elif (data.startswith("[server]: player has entered the game. ClientID=")):
+        player.HandlePlayerEnter(data[:-1]) # chop of newline
+    elif (data.startswith("[game]: team_join player='")):
+        player.HandlePlayerTeam(data[:-1]) # chop of newline
     elif (data.startswith("[chat]") or data.startswith("[teamchat]")):
         if (data.startswith("[chat]: ***")):
             if (data.startswith("[chat]: *** The blue flag was captured by '") or data.startswith("[chat]: *** The red flag was captured by '")):

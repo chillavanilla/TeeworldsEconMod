@@ -27,7 +27,8 @@ def A_Best(a1, a2):
     return a2
 
 class Player:
-    def __init__(self, name, time=0.0, spree=0, team=""):
+    def __init__(self, name, ID=-1, time=0.0, spree=0, team=""):
+        self.ID = ID
         self.name = name
         self.kills = 0
         self.WEAPON_KILLS = {
