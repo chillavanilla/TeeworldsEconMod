@@ -1,24 +1,63 @@
 #!/bin/bash
 
+ts="[5d839f07]"
+
 function log()
 {
-    echo "XXXXXXXXXX$1"
+    echo "${ts}$1"
+    sleep 0.1
 }
-log "starting fake server..."
-sleep 0.5
+
+log "[engine]: running on unix-linux-amd64"
+log "[engine]: arch is little endian"
+log "[storage]: couldn't open storage.cfg"
+log "[storage]: using standard paths"
+log "[storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')"
+log "[storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')"
+log "[storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla2')"
+log "[console]: executing 'autoexec.cfg'"
+log "[server]: starting..."
+log "[datafile]: loading. filename='maps/ctf5_f.map'"
+log "[datafile]: allocsize=1516"
+log "[datafile]: readsize=1276"
+log "[datafile]: swaplen=1296"
+log "[datafile]: item_size=1008"
+log "[datafile]: loading done. datafile='maps/ctf5_f.map'"
+log "[server]: maps/ctf5_f.map crc is d92129a0"
+log "[econ]: bound to localhost:1333"
+log "[server]: server name is 'ChillerDragon's Vanilla test server'"
+log "[datafile]: loading data index=11 size=2252 uncompressed=129600"
 log "[server]: version 0.6 626fce9a778df4d4"
-sleep 0.1
+log "[engine/mastersrv]: refreshing master server addresses"
+log "[register]: refreshing ip addresses"
+log "[engine/mastersrv]: saving addresses"
+log "[register]: fetching server counts"
+log "[server]: player is ready. ClientID=0 addr=172.20.10.9:12392"
+log "[game]: Teams are balanced (red=1 blue=0)"
+log "[server]: 'ChillerDragon' -> 'ChillerDragon'"
+log "[server]: player has entered the game. ClientID=0 addr=172.20.10.9:12392"
 log "[chat]: *** 'ChillerDragon' entered and joined the red team"
-sleep 0.5
+log "[game]: team_join player='0:ChillerDragon' team=0"
+log "[register]: chose 'master3.teeworlds.com' as master, sending heartbeats"
+log "[server]: player is ready. ClientID=1 addr=172.20.10.9:25906"
+log "[game]: Teams are balanced (red=1 blue=1)"
+log "[server]: 'ChillerDragon.*' -> 'ChillerDragon.*'"
+log "[server]: player has entered the game. ClientID=1 addr=172.20.10.9:25906"
 log "[chat]: *** 'ChillerDragon.*' entered and joined the blue team"
-sleep 0.5
-log "[chat]: *** '(2)ChillerDrago' entered and joined the blue team"
-sleep 0.5
-log "[game]: kill killer='0:ChillerDragon' victim='3:(2)ChillerDrago' weapon=2 special=2"
-log "[game]: kill killer='0:ChillerDragon' victim='3:(2)ChillerDrago' weapon=2 special=2"
-log "[game]: kill killer='0:ChillerDragon' victim='3:(2)ChillerDrago' weapon=3 special=2"
-sleep 0.5
-log "[game]: kill killer='0:ChillerDragon' victim='3:(2)ChillerDrago' weapon=3 special=2"
-log "[game]: kill killer='0:ChillerDragon' victim='3:(2)ChillerDrago' weapon=3 special=2"
-log "[game]: kill killer='0:ChillerDragon' victim='3:(2)ChillerDrago' weapon=4 special=2"
-sleep 2
+log "[game]: team_join player='1:ChillerDragon.*' team=1"
+log "[game]: pickup player='0:ChillerDragon' item=2/2"
+log "[game]: pickup player='0:ChillerDragon' item=2/3"
+log "[game]: kill killer='0:ChillerDragon' victim='1:ChillerDragon.*' weapon=3 special=0"
+log "[game]: kill killer='0:ChillerDragon' victim='1:ChillerDragon.*' weapon=2 special=0"
+log "[server]: client dropped. cid=1 addr=172.20.10.9:25906 reason=''"
+log "[game]: kill killer='1:ChillerDragon.*' victim='1:ChillerDragon.*' weapon=-3 special=0"
+log "[chat]: *** 'ChillerDragon.*' has left the game"
+log "[game]: leave player='1:ChillerDragon.*'"
+log "[game]: Teams are balanced (red=1 blue=0)"
+log "[server]: client dropped. cid=0 addr=172.20.10.9:12392 reason=''"
+log "[game]: kill killer='0:ChillerDragon' victim='0:ChillerDragon' weapon=-3 special=0"
+log "[chat]: *** 'ChillerDragon' has left the game"
+log "[game]: leave player='0:ChillerDragon'"
+log "[game]: Teams are balanced (red=0 blue=0)"
+
+sleep 1

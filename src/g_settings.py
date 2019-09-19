@@ -10,8 +10,12 @@ SETTINGS = {
     "sql_database": ["str", "stats.db"],
     "file_database": ["str", "stats/"],
     "discord_token": ["str", None],
-    "discord_filter": ["[]", None]
+    "discord_filter": ["[]", None],
+    "tw_version": ["int", None]
 }
 
 def get(setting):
     return SETTINGS[setting][1]
+
+def set(setting, value):
+    SETTINGS[setting][1] = value
