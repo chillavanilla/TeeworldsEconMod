@@ -1,0 +1,28 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: buildpack-deps:stretch
+    steps:
+      - checkout
+      - run:
+          name: Prepare
+          command: |
+            apt-get update -y
+            apt-get install -y python3
+      - run:
+          name: Create sample config
+          command: |
+            echo "sh_tw_path=/path/to/your/teeworlds/directory/" > tem.settings
+            echo "sh_tw_binary=name_of_teeworlds_srv" >> tem.settings
+            echo "sh_logs_path=/path/to/log/directory/" >> tem.settings
+            echo "sh_econ_password=password" >> tem.settings
+            echo "sh_econ_port=8203" >> tem.settings
+            echo "py_debug=0" >> tem.settings
+            echo "py_stats_mode=file" >> tem.settings
+            echo "py_file_database=stats/" >> tem.settings
+      - run:
+          name: Run tests
+          command: |
+            cd test
+            ./test.sh
