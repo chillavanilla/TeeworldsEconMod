@@ -64,7 +64,7 @@ function check_path() {
         fi
     fi
     log "PathError: please provide a valid path."
-    exit
+    exit 1
 }
 
 function create_settings() {
@@ -86,7 +86,7 @@ function create_settings() {
         done
         nano $settings_file
     fi
-    exit
+    exit 1
 }
 
 function parse_settings_line() {
@@ -103,7 +103,7 @@ function parse_settings_line() {
             fi
         done
         log "SettingsError: unkown setting $sett"
-        exit
+        exit 1
 }
 
 function read_settings_file() {
