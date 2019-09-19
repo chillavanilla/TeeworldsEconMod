@@ -5,6 +5,8 @@ import g_settings
 import os.path
 
 def HasStats(name):
+    if name == None:
+        return False
     if os.path.isfile(g_settings.get("file_database") + name + ".acc"):
         return True
     return False
