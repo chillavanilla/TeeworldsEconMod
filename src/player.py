@@ -32,6 +32,10 @@ def CreatePlayer(name, team="", ShowStats=True, spree=0):
         aPlayers.append(Player(name, team=team))
     #say("added player '" + name + "'")
 
+def GetPlayersArray():
+    global aPlayers
+    return aPlayers
+
 def DeletePlayer(name):
     global aPlayers
     #aPlayers.remove(GetPlayerByName(name))
