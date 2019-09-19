@@ -175,7 +175,7 @@ def HandleChatMessage(msg):
         pPlayer = player.GetPlayerByName(name)
         if not pPlayer:
             say("error")
-            return
+            sys.exit(1)
         say("current spree: " + str(pPlayer.killingspree))
         '''
         str = "\"test'hello#world"
@@ -186,7 +186,7 @@ def HandleChatMessage(msg):
         pPlayer = player.GetPlayerByName(name)
         if not pPlayer:
             say("error")
-            return
+            sys.exit(1)
         say("'" + str(pPlayer.name) + "' team: " + str(pPlayer.team))
         say("wins: " + str(pPlayer.wins) + " looses: " + str(pPlayer.looses))
         echo(" hello test wolrd ")

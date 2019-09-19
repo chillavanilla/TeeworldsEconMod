@@ -22,6 +22,7 @@ def SaveStatsFile(name):
         load_player = LoadStatsFile(name)
         if not load_player:
             say("[stats] error loading stats for player '" + name + "'")
+            sys.exit(1)
             return False
         player = player + load_player
     try:
@@ -44,6 +45,7 @@ def SaveStatsFile(name):
         return True
     except:
         say("[stats] error saving stats for '" + name + "'")
+        sys.exit(1)
     return False
 
 def LoadStatsFile(name):
@@ -71,4 +73,5 @@ def LoadStatsFile(name):
         return player
     except:
         say("[ERROR] failed to loaded stats for '" + name + "'")
+        sys.exit(1)
         return None

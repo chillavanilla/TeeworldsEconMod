@@ -126,6 +126,7 @@ def SaveStatsSQL(name):
         load_player = LoadStatsSQL(name)
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
+            sys.exit(1)
             return False
         player = player + load_player
         with con:

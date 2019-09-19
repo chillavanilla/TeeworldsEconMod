@@ -61,9 +61,11 @@ def HandleKills(data):
     if not killer_name == victim_name: #don't count suicide as kill
         if not UpdatePlayerKills(killer_name, 1, int(weapon)):
             say("error adding kill for '" + killer_name + "'")
+            sys.exit(1)
     if not str(weapon) == "-3": #don't count disconnect or teamswitch as death
         if not UpdatePlayerDeaths(victim_name, killer_name, 1):
             say("error adding death for '" + victim_name + "'")
+            sys.exit(1)
 
     # say("[KILL] killer=" + killer_name + " victim=" + victim_name + " weapon=" + str(weapon))
     CheckFlaggerKill(victim_name, killer_name)

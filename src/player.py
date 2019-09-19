@@ -315,4 +315,5 @@ def UpdatePlayerFlagTime(name, time):
                 return True
             except:
                 say("[WARNING] error calculating flag time (" + str(time) + ") and (" + str(player.flag_time) + ")")
+                sys.exit(1)
     return False

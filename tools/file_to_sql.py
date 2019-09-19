@@ -107,6 +107,7 @@ def LoadStatsFile(name):
         return player
     except:
         say("[ERROR] failed to loaded stats for '" + name + "'")
+        sys.exit(1)
         return None
 
 def HasStatsSQL(name):
@@ -152,6 +153,7 @@ def SaveStatsSQL(player):
         load_player = LoadStatsSQL(name)
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
+            sys.exit(1)
             return False
         player = player + load_player
         UpdatedPlayers += 1
@@ -211,6 +213,7 @@ def FileToSQL():
                     say("failed to load player from file")
             else:
                 say("weird error")
+                sys.exit(1)
     say("Finished with " + str(TotalPlayers) + " players in total")
     say("Updated: " + str(UpdatedPlayers) + " Added: " + str(AddedPlayers))
 
