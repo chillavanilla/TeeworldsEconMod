@@ -17,6 +17,9 @@ do
     echo   "+---------------------------------------+"
     printf "| log: %-32s |\n" $log
     echo   "+---------------------------------------+"
+    echo " === settings === "
+    cat ../tem.settings
+    echo " ================ "
     print_log_lines $log | ../src/main.py --settings=../tem.settings
     if [ $? -eq 0 ]
     then
