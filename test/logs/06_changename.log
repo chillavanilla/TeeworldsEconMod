@@ -1,0 +1,87 @@
+[5d878993][engine]: running on unix-linux-amd64
+[5d878993][engine]: arch is little endian
+[5d878993][storage]: couldn't open storage.cfg
+[5d878993][storage]: using standard paths
+[5d878993][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[5d878993][storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')
+[5d878993][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla2')
+[5d878993][console]: executing 'autoexec.cfg'
+[5d878993][server]: starting...
+[5d878993][datafile]: loading. filename='maps/ctf5_f.map'
+[5d878993][datafile]: allocsize=1516
+[5d878993][datafile]: readsize=1276
+[5d878993][datafile]: swaplen=1296
+[5d878993][datafile]: item_size=1008
+[5d878993][datafile]: loading done. datafile='maps/ctf5_f.map'
+[5d878993][server]: maps/ctf5_f.map crc is d92129a0
+[5d878993][econ]: bound to localhost:1333
+[5d878993][server]: server name is 'ChillerDragon's Vanilla test server'
+[5d878993][datafile]: loading data index=11 size=2252 uncompressed=129600
+[5d878993][server]: version 0.6 626fce9a778df4d4
+[5d878993][engine/mastersrv]: refreshing master server addresses
+[5d878993][register]: refreshing ip addresses
+[5d878993][engine/mastersrv]: saving addresses
+[5d878993][register]: fetching server counts
+[5d878996][register]: chose 'master4.teeworlds.com' as master, sending heartbeats
+[5d87899a][server]: player is ready. ClientID=0 addr=172.20.10.9:35711
+[5d87899a][game]: Teams are balanced (red=1 blue=0)
+[5d87899a][server]: 'ChillerDragoX' -> 'ChillerDragoX'
+[5d87899a][server]: player has entered the game. ClientID=0 addr=172.20.10.9:35711
+[5d87899a][chat]: *** 'ChillerDragoX' entered and joined the red team
+[5d87899a][game]: team_join player='0:ChillerDragoX' team=0
+[5d87899b][game]: pickup player='0:ChillerDragoX' item=1/0
+[5d87899b][game]: pickup player='0:ChillerDragoX' item=1/0
+[5d87899c][game]: pickup player='0:ChillerDragoX' item=1/0
+[5d87899d][register]: ERROR: the master server reports that clients can not connect to this server.
+[5d87899d][register]: ERROR: configure your firewall/nat to let through udp on port 8303.
+[5d87899f][chat]: 0:-2:ChillerDragoX: hello world
+[5d8789a0][server]: player is ready. ClientID=1 addr=172.20.10.9:4098
+[5d8789a0][game]: Teams are balanced (red=1 blue=1)
+[5d8789a0][server]: 'ChillerDragon.*' -> 'ChillerDragon.*'
+[5d8789a0][server]: player has entered the game. ClientID=1 addr=172.20.10.9:4098
+[5d8789a0][chat]: *** 'ChillerDragon.*' entered and joined the blue team
+[5d8789a0][game]: team_join player='1:ChillerDragon.*' team=1
+[5d8789a1][game]: pickup player='1:ChillerDragon.*' item=1/0
+[5d8789a1][game]: pickup player='1:ChillerDragon.*' item=1/0
+[5d8789a1][game]: pickup player='1:ChillerDragon.*' item=1/0
+[5d8789a6][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5d8789a6][chat]: *** 'ChillerDragoX' changed name to 'ChillerDragon'
+[5d8789a9][chat]: 0:-2:ChillerDragon: changed name
+[5d8789ab][chat]: 0:-2:ChillerDragon: /rank_all
+[5d8789b0][chat]: 1:-2:ChillerDragon.*: /cmdlist
+[5d8789b0][game]: pickup player='1:ChillerDragon.*' item=1/0
+[5d8789b0][game]: pickup player='1:ChillerDragon.*' item=1/0
+[5d8789b0][game]: pickup player='1:ChillerDragon.*' item=1/0
+[5d8789b3][server]: client dropped. cid=1 addr=172.20.10.9:4098 reason=''
+[5d8789b3][game]: kill killer='1:ChillerDragon.*' victim='1:ChillerDragon.*' weapon=-3 special=0
+[5d8789b3][chat]: *** 'ChillerDragon.*' has left the game
+[5d8789b3][game]: leave player='1:ChillerDragon.*'
+[5d8789b3][game]: Teams are balanced (red=1 blue=0)
+[5d8789b3][server]: client dropped. cid=0 addr=172.20.10.9:35711 reason=''
+[5d8789b3][game]: kill killer='0:ChillerDragon' victim='0:ChillerDragon' weapon=-3 special=0
+[5d8789b3][chat]: *** 'ChillerDragon' has left the game
+[5d8789b3][game]: leave player='0:ChillerDragon'
+[5d8789b3][game]: Teams are balanced (red=0 blue=0)
+[5d8789b4][server]: player is ready. ClientID=0 addr=172.20.10.9:35711
+[5d8789b4][game]: Teams are balanced (red=1 blue=0)
+[5d8789b4][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5d8789b4][server]: player has entered the game. ClientID=0 addr=172.20.10.9:35711
+[5d8789b4][chat]: *** 'ChillerDragon' entered and joined the red team
+[5d8789b4][game]: team_join player='0:ChillerDragon' team=0
+[5d8789b5][server]: player is ready. ClientID=1 addr=172.20.10.9:4098
+[5d8789b5][game]: Teams are balanced (red=1 blue=1)
+[5d8789b5][server]: 'ChillerDragon.*' -> 'ChillerDragon.*'
+[5d8789b5][server]: player has entered the game. ClientID=1 addr=172.20.10.9:4098
+[5d8789b5][chat]: *** 'ChillerDragon.*' entered and joined the blue team
+[5d8789b5][game]: team_join player='1:ChillerDragon.*' team=1
+[5d8789bf][chat]: 1:-2:ChillerDragon.*: /rank_all
+[5d8789c1][server]: client dropped. cid=1 addr=172.20.10.9:4098 reason=''
+[5d8789c1][game]: kill killer='1:ChillerDragon.*' victim='1:ChillerDragon.*' weapon=-3 special=0
+[5d8789c1][chat]: *** 'ChillerDragon.*' has left the game
+[5d8789c1][game]: leave player='1:ChillerDragon.*'
+[5d8789c1][game]: Teams are balanced (red=1 blue=0)
+[5d8789c1][server]: client dropped. cid=0 addr=172.20.10.9:35711 reason=''
+[5d8789c1][game]: kill killer='0:ChillerDragon' victim='0:ChillerDragon' weapon=-3 special=0
+[5d8789c1][chat]: *** 'ChillerDragon' has left the game
+[5d8789c1][game]: leave player='0:ChillerDragon'
+[5d8789c1][game]: Teams are balanced (red=0 blue=0)
