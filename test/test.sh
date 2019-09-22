@@ -3,8 +3,13 @@
 if [ "$1" == "--help" ] || [ "$1" == "-h" ]
 then
     echo "usage: $0 [ log directory ] [ settings directory ]"
-    echo "pipes all logs-settings combinations into tem python script"
-    echo "default is the logs/*.log and settings/*.test directory"
+    echo "  options:"
+    echo "    log dir      - path to directory containing tw .log files"
+    echo "                   default: logs"
+    echo "    settings dir - path to directory containing tem .test files"
+    echo "                   default: settings"
+    echo "  description:"
+    echo "    pipes all logs-settings combinations into tem python script."
     exit
 fi
 
