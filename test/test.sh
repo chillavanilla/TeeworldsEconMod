@@ -12,6 +12,8 @@ failed=0
 passed=0
 total=0
 
+mkdir -p stats
+
 for log in $(ls logs/*)
 do
     echo   "+---------------------------------------+"
