@@ -2,9 +2,9 @@
 
 if [ "$1" == "--help" ]
 then
-    echo "usage: $0 [ logfile ]"
-    echo "pipes the log into tem python script"
-    echo "default is the logs/ directory"
+    echo "usage: $0 [ log directory ] [ settings directory ]"
+    echo "pipes all logs-settings combinations into tem python script"
+    echo "default is the logs/*.log and settings/*.test directory"
     exit
 fi
 
@@ -24,13 +24,14 @@ mkdir -p stats
 
 function test_log() {
     log=$1
+    setting=$2
     echo   "+---------------------------------------+"
     printf "| log: %-32s |\n" $log
     echo   "+---------------------------------------+"
-    echo " === settings === "
-    cat ../tem.settings
+    echo " === setting: $setting === "
+    cat $setting
     echo " ================ "
-    print_log_lines $log | ../src/main.py --settings=../tem.settings
+    print_log_lines $log | ../src/main.py --settings=$setting
     if [ $? -eq 0 ]
     then
         printf "[\033[0;32mSUCCESS\033[0m]\n"
@@ -42,23 +43,34 @@ function test_log() {
     total=$((total+1))
 }
 
+logs_path=logs
+settings_path=settings
 if [ $# -gt 0 ]
 then
-    if [ ! -f "$1" ]
+    if [ ! -d "$1" ]
     then
-        echo "Errro file not found '$1'"
+        echo "Errro logs path not found '$1'"
         exit 1
     fi
-    for log in "$1"
-    do
-        test_log $log
-    done
-else
-    for log in $(ls logs/*)
-    do
-        test_log $log
-    done
+    logs_path="$1"
 fi
+if [ $# -gt 1 ]
+then
+    if [ ! -d "$2" ]
+    then
+        echo "Errro settings path not found '$2'"
+        exit 1
+    fi
+    settings_path="$2"
+fi
+
+for log in $(ls $logs_path/*.log)
+do
+    for setting in $(ls $settings_path/*.test)
+    do
+        test_log $log $setting
+    done
+done
 
 echo " --------------------------------------- "
 echo ""
