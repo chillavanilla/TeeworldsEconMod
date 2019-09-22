@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" == "--help" ]
+if [ "$1" == "--help" ] || [ "$1" == "-h" ]
 then
     echo "usage: $0 [ log directory ] [ settings directory ]"
     echo "pipes all logs-settings combinations into tem python script"
