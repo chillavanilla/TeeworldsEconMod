@@ -247,37 +247,33 @@ def ProcessMultiKills(p, weapon):
     p.LastMultiKill = now
     return now
 
-def UpdatePlayerKills(name, kills, weapon):
+def UpdatePlayerKills(player, kills, weapon):
     # say("kill weapon=" + WEAPONS[weapon])
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            player.LastKill = ProcessMultiKills(player, weapon)
-            player.LastKillWeapon = weapon
-            player.kills += kills
-            player.WEAPON_KILLS[weapon] += kills
-            if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
-                player.killingspree += kills
-                if (player.killingspree % 10 == 0):
-                    broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
-            return True
-    return False
+    if not player:
+        return False
+    player.LastKill = ProcessMultiKills(player, weapon)
+    player.LastKillWeapon = weapon
+    player.kills += kills
+    player.WEAPON_KILLS[weapon] += kills
+    if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
+        player.killingspree += kills
+        if (player.killingspree % 10 == 0):
+            broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
+    return True
     
-def UpdatePlayerDeaths(name, killer, deaths):
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            player.deaths += deaths
-            if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
-                if player.killingspree > 9:
-                    broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
-                if player.killingspree > player.best_spree:
-                    if (player.killingspree > 9):
-                        say("'" + player.name + "' new killingspree record! Old: " + str(player.best_spree) + " New: " + str(player.killingspree))
-                    player.best_spree = player.killingspree
-                player.killingspree = 0
-            return True
-    return False
+def UpdatePlayerDeaths(player, killer, deaths):
+    if not player:
+        return False
+    player.deaths += deaths
+    if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
+        if player.killingspree > 9:
+            broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
+        if player.killingspree > player.best_spree:
+            if (player.killingspree > 9):
+                say("'" + player.name + "' new killingspree record! Old: " + str(player.best_spree) + " New: " + str(player.killingspree))
+            player.best_spree = player.killingspree
+        player.killingspree = 0
+    return True
 
 def TeamWon(team):
     global aPlayers

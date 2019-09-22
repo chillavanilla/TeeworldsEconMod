@@ -2,12 +2,15 @@
 from chiller_essential import *
 import cbase
 import g_settings
+import player
 
 def HandleKills(data):
-    from player import UpdatePlayerKills, UpdatePlayerDeaths, SetFlagger, CheckFlaggerKill
-
     killer_name = ""
     victim_name = ""
+    killer_id = -1
+    victim_id = -1
+    killer = None
+    victim = None
     weapon = ""
 
     if g_settings.get("tw_version") == 6 or g_settings.get("tw_version") == None: # default 6
@@ -29,16 +32,19 @@ def HandleKills(data):
         killer_start = data.find(":", 10) + 1
         killer_end = data.find("' victim='", killer_start + 1)
         killer_name = data[killer_start:killer_end]
+        killer = player.GetPlayerByName(victim_name)
 
         victim_start = data.find(":", killer_end) + 1
         victim_end = data.find("' weapon=", victim_start + 1)
         victim_name = data[victim_start:victim_end]
+        victim = player.GetPlayerByName(victim_name)
 
         weapon_start = data.rfind("weapon=") + 7
         weapon_end = data.rfind(" special=")
         weapon = data[weapon_start:weapon_end]
     else: # teeworlds 0.7
         # teeworlds 0.7
+        #                     id:team                   id:team
         # [game]: kill killer='0:0:nameless tee' victim='0:0:nameless tee' weapon=-1 special=0
         killer_start = cbase.cfind(data, ":", 3) + 1
         killer_end = data.find("' victim='", killer_start + 1)
@@ -49,24 +55,29 @@ def HandleKills(data):
         victim_end = data.find("' weapon=", victim_start + 1)
         victim_name = data[victim_start:victim_end]
 
+        killer_start = data.find("'") + 1
+        killer_end = cbase.cfind(data, ":", 2)
+        killer_id = data[killer_start:killer_end]
+        killer = player.GetPlayerByID(killer_id)
+
+        victim_start = data.find("' victim='") + len("' victim='")
+        victim_end = data.find(":", victim_start)
+        victim_id = data[victim_start:victim_end]
+        victim = player.GetPlayerByID(victim_id)
+
         weapon_start = data.rfind("weapon=") + 7
         weapon_end = data.rfind(" special=")
         weapon = data[weapon_start:weapon_end]
 
-    '''
-    if killer_name == victim_name: #ignore selfkills also because it would be annoying on disconnect
-        SetFlagger(victim_name, False)
-        return
-    '''
-    if not killer_name == victim_name: #don't count suicide as kill
-        if not UpdatePlayerKills(killer_name, 1, int(weapon)):
-            say("error adding kill for '" + killer_name + "'")
+    if not killer == victim: #don't count suicide as kill
+        if not player.UpdatePlayerKills(killer, 1, int(weapon)):
+            say("error adding kill for " + str(killer_id) + ":" + killer_name + "'")
             sys.exit(1)
     if not str(weapon) == "-3": #don't count disconnect or teamswitch as death
-        if not UpdatePlayerDeaths(victim_name, killer_name, 1):
-            say("error adding death for '" + victim_name + "'")
+        if not player.UpdatePlayerDeaths(victim, killer_name, 1):
+            say("error adding death for " + str(victim_id) + ":'" + victim_name + "'")
             sys.exit(1)
 
     # say("[KILL] killer=" + killer_name + " victim=" + victim_name + " weapon=" + str(weapon))
-    CheckFlaggerKill(victim_name, killer_name)
-    SetFlagger(victim_name, False)
+    player.CheckFlaggerKill(victim_name, killer_name)
+    player.SetFlagger(victim_name, False)
