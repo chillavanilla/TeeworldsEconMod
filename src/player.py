@@ -174,7 +174,7 @@ def HandleNameChange(data):
         say("[ERROR] name_change player not found name=" + str(old))
         sys.exit(1)
     team = player.team
-    SaveAndDeletePlayer(old)
+    SaveAndDeletePlayerByName(old)
     CreatePlayer(new, player.ID, team=team)
 
 def SetFlagger(name, IsFlag):
