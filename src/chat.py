@@ -39,23 +39,28 @@ def GetRankName(msg, rank_cmd):
         return name
     return rankname
 
+# TODO: unused? remove?
 def GetSpamName(msg):
     name_start = cbase.cfind(msg, ":", 3) + 1
     name_end = msg.find(": ", name_start + 1)
     name = msg[name_start:name_end]
     return name
 
+def GetSpamID(msg):
+    id_start = msg.find(" ") + 1
+    id_end = cbase.cfind(msg, ":", 2)
+    id = msg[id_start:id_end]
+    return id
+
 def GetSpamPlayer(msg):
-    name = GetSpamName(msg)
-    return player.GetPlayerByName(name)
+    id = GetSpamID(msg)
+    return player.GetPlayerByID(id)
 
 def SpamProtection(msg):
-    name = GetSpamName(msg)
-    p = player.GetPlayerByName(name)
+    p = GetSpamPlayer(msg)
     if not p:
-        say("[WARNING] SpamProtection() failed! please contact an admin")
-        say("[WARNING] detected name was '" + str(name) + "'")
-        return False
+        say("[ERROR] SpamProtection() failed! please contact an admin")
+        sys.exit(1)
     now = datetime.datetime.now()
     diff = now - p.LastChat
     p.LastChat = now
@@ -66,7 +71,7 @@ def SpamProtection(msg):
     if (p.MuteScore > 5):
         if not p.IsMuted:
             p.IsMuted = True
-            say("'" + str(name) + "' is banned from the command system (spam)")
+            say("'" + str(p.name) + "' is banned from the command system (spam)")
     if (seconds > 120):
         p.IsMuted = False
         p.MuteScore = 0
