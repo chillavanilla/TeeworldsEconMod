@@ -20,6 +20,26 @@ def IsBanReasonInStr(str):
             return True
     return False
 
+# get by id if no argument given
+# get by name if name is argument
+# return player object and identifier (id/name)
+def GetRankPlayer(msg, rank_cmd):
+    if not g_settings.get("stats_mode") == "sql":
+        say("not supported in file stats mode")
+        return None
+    msg_normal = msg
+    msg = msg.lower()
+    id = GetChatID(msg_normal)
+    rankname_start = -1
+    if (msg.find(rank_cmd + " ") != -1):
+        cmd_end = msg.rfind(rank_cmd)
+        rankname_start = msg.find(rank_cmd + " ", cmd_end) + len(rank_cmd + " ")
+    rankname_end = len(msg) - 1 #cut off newline
+    rankname = msg_normal[rankname_start:rankname_end]
+    if not rankname or rankname == "" or rankname_start == -1:
+        return player.GetPlayerByID(id), id
+    return player.GetPlayerByName(rankname), rankname
+
 def GetRankName(msg, rank_cmd):
     if not g_settings.get("stats_mode") == "sql":
         say("not supported in file stats mode")
@@ -46,14 +66,14 @@ def GetSpamName(msg):
     name = msg[name_start:name_end]
     return name
 
-def GetSpamID(msg):
+def GetChatID(msg):
     id_start = msg.find(" ") + 1
     id_end = cbase.cfind(msg, ":", 2)
     id = msg[id_start:id_end]
     return id
 
 def GetSpamPlayer(msg):
-    id = GetSpamID(msg)
+    id = GetChatID(msg)
     return player.GetPlayerByID(id)
 
 def SpamProtection(msg):
@@ -120,8 +140,7 @@ def HandleChatMessage(msg):
     #elif (cmd.endswith(": /stats_all")):
         #player.PrintStatsAll(True)
     elif (cmd.find(": /stats") != -1):
-        name = GetRankName(msg_normal, ": /stats")
-        p = player.GetPlayerByName(name)
+        p, name = GetRankPlayer(msg_normal, ": /stats")
         if not p:
             say("[stats] player '" + str(name) + "' is not online.")
             return
@@ -176,27 +195,12 @@ def HandleChatMessage(msg):
         name = GetRankName(msg_normal, ": /achievements")
         achievements.ShowAchievements(name)
     elif (cmd.endswith(": /test")):
-        name = GetRankName(msg_normal, ": /test")
-        pPlayer = player.GetPlayerByName(name)
-        if not pPlayer:
+        p, name = GetRankPlayer(msg_normal, ": /test")
+        if not p:
             say("error")
             sys.exit(1)
-        say("current spree: " + str(pPlayer.killingspree))
-        '''
-        str = "\"test'hello#world"
-        say(str)
-        echo(str)
-        broadcast(str)
-        name = GetRankName(msg_normal, ": /test")
-        pPlayer = player.GetPlayerByName(name)
-        if not pPlayer:
-            say("error")
-            sys.exit(1)
-        say("'" + str(pPlayer.name) + "' team: " + str(pPlayer.team))
-        say("wins: " + str(pPlayer.wins) + " looses: " + str(pPlayer.looses))
-        echo(" hello test wolrd ")
-        #say("red: " + str(game.caps_red) + " blue: " + str(game.caps_blue))
-        '''
+        say("got player: " + str(name))
+        # say("current spree: " + str(p.killingspree))
     # handle this like a chat command (so it has spam prot)
     elif (IsBanReasonInStr(cmd)): 
         say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
