@@ -32,7 +32,7 @@ def HandleKills(data):
         killer_start = data.find(":", 10) + 1
         killer_end = data.find("' victim='", killer_start + 1)
         killer_name = data[killer_start:killer_end]
-        killer = player.GetPlayerByName(victim_name)
+        killer = player.GetPlayerByName(killer_name)
 
         victim_start = data.find(":", killer_end) + 1
         victim_end = data.find("' weapon=", victim_start + 1)
@@ -71,11 +71,11 @@ def HandleKills(data):
 
     if not killer == victim: #don't count suicide as kill
         if not player.UpdatePlayerKills(killer, 1, int(weapon)):
-            say("error adding kill for " + str(killer_id) + ":" + killer_name + "'")
+            say("error adding kill for '" + str(killer_id) + ":" + killer_name + "'")
             sys.exit(1)
     if not str(weapon) == "-3": #don't count disconnect or teamswitch as death
         if not player.UpdatePlayerDeaths(victim, killer_name, 1):
-            say("error adding death for " + str(victim_id) + ":'" + victim_name + "'")
+            say("error adding death for '" + str(victim_id) + ":" + victim_name + "'")
             sys.exit(1)
 
     # say("[KILL] killer=" + killer_name + " victim=" + victim_name + " weapon=" + str(weapon))
