@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 #
+# WARNING! this script is outdated and untested
+# it most likley corrupts your data!
+#
 # Update file stats to sql stats with this script
 # put this script in the same directory as your stats/ folder
 # then it will read all stats files and save them to stats.db

@@ -114,9 +114,8 @@ def LoadStatsSQL(name):
         tmp_player.a_virgin = row[0][21]
     return tmp_player
 
-def SaveStatsSQL(name):
-    from player import GetPlayerByName
-    player = GetPlayerByName(name)
+def SaveStatsSQL(player):
+    name = player.name
     con = lite.connect(g_settings.get("sql_database"))
     if not player:
         say("[stats-sql] failed to load player '" + name + "'")

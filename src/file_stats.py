@@ -11,9 +11,8 @@ def HasStats(name):
         return True
     return False
 
-def SaveStatsFile(name):
-    from player import GetPlayerByName
-    player = GetPlayerByName(name)
+def SaveStatsFile(player):
+    name = player.name
     if not player:
         say("[stats] failed to load player '" + name + "'")
         return False

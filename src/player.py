@@ -36,10 +36,10 @@ def GetPlayersArray():
     global aPlayers
     return aPlayers
 
-def DeletePlayer(name):
+def DeletePlayer(id):
     global aPlayers
     #aPlayers.remove(GetPlayerByName(name))
-    del aPlayers[GetPlayerIndex(name)]
+    del aPlayers[GetPlayerIndexByID(id)]
     #say("deleted player '" + name + "'")
 
 def CountPlayers():
@@ -50,12 +50,14 @@ def SaveAndDeletePlayer(name):
     player = GetPlayerByName(name)
     if not player:
         return False
-    #dirty killingspree update
+    # dirty killingspree update
+    # TODO: do an sql query here to support same player online multiple names
+    # for 0.7 same name servers and multiple servers running at once
     player.best_spree = max(player.killingspree, player.best_spree)
-    DeletePlayer(name) #delete old player without spree update
+    DeletePlayer(player.ID) #delete old player without spree update
     aPlayers.append(player) #add new player with spree update
-    SaveStats(name)
-    DeletePlayer(name)
+    SaveStats(player)
+    DeletePlayer(player.ID)
 
 def RefreshAllPlayers():
     global aPlayers
@@ -64,11 +66,20 @@ def RefreshAllPlayers():
         SaveAndDeletePlayer(player.name)
         CreatePlayer(p.name, p.ID, p.team, ShowStats=False, spree=p.killingspree)
 
-def GetPlayerIndex(name):
+def GetPlayerIndexByName(name):
     global aPlayers
     index = 0
     for player in aPlayers:
         if (player.name == name):
+            return index
+        index += 1
+    return -1
+
+def GetPlayerIndexByID(id):
+    global aPlayers
+    index = 0
+    for player in aPlayers:
+        if (player.ID == id):
             return index
         index += 1
     return -1
