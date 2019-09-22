@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if [ "$1" == "--help" ]
+then
+    echo "usage: $0 [ logfile ]"
+    echo "pipes the log into tem python script"
+    echo "default is the logs/ directory"
+    exit
+fi
+
 function print_log_lines() {
     while IFS= read -r line
     do
@@ -14,8 +22,8 @@ total=0
 
 mkdir -p stats
 
-for log in $(ls logs/*)
-do
+function test_log() {
+    log=$1
     echo   "+---------------------------------------+"
     printf "| log: %-32s |\n" $log
     echo   "+---------------------------------------+"
@@ -32,7 +40,25 @@ do
         failed=$((failed+1))
     fi
     total=$((total+1))
-done
+}
+
+if [ $# -gt 0 ]
+then
+    if [ ! -f "$1" ]
+    then
+        echo "Errro file not found '$1'"
+        exit 1
+    fi
+    for log in "$1"
+    do
+        test_log $log
+    done
+else
+    for log in $(ls logs/*)
+    do
+        test_log $log
+    done
+fi
 
 echo " --------------------------------------- "
 echo ""
