@@ -1,0 +1,64 @@
+[2019-09-22 15:04:41][engine]: running on unix-linux-amd64
+[2019-09-22 15:04:41][engine]: arch is little endian
+[2019-09-22 15:04:41][storage]: couldn't open storage.cfg
+[2019-09-22 15:04:41][storage]: using standard paths
+[2019-09-22 15:04:41][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[2019-09-22 15:04:41][storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')
+[2019-09-22 15:04:41][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla7')
+[2019-09-22 15:04:41][storage]: added path '$APPDIR' ('.')
+[2019-09-22 15:04:41][console]: executing 'autoexec.cfg'
+[2019-09-22 15:04:41][server]: starting...
+[2019-09-22 15:04:41][datafile]: loading. filename='maps/ctf5_f.map'
+[2019-09-22 15:04:41][datafile]: allocsize=2408
+[2019-09-22 15:04:41][datafile]: readsize=2080
+[2019-09-22 15:04:41][datafile]: swaplen=2100
+[2019-09-22 15:04:41][datafile]: item_size=1712
+[2019-09-22 15:04:41][datafile]: loading done. datafile='maps/ctf5_f.map'
+[2019-09-22 15:04:41][datafile]: loading data index=11 size=223 uncompressed=712
+[2019-09-22 15:04:41][datafile]: loading data index=12 size=1219 uncompressed=5156
+[2019-09-22 15:04:41][datafile]: loading data index=13 size=19 uncompressed=468
+[2019-09-22 15:04:41][datafile]: loading data index=14 size=560 uncompressed=1524
+[2019-09-22 15:04:41][datafile]: loading data index=15 size=830 uncompressed=2468
+[2019-09-22 15:04:41][datafile]: loading data index=16 size=1303 uncompressed=5220
+[2019-09-22 15:04:41][datafile]: loading data index=17 size=330 uncompressed=1192
+[2019-09-22 15:04:41][datafile]: loading data index=18 size=1695 uncompressed=7284
+[2019-09-22 15:04:41][datafile]: loading data index=19 size=1146 uncompressed=4492
+[2019-09-22 15:04:41][datafile]: loading data index=20 size=156 uncompressed=648
+[2019-09-22 15:04:41][datafile]: loading data index=21 size=27 uncompressed=512
+[2019-09-22 15:04:41][server]: maps/ctf5_f.map sha256 is 8692f4f91239b298b6ecadb4700d1a7a7f166742e3864d8026a41c1d43e64a42
+[2019-09-22 15:04:41][server]: maps/ctf5_f.map crc is 3a1694a7
+[2019-09-22 15:04:41][econ]: bound to localhost:1337
+[2019-09-22 15:04:41][server]: server name is 'ChillerDragon's Vanilla test server 7'
+[2019-09-22 15:04:41][server]: version 0.7 802f1be60a05665f
+[2019-09-22 15:04:41][engine/mastersrv]: refreshing master server addresses
+[2019-09-22 15:04:41][register]: refreshing ip addresses
+[2019-09-22 15:04:41][engine/mastersrv]: saving addresses
+[2019-09-22 15:04:41][register]: fetching server counts
+[2019-09-22 15:04:44][register]: chose 'master2.teeworlds.com' as master, sending heartbeats
+[2019-09-22 15:04:45][server]: player is ready. ClientID=0 addr=172.20.10.9:56395
+[2019-09-22 15:04:45][game]: Teams are balanced (red=1 blue=0)
+[2019-09-22 15:04:46][server]: player has entered the game. ClientID=0 addr=172.20.10.9:56395
+[2019-09-22 15:04:46][game]: team_join player='0:nameless tee' team=0
+[2019-09-22 15:04:47][chat]: 0:1:nameless tee: hello
+[2019-09-22 15:04:48][chat]: 0:1:nameless tee: world
+[2019-09-22 15:04:50][chat]: 0:1:nameless tee: foo
+[2019-09-22 15:04:51][chat]: 0:1:nameless tee: bar
+[2019-09-22 15:04:52][chat]: 0:1:nameless tee: baz
+[2019-09-22 15:04:58][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:04:59][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:00][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:01][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:02][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:03][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:06][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:07][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:09][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:10][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:11][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:12][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:13][chat]: 0:1:nameless tee: /rank_kills
+[2019-09-22 15:05:15][server]: client dropped. cid=0 addr=172.20.10.9:56395 reason=''
+[2019-09-22 15:05:15][game]: kill killer='0:0:nameless tee' victim='0:0:nameless tee' weapon=-3 special=0
+[2019-09-22 15:05:15][game]: leave player='0:nameless tee'
+[2019-09-22 15:05:15][game]: Teams are balanced (red=0 blue=0)
+
