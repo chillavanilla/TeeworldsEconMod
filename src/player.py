@@ -46,8 +46,13 @@ def CountPlayers():
     global aPlayers
     return len(aPlayers)
 
-def SaveAndDeletePlayer(name):
+def SaveAndDeletePlayerByName(name):
     player = GetPlayerByName(name)
+    if not player:
+        return False
+    SaveAndDeletePlayer(player)
+
+def SaveAndDeletePlayer(player):
     if not player:
         return False
     # dirty killingspree update
@@ -63,7 +68,7 @@ def RefreshAllPlayers():
     global aPlayers
     for player in aPlayers:
         p = player
-        SaveAndDeletePlayer(player.name)
+        SaveAndDeletePlayer(player)
         CreatePlayer(p.name, p.ID, p.team, ShowStats=False, spree=p.killingspree)
 
 def GetPlayerIndexByName(name):
@@ -126,7 +131,7 @@ def HandlePlayerLeave(data):
     if player == None:
         say("[ERROR] invalid player left id=" + str(id))
         sys.exit(1)
-    SaveAndDeletePlayer(player.name)
+    SaveAndDeletePlayer(player)
 
 # [game]: team_join player='0:ChillerDragon' team=0
 def HandlePlayerTeam(data):
