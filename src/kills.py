@@ -70,7 +70,7 @@ def HandleKills(data):
         weapon = data[weapon_start:weapon_end]
 
         # TODO: use regex or wildcard.. anything
-        if (data.startswith("[game]: kill killer='-2:1:' victim='") or
+        if (data.startswith("[game]: kill killer='-1:0:' victim='") or
             data.startswith("[game]: kill killer='-2:0:' victim='")):
             killer_id = -1
             killer = None
