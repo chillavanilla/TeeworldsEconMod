@@ -69,7 +69,13 @@ def HandleKills(data):
         weapon_end = data.rfind(" special=")
         weapon = data[weapon_start:weapon_end]
 
-    if not killer == victim: #don't count suicide as kill
+        # TODO: use regex or wildcard.. anything
+        if (data.startswith("[game]: kill killer='-2:1:' victim='") or
+            data.startswith("[game]: kill killer='-2:0:' victim='")):
+            killer_id = -1
+            killer = None
+
+    if not killer == victim and killer: # don't count suicide as kill or when killer left already
         if not player.UpdatePlayerKills(killer, 1, int(weapon)):
             say("error adding kill for '" + str(killer_id) + ":" + killer_name + "'")
             sys.exit(1)
