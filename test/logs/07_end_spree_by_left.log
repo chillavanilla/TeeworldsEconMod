@@ -1,0 +1,165 @@
+[2019-09-29 18:38:37][engine]: running on unix-linux-amd64
+[2019-09-29 18:38:37][engine]: arch is little endian
+[2019-09-29 18:38:37][storage]: couldn't open storage.cfg
+[2019-09-29 18:38:37][storage]: using standard paths
+[2019-09-29 18:38:37][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[2019-09-29 18:38:37][storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')
+[2019-09-29 18:38:37][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla7')
+[2019-09-29 18:38:37][storage]: added path '$APPDIR' ('.')
+[2019-09-29 18:38:37][console]: executing 'autoexec.cfg'
+[2019-09-29 18:38:37][server]: starting...
+[2019-09-29 18:38:37][datafile]: loading. filename='maps/ctf5_f.map'
+[2019-09-29 18:38:37][datafile]: allocsize=2408
+[2019-09-29 18:38:37][datafile]: readsize=2080
+[2019-09-29 18:38:37][datafile]: swaplen=2100
+[2019-09-29 18:38:37][datafile]: item_size=1712
+[2019-09-29 18:38:37][datafile]: loading done. datafile='maps/ctf5_f.map'
+[2019-09-29 18:38:37][datafile]: loading data index=11 size=223 uncompressed=712
+[2019-09-29 18:38:37][datafile]: loading data index=12 size=1219 uncompressed=5156
+[2019-09-29 18:38:37][datafile]: loading data index=13 size=19 uncompressed=468
+[2019-09-29 18:38:37][datafile]: loading data index=14 size=560 uncompressed=1524
+[2019-09-29 18:38:37][datafile]: loading data index=15 size=830 uncompressed=2468
+[2019-09-29 18:38:37][datafile]: loading data index=16 size=1303 uncompressed=5220
+[2019-09-29 18:38:37][datafile]: loading data index=17 size=330 uncompressed=1192
+[2019-09-29 18:38:37][datafile]: loading data index=18 size=1695 uncompressed=7284
+[2019-09-29 18:38:37][datafile]: loading data index=19 size=1146 uncompressed=4492
+[2019-09-29 18:38:37][datafile]: loading data index=20 size=156 uncompressed=648
+[2019-09-29 18:38:37][datafile]: loading data index=21 size=27 uncompressed=512
+[2019-09-29 18:38:37][server]: maps/ctf5_f.map sha256 is 8692f4f91239b298b6ecadb4700d1a7a7f166742e3864d8026a41c1d43e64a42
+[2019-09-29 18:38:37][server]: maps/ctf5_f.map crc is 3a1694a7
+[2019-09-29 18:38:37][econ]: bound to localhost:1337
+[2019-09-29 18:38:37][server]: server name is 'ChillerDragon's Vanilla test server 7'
+[2019-09-29 18:38:37][server]: version 0.7 802f1be60a05665f
+[2019-09-29 18:38:37][engine/mastersrv]: refreshing master server addresses
+[2019-09-29 18:38:37][register]: refreshing ip addresses
+[2019-09-29 18:38:37][engine/mastersrv]: saving addresses
+[2019-09-29 18:38:37][register]: fetching server counts
+[2019-09-29 18:38:38][server]: player is ready. ClientID=0 addr=[0:0:0:0:0:0:0:1]:53087
+[2019-09-29 18:38:38][server]: player has entered the game. ClientID=0 addr=[0:0:0:0:0:0:0:1]:53087
+[2019-09-29 18:38:38][game]: team_join player='0:ChillerDragon' team=0
+[2019-09-29 18:38:38][game]: Teams are balanced (red=1 blue=0)
+[2019-09-29 18:38:39][server]: player is ready. ClientID=1 addr=[0:0:0:0:0:0:0:1]:55896
+[2019-09-29 18:38:39][game]: start match type='CTF' teamplay='1'
+[2019-09-29 18:38:39][server]: player has entered the game. ClientID=1 addr=[0:0:0:0:0:0:0:1]:55896
+[2019-09-29 18:38:39][game]: team_join player='1:ChillerDragon' team=1
+[2019-09-29 18:38:39][game]: Teams are balanced (red=1 blue=1)
+[2019-09-29 18:38:40][register]: chose 'master2.teeworlds.com' as master, sending heartbeats
+[2019-09-29 18:38:40][server]: player is ready. ClientID=2 addr=[0:0:0:0:0:0:0:1]:59626
+[2019-09-29 18:38:40][server]: player has entered the game. ClientID=2 addr=[0:0:0:0:0:0:0:1]:59626
+[2019-09-29 18:38:40][game]: team_join player='2:ChillerDragon' team=0
+[2019-09-29 18:38:40][game]: Teams are balanced (red=2 blue=1)
+[2019-09-29 18:38:40][server]: player is ready. ClientID=3 addr=[0:0:0:0:0:0:0:1]:58433
+[2019-09-29 18:38:40][server]: player has entered the game. ClientID=3 addr=[0:0:0:0:0:0:0:1]:58433
+[2019-09-29 18:38:40][game]: team_join player='3:ChillerDragon' team=1
+[2019-09-29 18:38:40][game]: Teams are balanced (red=2 blue=2)
+[2019-09-29 18:38:40][server]: player is ready. ClientID=4 addr=[0:0:0:0:0:0:0:1]:63853
+[2019-09-29 18:38:40][server]: player has entered the game. ClientID=4 addr=[0:0:0:0:0:0:0:1]:63853
+[2019-09-29 18:38:40][game]: team_join player='4:ChillerDragon' team=0
+[2019-09-29 18:38:40][game]: Teams are balanced (red=3 blue=2)
+[2019-09-29 18:38:40][server]: player is ready. ClientID=5 addr=[0:0:0:0:0:0:0:1]:52406
+[2019-09-29 18:38:40][server]: player has entered the game. ClientID=5 addr=[0:0:0:0:0:0:0:1]:52406
+[2019-09-29 18:38:40][game]: team_join player='5:ChillerDragon' team=1
+[2019-09-29 18:38:41][game]: Teams are balanced (red=3 blue=3)
+[2019-09-29 18:38:41][server]: player is ready. ClientID=6 addr=[0:0:0:0:0:0:0:1]:56894
+[2019-09-29 18:38:41][server]: player has entered the game. ClientID=6 addr=[0:0:0:0:0:0:0:1]:56894
+[2019-09-29 18:38:41][game]: team_join player='6:ChillerDragon' team=0
+[2019-09-29 18:38:41][game]: Teams are balanced (red=4 blue=3)
+[2019-09-29 18:38:41][server]: player is ready. ClientID=7 addr=[0:0:0:0:0:0:0:1]:57096
+[2019-09-29 18:38:41][server]: player has entered the game. ClientID=7 addr=[0:0:0:0:0:0:0:1]:57096
+[2019-09-29 18:38:41][game]: team_join player='7:ChillerDragon' team=1
+[2019-09-29 18:38:41][game]: Teams are balanced (red=4 blue=4)
+[2019-09-29 18:38:41][server]: player is ready. ClientID=8 addr=[0:0:0:0:0:0:0:1]:54143
+[2019-09-29 18:38:41][server]: player has entered the game. ClientID=8 addr=[0:0:0:0:0:0:0:1]:54143
+[2019-09-29 18:38:41][game]: team_join player='8:ChillerDragon' team=0
+[2019-09-29 18:38:41][game]: Teams are balanced (red=5 blue=4)
+[2019-09-29 18:38:41][server]: player is ready. ClientID=9 addr=[0:0:0:0:0:0:0:1]:64429
+[2019-09-29 18:38:41][server]: player has entered the game. ClientID=9 addr=[0:0:0:0:0:0:0:1]:64429
+[2019-09-29 18:38:41][game]: team_join player='9:ChillerDragon' team=1
+[2019-09-29 18:38:41][game]: Teams are balanced (red=5 blue=5)
+[2019-09-29 18:38:42][server]: player is ready. ClientID=10 addr=[0:0:0:0:0:0:0:1]:58032
+[2019-09-29 18:38:42][server]: player has entered the game. ClientID=10 addr=[0:0:0:0:0:0:0:1]:58032
+[2019-09-29 18:38:42][game]: team_join player='10:ChillerDragon' team=0
+[2019-09-29 18:38:42][game]: Teams are balanced (red=6 blue=5)
+[2019-09-29 18:38:46][server]: player is ready. ClientID=11 addr=172.20.10.9:57114
+[2019-09-29 18:38:46][game]: Teams are balanced (red=6 blue=6)
+[2019-09-29 18:38:47][server]: player has entered the game. ClientID=11 addr=172.20.10.9:57114
+[2019-09-29 18:38:47][game]: team_join player='11:ChillerDragon' team=1
+[2019-09-29 18:38:50][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:38:52][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:38:52][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:38:52][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:38:56][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:38:56][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:38:56][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:38:59][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:39:02][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:39:02][game]: kill killer='11:1:ChillerDragon' victim='6:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:03][game]: kill killer='11:1:ChillerDragon' victim='2:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:04][game]: kill killer='11:1:ChillerDragon' victim='8:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:06][game]: kill killer='11:1:ChillerDragon' victim='4:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:06][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:07][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:07][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:09][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:39:09][game]: pickup player='11:ChillerDragon' item=0
+[2019-09-29 18:39:09][game]: pickup player='11:ChillerDragon' item=0
+[2019-09-29 18:39:11][game]: kill killer='11:1:ChillerDragon' victim='4:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:12][game]: kill killer='11:1:ChillerDragon' victim='10:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:14][game]: kill killer='11:1:ChillerDragon' victim='0:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:15][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:16][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:18][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:19][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:39:21][game]: pickup player='11:ChillerDragon' item=3
+[2019-09-29 18:39:22][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:22][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:22][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:23][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:39:23][game]: kill killer='11:1:ChillerDragon' victim='6:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:24][game]: kill killer='11:1:ChillerDragon' victim='0:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:26][game]: kill killer='11:1:ChillerDragon' victim='2:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:27][game]: kill killer='11:1:ChillerDragon' victim='8:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:31][game]: pickup player='11:ChillerDragon' item=1
+[2019-09-29 18:39:33][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:39:36][game]: kill killer='11:1:ChillerDragon' victim='10:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:37][game]: kill killer='11:1:ChillerDragon' victim='4:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:39][game]: pickup player='11:ChillerDragon' item=2
+[2019-09-29 18:39:40][register]: WARNING: Master server is not responding, switching master
+[2019-09-29 18:39:40][engine/mastersrv]: refreshing master server addresses
+[2019-09-29 18:39:40][register]: refreshing ip addresses
+[2019-09-29 18:39:40][engine/mastersrv]: saving addresses
+[2019-09-29 18:39:40][register]: fetching server counts
+[2019-09-29 18:39:40][game]: kill killer='11:1:ChillerDragon' victim='0:0:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:39:43][register]: chose 'master2.teeworlds.com' as master, sending heartbeats
+[2019-09-29 18:39:50][server]: player is ready. ClientID=12 addr=172.20.10.9:60070
+[2019-09-29 18:39:50][game]: Teams are balanced (red=7 blue=6)
+[2019-09-29 18:39:50][server]: player has entered the game. ClientID=12 addr=172.20.10.9:60070
+[2019-09-29 18:39:50][game]: team_join player='12:ChillerDragon' team=0
+[2019-09-29 18:39:55][game]: pickup player='12:ChillerDragon' item=1
+[2019-09-29 18:39:55][game]: pickup player='12:ChillerDragon' item=1
+[2019-09-29 18:39:55][game]: pickup player='12:ChillerDragon' item=1
+[2019-09-29 18:39:57][game]: pickup player='12:ChillerDragon' item=2
+[2019-09-29 18:40:08][server]: client dropped. cid=12 addr=172.20.10.9:60070 reason=''
+[2019-09-29 18:40:08][game]: kill killer='12:0:ChillerDragon' victim='12:0:ChillerDragon' weapon=-3 special=0
+[2019-09-29 18:40:08][game]: leave player='12:ChillerDragon'
+[2019-09-29 18:40:08][game]: Teams are balanced (red=6 blue=6)
+[2019-09-29 18:40:21][server]: player is ready. ClientID=12 addr=172.20.10.9:60070
+[2019-09-29 18:40:21][game]: Teams are balanced (red=7 blue=6)
+[2019-09-29 18:40:21][server]: player has entered the game. ClientID=12 addr=172.20.10.9:60070
+[2019-09-29 18:40:21][game]: team_join player='12:ChillerDragon' team=0
+[2019-09-29 18:40:23][game]: pickup player='12:ChillerDragon' item=2
+[2019-09-29 18:40:32][server]: client dropped. cid=12 addr=172.20.10.9:60070 reason=''
+[2019-09-29 18:40:32][game]: kill killer='12:0:ChillerDragon' victim='12:0:ChillerDragon' weapon=-3 special=0
+[2019-09-29 18:40:32][game]: leave player='12:ChillerDragon'
+[2019-09-29 18:40:32][game]: Teams are balanced (red=6 blue=6)
+[2019-09-29 18:40:33][game]: kill killer='-1:0:' victim='11:1:ChillerDragon' weapon=3 special=0
+[2019-09-29 18:40:43][register]: WARNING: Master server is not responding, switching master
+[2019-09-29 18:40:43][engine/mastersrv]: refreshing master server addresses
+[2019-09-29 18:40:43][register]: refreshing ip addresses
+[2019-09-29 18:40:43][engine/mastersrv]: saving addresses
+[2019-09-29 18:40:43][register]: fetching server counts
+[2019-09-29 18:40:46][server]: client dropped. cid=11 addr=172.20.10.9:57114 reason=''
+[2019-09-29 18:40:46][game]: kill killer='11:1:ChillerDragon' victim='11:1:ChillerDragon' weapon=-3 special=0
+[2019-09-29 18:40:46][game]: leave player='11:ChillerDragon'
+[2019-09-29 18:40:46][game]: Teams are balanced (red=6 blue=5)
+[2019-09-29 18:40:46][register]: chose 'master3.teeworlds.com' as master, sending heartbeats

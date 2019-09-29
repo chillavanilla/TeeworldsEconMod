@@ -74,6 +74,7 @@ def HandleKills(data):
             data.startswith("[game]: kill killer='-2:0:' victim='")):
             killer_id = -1
             killer = None
+            killer_name = "a left player"
 
     if not killer == victim and killer: # don't count suicide as kill or when killer left already
         if not player.UpdatePlayerKills(killer, 1, int(weapon)):
