@@ -11,26 +11,34 @@ import datetime
 
 def CreatePlayer(name, ID=-1, team="", ShowStats=True, spree=0):
     global aPlayers
+    init_player = InitPlayer(name, ID, team, ShowStats, spree)
+    if not init_player:
+        say("[ERROR] CreatePlayer init_player=None name='" + str(name) + "' ID=" + str(ID))
+        sys.exit(1)
+    aPlayers.append(init_player)
+    #say("added player '" + name + "'")
+
+def InitPlayer(name, ID, team, ShowStats, spree):
+    init_player = None
     load_player = LoadStats(name)
     if load_player:
         if ShowStats:
             load_player.ShowStats()
-        add_player = Player(name, ID, load_player.flag_time, load_player.best_spree, team)
-        add_player.a_haxx0r = load_player.a_haxx0r
-        add_player.a_blazeit = load_player.a_blazeit
-        add_player.a_satan = load_player.a_satan
-        add_player.a_virgin = load_player.a_virgin
-        add_player.killingspree = spree
-        add_player.WEAPON_KILLS[0] = load_player.WEAPON_KILLS[0]
-        add_player.WEAPON_KILLS[1] = load_player.WEAPON_KILLS[1]
-        add_player.WEAPON_KILLS[2] = load_player.WEAPON_KILLS[2]
-        add_player.WEAPON_KILLS[3] = load_player.WEAPON_KILLS[3]
-        add_player.WEAPON_KILLS[4] = load_player.WEAPON_KILLS[4]
-        add_player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
-        aPlayers.append(add_player)
+        init_player = Player(name, ID, load_player.flag_time, load_player.best_spree, team)
+        init_player.a_haxx0r = load_player.a_haxx0r
+        init_player.a_blazeit = load_player.a_blazeit
+        init_player.a_satan = load_player.a_satan
+        init_player.a_virgin = load_player.a_virgin
+        init_player.killingspree = spree
+        init_player.WEAPON_KILLS[0] = load_player.WEAPON_KILLS[0]
+        init_player.WEAPON_KILLS[1] = load_player.WEAPON_KILLS[1]
+        init_player.WEAPON_KILLS[2] = load_player.WEAPON_KILLS[2]
+        init_player.WEAPON_KILLS[3] = load_player.WEAPON_KILLS[3]
+        init_player.WEAPON_KILLS[4] = load_player.WEAPON_KILLS[4]
+        init_player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
     else:
-        aPlayers.append(Player(name, ID=ID, team=team))
-    #say("added player '" + name + "'")
+        init_player = Player(name, ID=ID, team=team)
+    return init_player
 
 def GetPlayersArray():
     global aPlayers
@@ -120,7 +128,7 @@ def HandlePlayerEnter(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
     id = data[id_start:id_end]
-    CreatePlayer(name=None, ID=id)
+    CreatePlayer(name=None, ID=id, ShowStats=True)
 
 # [server]: client dropped. cid=1 addr=172.20.10.9:53784 reason=''
 def HandlePlayerLeave(data):
@@ -135,6 +143,7 @@ def HandlePlayerLeave(data):
 
 # [game]: team_join player='0:ChillerDragon' team=0
 def HandlePlayerTeam(data):
+    global aPlayers
     id_start = data.find("'") + 1
     id_end = cbase.cfind(data, ":", 2)
     id = data[id_start:id_end]
@@ -156,7 +165,9 @@ def HandlePlayerTeam(data):
     name_end = data.rfind("'")
     name = data[name_start:name_end]
     if player.name == None:
-        player.name = name
+        # player just joined and still has to be loaded
+        DeletePlayer(player.ID) # delete invalid tmp player
+        CreatePlayer(name, player.ID, player.team)
     elif player.name != name:
         say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
         sys.exit(1)

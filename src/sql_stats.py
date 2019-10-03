@@ -86,8 +86,10 @@ def LoadStatsSQL(name):
             FROM Players WHERE Name = ? AND ID > ?;""",
         (name, 0))
         row = c.fetchall()
-        #echo(str(row))
+        if g_settings.get("debug"):
+            echo("[stats-load] row:" + str(row))
         if not row:
+            # say("[stats-load] player='" + str(name) + "' is not in database.")
             return None
         if g_settings.get("debug"):
             say("[stats-load] " + str(row[0]))
