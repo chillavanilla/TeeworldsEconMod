@@ -15,3 +15,11 @@ def LoadStats(name):
         return LoadStatsSQL(name)
     return LoadStatsFile(name)
 
+# save specific stats before game end if needed
+# for now it is only killingspree record
+# see https://github.com/chillavanilla/TeeworldsEconMod/issues/28
+# for details
+def SaveStatsPartially(player):
+    if g_settings.get("stats_mode") == "sql":
+        return SaveStatsPartiallySQL(player)
+    return SaveStatsPartiallyFile(player)

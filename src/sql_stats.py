@@ -196,6 +196,63 @@ def SaveStatsSQL(player):
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
 
+def SaveStatsPartiallySQL(player):
+    name = player.name
+    con = lite.connect(g_settings.get("sql_database"))
+    if not player:
+        say("[stats-sql] failed to load player '" + name + "'")
+        return False
+    if HasStats(name):
+        #say("[stats-sql] found stats --> loading and appending")
+        load_player = LoadStatsSQL(name)
+        if not load_player:
+            say("[stats-sql] error loading stats for player '" + name + "'")
+            sys.exit(1)
+            return False
+        player = player + load_player
+        with con:
+            cur = con.cursor()
+            update_str = """
+            UPDATE Players
+            SET BestSpree = ?
+            WHERE Name = ?;
+            """
+            cur.execute(
+                update_str,
+                (
+                    player.best_spree,
+                    player.name
+                )
+            )
+        if g_settings.get("debug"):
+            say("[stats-SQL] updated player '" + name + "'")
+    else: #no stats yet --> add entry
+        with con:
+            cur = con.cursor()
+            insert_str = """
+            INSERT INTO Players
+            (
+                Name,
+                BestSpree
+            )
+            VALUES (
+                ?,
+                ?
+            );
+            """
+            cur.execute(
+                insert_str,
+                (
+                    player.name,
+                    player.best_spree
+                )
+            )
+            row = cur.fetchall()
+        if g_settings.get("debug"):
+            echo(str(row))
+            say("[stats-SQL] added new player to database '" + name + "'")
+    return True
+
 ###################
 #  D i s p l a y  #
 #    S t a t s    #

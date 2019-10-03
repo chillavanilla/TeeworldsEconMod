@@ -74,3 +74,39 @@ def LoadStatsFile(name):
         say("[ERROR] failed to loaded stats for '" + name + "'")
         sys.exit(1)
         return None
+
+def SaveStatsPartiallyFile(player):
+    name = player.name
+    if not player:
+        say("[stats] failed to load player '" + name + "'")
+        return False
+    if HasStats(name):
+        #say("[stats] found stats --> loading and appending")
+        load_player = LoadStatsFile(name)
+        if not load_player:
+            say("[stats] error loading stats for player '" + name + "'")
+            sys.exit(1)
+            return False
+        player = player + load_player
+    try:
+        sf = open(g_settings.get("file_database") + name + ".acc", "w")
+        sf.write("0" + "\n")
+        sf.write("0" + "\n")
+        sf.write("0" + "\n")
+        sf.write("0" + "\n")
+        sf.write("0" + "\n")
+        sf.write("0.0" + "\n")
+        sf.write("0" + "\n")
+        sf.write(str(player.best_spree) + "\n")
+        sf.write("0" + "\n")
+        sf.write("0" + "\n")
+        sf.write("" + "\n")
+        sf.write("" + "\n")
+        sf.write("" + "\n")
+        sf.write("" + "\n")
+        sf.close()
+        return True
+    except:
+        say("[stats] error saving stats for '" + name + "'")
+        sys.exit(1)
+    return False

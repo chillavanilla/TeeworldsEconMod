@@ -272,6 +272,7 @@ def UpdatePlayerDeaths(player, killer, deaths):
             if (player.killingspree > 9):
                 say("'" + player.name + "' new killingspree record! Old: " + str(player.best_spree) + " New: " + str(player.killingspree))
             player.best_spree = player.killingspree
+            SaveStatsPartially(player)
         player.killingspree = 0
     return True
 
