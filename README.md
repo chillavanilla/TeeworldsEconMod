@@ -82,3 +82,6 @@ If the scorelimit is 1000 the wins and looses will be saved instantly on the 10t
 
 ``shuffle_teams`` confuses the script regarding team color.
 So all stats depending on team color are broken ( for now only wins and looses).  
+
+In general just keep in mind the script just parses the logs. So everything messing with the logs can be dangerous.
+Things like ``restart`` and ``reload`` are untested and not recommended. Also using the rcon command ``say`` to create fake game messages like ``say 'nameless tee' has left the game`` is most likely crashing the server.
