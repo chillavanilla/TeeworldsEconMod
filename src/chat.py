@@ -2,6 +2,7 @@
 import sys
 import time
 import datetime
+import re
 from chiller_essential import *
 import g_settings
 import cbase
@@ -38,7 +39,17 @@ def GetRankPlayer(msg, rank_cmd):
     rankname = msg_normal[rankname_start:rankname_end]
     if not rankname or rankname == "" or rankname_start == -1:
         return player.GetPlayerByID(id), id
-    return player.GetPlayerByName(rankname), rankname
+    argplayer = player.GetPlayerByName(rankname)
+    if not argplayer:
+        # try to find id prefix in argument name
+        m = re.match( r'(\d{1,2}):(.*)', rankname)
+        if m:
+            r_id = m.group(1)
+            r_name = m.group(2)
+            r_player = player.GetPlayerByID(r_id)
+            if r_player and r_player.name == r_name:
+                argplayer = r_player
+    return argplayer, rankname
 
 def GetRankName(msg, rank_cmd):
     if not g_settings.get("stats_mode") == "sql":
