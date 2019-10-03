@@ -142,6 +142,7 @@ def HandlePlayerLeave(data):
     SaveAndDeletePlayer(player)
 
 # [game]: team_join player='0:ChillerDragon' team=0
+# [game]: team_join player='0:ChillerDragon' team=0->-1
 def HandlePlayerTeam(data):
     global aPlayers
     id_start = data.find("'") + 1
@@ -151,7 +152,13 @@ def HandlePlayerTeam(data):
     if player == None:
         say("[ERROR] teamchange failed id=" + str(id) + " data=" + str(data))
         sys.exit(1)
-    team = str(data[data.rfind("=") + 1:])
+    team="invalid"
+    data_end = data[-5:]
+    change = data_end.rfind(">")
+    if change != -1:
+        team = data_end[change+1:]
+    else:
+        team = str(data[data.rfind("=") + 1:])
     if team == "0":
         player.team = "red"
     elif team == "1":
