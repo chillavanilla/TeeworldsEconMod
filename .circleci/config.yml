@@ -9,9 +9,9 @@ jobs:
           name: Prepare
           command: |
             apt-get update -y
-            apt-get install -y python3
+            apt-get install -y python3 bc
       - run:
           name: Run tests
           command: |
             cd test
-            ./test.sh
+            ./test.sh --verbose
