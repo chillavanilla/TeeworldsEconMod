@@ -1,5 +1,7 @@
 #!/bin/bash
 
+start_ts=`date +%s.%N`
+
 if [ "$1" == "--help" ] || [ "$1" == "-h" ]
 then
     echo "usage: $0 [ log directory ] [ settings directory ]"
@@ -17,7 +19,10 @@ function print_log_lines() {
     while IFS= read -r line
     do
         echo "$line"
-        sleep 0.1
+        if [[ ! $line =~ '[datafile]'|'[register]'|'[engine/mastersrv]'|'[storage]'|'[econ]'|'[engine]' ]]
+        then
+            sleep 0.1
+        fi
     done < $1
 }
 
@@ -77,8 +82,22 @@ do
     done
 done
 
+# timestamp credits go to jwchew
+# https://unix.stackexchange.com/a/88802
+end_ts=`date +%s.%N`
+
+dt=$(echo "$end_ts - $start_ts" | bc)
+dd=$(echo "$dt/86400" | bc)
+dt2=$(echo "$dt-86400*$dd" | bc)
+dh=$(echo "$dt2/3600" | bc)
+dt3=$(echo "$dt2-3600*$dh" | bc)
+dm=$(echo "$dt3/60" | bc)
+ds=$(echo "$dt3-60*$dm" | bc)
+
+
 echo " --------------------------------------- "
 echo ""
+printf "Total runtime: %d:%02d:%02d:%02.4f\n" $dd $dh $dm $ds
 printf "failed: \033[0;31m$failed/$total\033[0m\n"
 printf "passed: \033[0;32m$passed/$total\033[0m\n"
 
