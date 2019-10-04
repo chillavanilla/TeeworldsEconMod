@@ -1,6 +1,6 @@
 #!/bin/bash
 
-start_ts=`date +%s.%N`
+delay=0
 
 if [ "$1" == "--help" ] || [ "$1" == "-h" ]
 then
@@ -21,7 +21,10 @@ function print_log_lines() {
         echo "$line"
         if [[ ! $line =~ '[datafile]'|'[register]'|'[engine/mastersrv]'|'[storage]'|'[econ]'|'[engine]' ]]
         then
-            sleep 0.1
+            if [ "$delay" == "1" ]
+            then
+                sleep 0.1
+            fi
         fi
     done < $1
 }
@@ -73,6 +76,8 @@ then
     fi
     settings_path="$2"
 fi
+
+start_ts=`date +%s.%N`
 
 for log in $(ls $logs_path/*.log)
 do
