@@ -41,15 +41,16 @@ function test_log() {
     echo   "+---------------------------------------+"
     printf "| log: %-32s |\n" $log
     echo   "+---------------------------------------+"
-    echo " === setting: $setting === "
-    cat $setting
-    echo " ================ "
-    print_log_lines $log | ../src/main.py --settings=$setting
+    log_lines=$(print_log_lines $log | ../src/main.py --settings=$setting)
     if [ $? -eq 0 ]
     then
         printf "[\033[0;32mSUCCESS\033[0m]\n"
         passed=$((passed+1))
     else
+        echo " === setting: $setting === "
+        cat $setting
+        echo " ================ "
+        echo "$log_lines"
         printf "[\033[0;31mFAILED\033[0m]\n"
         failed=$((failed+1))
     fi
@@ -99,8 +100,6 @@ dt3=$(echo "$dt2-3600*$dh" | bc)
 dm=$(echo "$dt3/60" | bc)
 ds=$(echo "$dt3-60*$dm" | bc)
 
-
-echo " --------------------------------------- "
 echo ""
 printf "Total runtime: %d:%02d:%02d:%02.4f\n" $dd $dh $dm $ds
 printf "failed: \033[0;31m$failed/$total\033[0m\n"
