@@ -51,9 +51,11 @@ then
     echo -e "    OPTION       - ${BOLD}-h${RESET} Show this help page."
     echo -e "                   ${BOLD}-v${RESET} Verbose output."
     echo -e "                   ${BOLD}-i${RESET} Interactive debugging on error."
+    echo -e "                   ${BOLD}-p${RESET} Show progress (for long logs)."
     echo -e "                   ${BOLD}--help${RESET} Equivalent to ${BOLD}-h${RESET}."
     echo -e "                   ${BOLD}--verbose${RESET} Equivalent to ${BOLD}-v${RESET}."
     echo -e "                   ${BOLD}--interactive${RESET} Equivalent to ${BOLD}-i${RESET}."
+    echo -e "                   ${BOLD}--progress${RESET} Equivalent to ${BOLD}-p${RESET}."
     echo    "    LOG DIR      - Path to directory containing tw .log files."
     echo -e "                   ${BOLD}-${RESET} to use stdin."
     echo    "                   default: logs"
@@ -71,6 +73,8 @@ then
     echo    ""
     echo -e "    cat /tmp/log.txt | ${BOLD}$0 -${RESET}"
     echo    "       Read log from stdin with default settings path."
+    echo    "  bugs:"
+    echo    "       stdin log can not be combined with interactive debugger."
     exit
 elif [ "$1" == "--verbose" ] || [ "$1" == "-v" ]
 then
@@ -79,6 +83,10 @@ then
 elif [ "$1" == "--interactive" ] || [ "$1" == "-i" ]
 then
     interactive_dbg=1
+    set_paths $2 $3
+elif [ "$1" == "--progress" ] || [ "$1" == "-p" ]
+then
+    show_progress=1
     set_paths $2 $3
 else
     set_paths $1 $2
