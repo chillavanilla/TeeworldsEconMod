@@ -1,31 +1,35 @@
 #!/usr/bin/env python3
+import os.path
+import urllib.parse
 from chiller_essential import *
 from kills import *
 import g_settings
-import os.path
+
+def StatsFile(name):
+    return g_settings.get("file_database") + urllib.parse.quote_plus(name) + ".acc"
 
 def HasStats(name):
     if name == None:
         return False
-    if os.path.isfile(g_settings.get("file_database") + name + ".acc"):
+    if os.path.isfile(StatsFile(name)):
         return True
     return False
 
 def SaveStatsFile(player):
-    name = player.name
     if not player:
-        say("[stats] failed to load player '" + name + "'")
+        say("[stats] failed to save player.")
         return False
+    name = player.name
     if HasStats(name):
         #say("[stats] found stats --> loading and appending")
         load_player = LoadStatsFile(name)
         if not load_player:
-            say("[stats] error loading stats for player '" + name + "'")
+            say("[stats] (save) error loading stats for player='" + name + "' filename='" + StatsFile(name) + "'")
             sys.exit(1)
             return False
         player = player + load_player
     try:
-        sf = open(g_settings.get("file_database") + name + ".acc", "w")
+        sf = open(StatsFile(name), "w")
         sf.write(str(player.kills) + "\n")
         sf.write(str(player.deaths) + "\n")
         sf.write(str(player.flag_grabs) + "\n")
@@ -43,7 +47,7 @@ def SaveStatsFile(player):
         sf.close()
         return True
     except:
-        say("[stats] error saving stats for '" + name + "'")
+        say("[stats] (save) error saving stats for player='" + name + "' filename='" + StatsFile(name) + "'")
         sys.exit(1)
     return False
 
@@ -52,7 +56,7 @@ def LoadStatsFile(name):
     if not HasStats(name):
         return None
     try:
-        sf = open(g_settings.get("file_database") + name + ".acc", "r")
+        sf = open(StatsFile(name), "r")
         player = Player(name)
         player.kills = int(sf.readline())
         player.deaths = int(sf.readline())
@@ -71,25 +75,25 @@ def LoadStatsFile(name):
         sf.close()
         return player
     except:
-        say("[ERROR] failed to loaded stats for '" + name + "'")
+        say("[ERROR] (load) failed to loaded stats for name='" + name + "' filename='" + StatsFile(name) + "'")
         sys.exit(1)
         return None
 
 def SaveStatsPartiallyFile(player):
-    name = player.name
     if not player:
-        say("[stats] failed to load player '" + name + "'")
+        say("[stats] (partially) failed to load player.")
         return False
+    name = player.name
     if HasStats(name):
         #say("[stats] found stats --> loading and appending")
         load_player = LoadStatsFile(name)
         if not load_player:
-            say("[stats] error loading stats for player '" + name + "'")
+            say("[stats] (partially) error loading stats for player='" + name + "' filename='" + StatsFile(name) + "'")
             sys.exit(1)
             return False
         player = player + load_player
     try:
-        sf = open(g_settings.get("file_database") + name + ".acc", "w")
+        sf = open(StatsFile(name), "w")
         sf.write("0" + "\n")
         sf.write("0" + "\n")
         sf.write("0" + "\n")
@@ -107,6 +111,6 @@ def SaveStatsPartiallyFile(player):
         sf.close()
         return True
     except:
-        say("[stats] error saving stats for '" + name + "'")
+        say("[stats] (partially) error saving stats for player='" + name + "' filename='" + StatsFile(name) + "'")
         sys.exit(1)
     return False
