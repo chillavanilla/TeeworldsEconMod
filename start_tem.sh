@@ -37,6 +37,7 @@ aSettStr+=("sh_econ_password");aSettVal+=("password")
 aSettStr+=("sh_econ_port");aSettVal+=("8203")
 aSettStr+=("sh_logs_path");aSettVal+=("/path/to/log/directory")
 aSettStr+=("sh_tw_cfg_file");aSettVal+=("")
+aSettStr+=("sh_tw_version");aSettVal+=("6")
 
 if [ $# -gt 0 ]; then
     log "settings file=$1"
@@ -158,6 +159,7 @@ read_settings_file
 # - econ_port       3
 # - log path        4
 # - cfg path        5
+# - tw version      6
 
 twsettings=""
 
@@ -167,7 +169,13 @@ if [ "${aSettVal[4]}" ]
 then
     check_path "${aSettVal[4]}" "The logpath is invalid" "1" # 1=create on fail
     log "adding log path: ${aSettVal[4]}"
-    twsettings="logfile ${aSettVal[4]}/${aSettVal[1]}_$(date +%F_%H-%M-%S).log;"
+    extension=".log"
+    if [ "${aSettVal[6]}" == "7" ] || [ "${aSettVal[6]}" == "0.7" ]
+    then
+        # 0.7 appends .txt anyways
+        extension=""
+    fi
+    twsettings="logfile ${aSettVal[4]}/${aSettVal[1]}_$(date +%F_%H-%M-%S)$extension;"
 fi
 
 log "navigate to teeworlds path=${aSettVal[0]}"
