@@ -5,6 +5,7 @@ delay=0
 verbose=0
 logs_path=logs
 settings_path=settings
+stdin_log=0
 
 RESET="\033[0m"
 BOLD="\033[1m"
@@ -12,6 +13,13 @@ BOLD="\033[1m"
 function set_paths() {
     if [ $# -gt 0 ]
     then
+        if [ "$1" == "-" ]
+        then
+            stdin_log=1
+            logs_path="/dev/stdin"
+            echo "reading logs from stdin."
+            return
+        fi
         if [ ! -d "$1" ]
         then
             echo "Error logs path not found '$1'"
@@ -36,16 +44,27 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ]
 then
     echo    "usage: $0 [OPTION] [LOG_DIR] [SETTINGS_DIR]"
     echo    "  arguments:"
-    echo -e "    OPTION       - ${BOLD}-h${RESET} show this help page."
-    echo -e "                   ${BOLD}-v${RESET} verbose output."
-    echo -e "                   ${BOLD}--help${RESET} equivalent to ${BOLD}-h${RESET}"
-    echo -e "                   ${BOLD}--verbose${RESET} equivalent to ${BOLD}-v${RESET}"
-    echo    "    LOG DIR      - path to directory containing tw .log files"
+    echo -e "    OPTION       - ${BOLD}-h${RESET} Show this help page."
+    echo -e "                   ${BOLD}-v${RESET} Verbose output."
+    echo -e "                   ${BOLD}--help${RESET} Equivalent to ${BOLD}-h${RESET}."
+    echo -e "                   ${BOLD}--verbose${RESET} Equivalent to ${BOLD}-v${RESET}."
+    echo    "    LOG DIR      - Path to directory containing tw .log files."
+    echo -e "                   ${BOLD}-${RESET} to use stdin."
     echo    "                   default: logs"
-    echo    "    SETTINGS DIR - path to directory containing tem .test files"
+    echo    "    SETTINGS DIR - Path to directory containing tem .test files."
     echo    "                   default: settings"
     echo    "  description:"
-    echo    "    pipes all logs-settings combinations into tem python script."
+    echo    "    Pipes all logs-settings combinations into tem python script."
+    echo    "    Script should be executed from tem_source_root/test for all paths to work."
+    echo    "  examples:"
+    echo -e "    ${BOLD}$0 --verbose${RESET}"
+    echo    "       Run tests with default settings and logs dir and give verbose output." 
+    echo    ""
+    echo -e "    ${BOLD}$0${RESET} /tmp/logs /tmp/settings"
+    echo    "       Run tests with custom logs and settings path."
+    echo    ""
+    echo -e "    cat /tmp/log.txt | ${BOLD}$0 -${RESET}"
+    echo    "       Read log from stdin with default settings path."
     exit
 elif [ "$1" == "--verbose" ] || [ "$1" == "-v" ]
 then
@@ -104,13 +123,21 @@ function test_log() {
 
 start_ts=`date +%s.%N`
 
-for log in $(ls $logs_path/*.log)
-do
+if [ $stdin_log -eq 1 ]
+then
     for setting in $(ls $settings_path/*.test)
     do
-        test_log $log $setting
+        test_log $logs_path $setting
     done
-done
+else
+    for log in $(ls $logs_path/*.log)
+    do
+        for setting in $(ls $settings_path/*.test)
+        do
+            test_log $log $setting
+        done
+    done
+fi
 
 # timestamp credits go to jwchew
 # https://unix.stackexchange.com/a/88802
