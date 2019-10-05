@@ -63,6 +63,21 @@ Additional config variables can be found in
 src/global_settings.py
 ```
 
+# Testing
+
+To make sure everything runs fine on your system you can try running the tests.
+It runs tem against a few sample logs.
+```
+# install bc which is a dependency of test.sh
+# also works without but you get a few warnings
+sudo apt install bc
+cd test
+./test.sh
+
+# for more information check the help page
+./test.sh --help
+```
+
 # Logs
 
 Currently the logs have some weird binary chunks in it and ``grep`` doesn't work well with it.
