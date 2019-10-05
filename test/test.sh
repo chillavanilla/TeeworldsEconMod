@@ -1,11 +1,15 @@
 #!/bin/bash
 
 delay=0
+tmp_tw_log=/tmp/test_tw_log.txt
+tmp_tem_log=/tmp/test_tem_log.txt
+show_progress=0
 
 verbose=0
 logs_path=logs
 settings_path=settings
 stdin_log=0
+interactive_dbg=0
 
 RESET="\033[0m"
 BOLD="\033[1m"
@@ -46,8 +50,10 @@ then
     echo    "  arguments:"
     echo -e "    OPTION       - ${BOLD}-h${RESET} Show this help page."
     echo -e "                   ${BOLD}-v${RESET} Verbose output."
+    echo -e "                   ${BOLD}-i${RESET} Interactive debugging on error."
     echo -e "                   ${BOLD}--help${RESET} Equivalent to ${BOLD}-h${RESET}."
     echo -e "                   ${BOLD}--verbose${RESET} Equivalent to ${BOLD}-v${RESET}."
+    echo -e "                   ${BOLD}--interactive${RESET} Equivalent to ${BOLD}-i${RESET}."
     echo    "    LOG DIR      - Path to directory containing tw .log files."
     echo -e "                   ${BOLD}-${RESET} to use stdin."
     echo    "                   default: logs"
@@ -70,13 +76,25 @@ elif [ "$1" == "--verbose" ] || [ "$1" == "-v" ]
 then
     verbose=1
     set_paths $2 $3
+elif [ "$1" == "--interactive" ] || [ "$1" == "-i" ]
+then
+    interactive_dbg=1
+    set_paths $2 $3
 else
     set_paths $1 $2
 fi
 
+failed=0
+passed=0
+total_logs=0
+current_log_line=0
+
 function print_log_lines() {
+    current_log_line=0
+    echo "" > "$tmp_tw_log"
     while IFS= read -r line
     do
+        echo "$line" >> "$tmp_tw_log"
         echo "$line"
         if [[ ! $line =~ '[datafile]'|'[register]'|'[engine/mastersrv]'|'[storage]'|'[econ]'|'[engine]' ]]
         then
@@ -85,14 +103,55 @@ function print_log_lines() {
                 sleep 0.1
             fi
         fi
+        current_log_line=$((current_log_line+1))
+        if [ $show_progress -eq 1 ]
+        then
+            if ! ((current_log_line % 10))
+            then
+                # worst hack to use stderr to bypass all the redirect and subshell madness
+                >&2 echo "lines processed $current_log_line at log $total_logs ..."
+            fi
+        fi
     done < $1
 }
 
-failed=0
-passed=0
-total=0
-
 mkdir -p stats
+
+# TODO: refactor this mess
+function check_interactive_dbg() {
+        if [ $interactive_dbg -ne 1 ]
+        then
+            return
+        fi
+        echo "[ === ] Interactive debugging [ === ]"
+        echo "Examine shell variables using the echo command:"
+        echo -e "${BOLD}cat \$tw_log${RESET}"
+        echo -e "${BOLD}cat \$tem_log${RESET}"
+        echo -e "${BOLD}bt${RESET} to backtrace."
+        echo -e "${BOLD}q${RESET} to quit."
+        echo "$tem_lines" > "$tmp_tem_log"
+        initfile="tw_log='$tmp_tw_log';"
+        initfile+="tem_log='$tmp_tem_log';"
+        initfile+="function tem_help() { "
+        initfile+="echo '[ === ] Interactive debugging [ === ]';"
+        initfile+="echo -e \"${BOLD}cat \$tw_log${RESET}\";"
+        initfile+="echo -e \"${BOLD}cat \$tem_log${RESET}\";"
+        initfile+="};"
+        initfile+="function bt() { "
+        initfile+="echo '[ === ] Backtrace [ === ]';"
+        initfile+="echo -e \"${BOLD}teeworlds log:${RESET}\";"
+        initfile+="tail -n10 $tmp_tw_log;"
+        initfile+="echo -e \"${BOLD}tem log:${RESET}\";"
+        initfile+="tail -n10 $tmp_tem_log;"
+        initfile+="};"
+        initfile+="alias help=tem_help;"
+        initfile+="alias q=exit;"
+        initfile+="alias quit=exit;"
+        initfile+="PS1='.\$ ';"
+        bash --init-file <(echo "$initfile")
+        echo "aborting tests due to interactive debugging session."
+        exit 0
+}
 
 function test_log() {
     log=$1
@@ -101,7 +160,7 @@ function test_log() {
     printf "| log: %-32s |\n" $log
     echo   "+---------------------------------------+"
     show_lines=$verbose
-    log_lines=$(print_log_lines $log | ../src/main.py --settings=$setting)
+    tem_lines=$(print_log_lines $log | ../src/main.py --settings=$setting)
     if [ $? -eq 0 ]
     then
         printf "[\033[0;32mSUCCESS\033[0m]\n"
@@ -110,15 +169,16 @@ function test_log() {
         printf "[\033[0;31mFAILED\033[0m]\n"
         failed=$((failed+1))
         show_lines=1
+        check_interactive_dbg
     fi
     if [ "$show_lines" == "1" ]
     then
         echo " === setting: $setting === "
         cat $setting
         echo " ================ "
-        echo "$log_lines"
+        echo "$tem_lines"
     fi
-    total=$((total+1))
+    total_logs=$((total_logs+1))
 }
 
 start_ts=`date +%s.%N`
@@ -153,8 +213,8 @@ ds=$(echo "$dt3-60*$dm" | bc)
 
 echo ""
 printf "Total runtime: %d:%02d:%02d:%02.4f\n" $dd $dh $dm $ds
-printf "failed: \033[0;31m$failed/$total\033[0m\n"
-printf "passed: \033[0;32m$passed/$total\033[0m\n"
+printf "failed: \033[0;31m$failed/$total_logs\033[0m\n"
+printf "passed: \033[0;32m$passed/$total_logs\033[0m\n"
 
 if [ $failed -gt 0 ]
 then
