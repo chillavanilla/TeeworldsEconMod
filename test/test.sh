@@ -100,8 +100,8 @@ function test_log() {
     echo   "+---------------------------------------+"
     printf "| log: %-32s |\n" $log
     echo   "+---------------------------------------+"
-    log_lines=$(print_log_lines $log | ../src/main.py --settings=$setting)
     show_lines=$verbose
+    log_lines=$(print_log_lines $log | ../src/main.py --settings=$setting)
     if [ $? -eq 0 ]
     then
         printf "[\033[0;32mSUCCESS\033[0m]\n"
