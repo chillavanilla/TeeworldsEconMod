@@ -1,0 +1,344 @@
+[5da36cdd][engine]: running on unix-linux-amd64
+[5da36cdd][engine]: arch is little endian
+[5da36cdd][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[5da36cdd][storage]: added path '$DATADIR' ('data')
+[5da36cdd][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/git/teeworlds')
+[5da36cdd][console]: failed to open 'autoexec.cfg'
+[5da36cdd][server]: starting...
+[5da36cdd][datafile]: loading. filename='maps/dm1.map'
+[5da36cdd][datafile]: allocsize=2684
+[5da36cdd][datafile]: readsize=2396
+[5da36cdd][datafile]: swaplen=2416
+[5da36cdd][datafile]: item_size=2012
+[5da36cdd][datafile]: loading done. datafile='maps/dm1.map'
+[5da36cdd][server]: maps/dm1.map crc is f2159e6e
+[5da36cdd][server]: server name is 'unnamed server'
+[5da36cdd][datafile]: loading data index=17 size=325 uncompressed=12000
+[5da36cdd][server]: version 0.6 626fce9a778df4d4
+[5da36cdd][engine/mastersrv]: refreshing master server addresses
+[5da36cdd][register]: refreshing ip addresses
+[5da36cdd][engine/mastersrv]: saving addresses
+[5da36cdd][register]: fetching server counts
+[5da36ce0][register]: chose 'master4.teeworlds.com' as master, sending heartbeats
+[5da36ce0][server]: player is ready. ClientID=0 addr=[0:0:0:0:0:0:0:1]:26046
+[5da36ce1][server]: player is ready. ClientID=1 addr=[0:0:0:0:0:0:0:1]:64065
+[5da36ce1][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36ce1][server]: player has entered the game. ClientID=0 addr=[0:0:0:0:0:0:0:1]:26046
+[5da36ce1][chat]: *** 'ChillerDragon' entered and joined the game
+[5da36ce1][game]: team_join player='0:ChillerDragon' team=0
+[5da36ce1][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36ce1][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36ce1][server]: player is ready. ClientID=2 addr=[0:0:0:0:0:0:0:1]:5557
+[5da36ce1][server]: player has entered the game. ClientID=1 addr=[0:0:0:0:0:0:0:1]:64065
+[5da36ce1][chat]: *** '(1)ChillerDrago' entered and joined the game
+[5da36ce1][game]: team_join player='1:(1)ChillerDrago' team=0
+[5da36ce2][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36ce2][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36ce2][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36ce2][server]: player is ready. ClientID=3 addr=[0:0:0:0:0:0:0:1]:6353
+[5da36ce2][server]: player has entered the game. ClientID=2 addr=[0:0:0:0:0:0:0:1]:5557
+[5da36ce2][chat]: *** '(2)ChillerDrago' entered and joined the game
+[5da36ce2][game]: team_join player='2:(2)ChillerDrago' team=0
+[5da36ce2][server]: player is ready. ClientID=4 addr=[0:0:0:0:0:0:0:1]:21764
+[5da36ce2][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36ce2][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36ce2][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36ce2][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36ce2][server]: player has entered the game. ClientID=3 addr=[0:0:0:0:0:0:0:1]:6353
+[5da36ce2][chat]: *** '(3)ChillerDrago' entered and joined the game
+[5da36ce2][game]: team_join player='3:(3)ChillerDrago' team=0
+[5da36ce3][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36ce3][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36ce3][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36ce3][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36ce3][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36ce3][server]: player has entered the game. ClientID=4 addr=[0:0:0:0:0:0:0:1]:21764
+[5da36ce3][chat]: *** '(4)ChillerDrago' entered and joined the game
+[5da36ce3][game]: team_join player='4:(4)ChillerDrago' team=0
+[5da36cec][server]: player is ready. ClientID=5 addr=[0:0:0:0:0:0:0:1]:19661
+[5da36cec][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cec][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cec][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cec][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cec][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cec][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cec][server]: player has entered the game. ClientID=5 addr=[0:0:0:0:0:0:0:1]:19661
+[5da36cec][chat]: *** '(5)ChillerDrago' entered and joined the game
+[5da36cec][game]: team_join player='5:(5)ChillerDrago' team=0
+[5da36cf1][server]: player is ready. ClientID=6 addr=[0:0:0:0:0:0:0:1]:54450
+[5da36cf1][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cf1][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cf1][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cf1][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cf1][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cf1][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cf1][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cf1][server]: player has entered the game. ClientID=6 addr=[0:0:0:0:0:0:0:1]:54450
+[5da36cf1][chat]: *** '(6)ChillerDrago' entered and joined the game
+[5da36cf1][game]: team_join player='6:(6)ChillerDrago' team=0
+[5da36cf3][server]: player is ready. ClientID=7 addr=[0:0:0:0:0:0:0:1]:64765
+[5da36cf4][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cf4][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cf4][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cf4][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cf4][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cf4][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cf4][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cf4][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36cf4][server]: player has entered the game. ClientID=7 addr=[0:0:0:0:0:0:0:1]:64765
+[5da36cf4][chat]: *** '(7)ChillerDrago' entered and joined the game
+[5da36cf4][game]: team_join player='7:(7)ChillerDrago' team=0
+[5da36cf5][server]: player is ready. ClientID=8 addr=[0:0:0:0:0:0:0:1]:56251
+[5da36cf5][server]: player is ready. ClientID=9 addr=[0:0:0:0:0:0:0:1]:16025
+[5da36cf5][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cf5][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cf5][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cf5][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cf5][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cf5][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cf5][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cf5][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36cf5][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36cf5][server]: player has entered the game. ClientID=8 addr=[0:0:0:0:0:0:0:1]:56251
+[5da36cf5][chat]: *** '(8)ChillerDrago' entered and joined the game
+[5da36cf5][game]: team_join player='8:(8)ChillerDrago' team=0
+[5da36cf5][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cf5][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cf5][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cf5][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cf5][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cf5][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cf5][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cf5][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36cf5][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36cf5][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36cf5][server]: player has entered the game. ClientID=9 addr=[0:0:0:0:0:0:0:1]:16025
+[5da36cf5][chat]: *** '(9)ChillerDrago' entered and joined the game
+[5da36cf5][game]: team_join player='9:(9)ChillerDrago' team=0
+[5da36cf8][server]: player is ready. ClientID=a addr=[0:0:0:0:0:0:0:1]:25283
+[5da36cf9][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cf9][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cf9][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cf9][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cf9][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cf9][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cf9][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cf9][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36cf9][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36cf9][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36cf9][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36cf9][server]: player has entered the game. ClientID=a addr=[0:0:0:0:0:0:0:1]:25283
+[5da36cf9][chat]: *** '(10)ChillerDrag' entered and joined the game
+[5da36cf9][game]: team_join player='10:(10)ChillerDrag' team=0
+[5da36cfa][server]: player is ready. ClientID=b addr=[0:0:0:0:0:0:0:1]:31804
+[5da36cfb][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cfb][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cfb][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cfb][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cfb][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cfb][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cfb][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cfb][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36cfb][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36cfb][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36cfb][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36cfb][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36cfb][server]: player has entered the game. ClientID=b addr=[0:0:0:0:0:0:0:1]:31804
+[5da36cfb][chat]: *** '(11)ChillerDrag' entered and joined the game
+[5da36cfb][game]: team_join player='11:(11)ChillerDrag' team=0
+[5da36cfb][server]: player is ready. ClientID=c addr=[0:0:0:0:0:0:0:1]:25205
+[5da36cfc][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cfc][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cfc][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cfc][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cfc][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cfc][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cfc][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cfc][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36cfc][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36cfc][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36cfc][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36cfc][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36cfc][server]: '(12)ChillerDrag' -> '(12)ChillerDrag'
+[5da36cfc][server]: player has entered the game. ClientID=c addr=[0:0:0:0:0:0:0:1]:25205
+[5da36cfc][chat]: *** '(12)ChillerDrag' entered and joined the game
+[5da36cfc][game]: team_join player='12:(12)ChillerDrag' team=0
+[5da36cfe][server]: player is ready. ClientID=d addr=[0:0:0:0:0:0:0:1]:54532
+[5da36cfe][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36cfe][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36cfe][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36cfe][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36cfe][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36cfe][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36cfe][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36cfe][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36cfe][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36cfe][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36cfe][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36cfe][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36cfe][server]: '(12)ChillerDrag' -> '(12)ChillerDrag'
+[5da36cfe][server]: '(13)ChillerDrag' -> '(13)ChillerDrag'
+[5da36cfe][server]: player has entered the game. ClientID=d addr=[0:0:0:0:0:0:0:1]:54532
+[5da36cfe][chat]: *** '(13)ChillerDrag' entered and joined the game
+[5da36cfe][game]: team_join player='13:(13)ChillerDrag' team=0
+[5da36d09][server]: player is ready. ClientID=e addr=172.20.10.9:11662
+[5da36d09][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36d09][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36d09][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36d09][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36d09][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36d09][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36d09][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36d09][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36d09][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36d09][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36d09][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36d09][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36d09][server]: '(12)ChillerDrag' -> '(12)ChillerDrag'
+[5da36d09][server]: '(13)ChillerDrag' -> '(13)ChillerDrag'
+[5da36d09][server]: '(14)ChillerDrag' -> '(14)ChillerDrag'
+[5da36d09][server]: player has entered the game. ClientID=e addr=172.20.10.9:11662
+[5da36d09][chat]: *** '(14)ChillerDrag' entered and joined the game
+[5da36d09][game]: team_join player='14:(14)ChillerDrag' team=0
+[5da36d0b][server]: player is ready. ClientID=f addr=[0:0:0:0:0:0:0:1]:2284
+[5da36d0b][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36d0b][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36d0b][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36d0b][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36d0b][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36d0b][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36d0b][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36d0b][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36d0b][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36d0b][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36d0b][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36d0b][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36d0b][server]: '(12)ChillerDrag' -> '(12)ChillerDrag'
+[5da36d0b][server]: '(13)ChillerDrag' -> '(13)ChillerDrag'
+[5da36d0b][server]: '(14)ChillerDrag' -> '(14)ChillerDrag'
+[5da36d0b][server]: '(15)ChillerDrag' -> '(15)ChillerDrag'
+[5da36d0b][server]: player has entered the game. ClientID=f addr=[0:0:0:0:0:0:0:1]:2284
+[5da36d0b][chat]: *** '(15)ChillerDrag' entered and joined the game
+[5da36d0b][game]: team_join player='15:(15)ChillerDrag' team=0
+[5da36d10][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36d10][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36d10][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36d10][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36d10][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36d10][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36d10][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36d10][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36d10][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36d10][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36d10][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36d10][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36d10][server]: '(12)ChillerDrag' -> '(12)ChillerDrag'
+[5da36d10][server]: '(13)ChillerDrag' -> '(13)ChillerDrag'
+[5da36d13][chat]: *** '(14)ChillerDrag' joined the spectators
+[5da36d13][game]: kill killer='14:(14)ChillerDrag' victim='14:(14)ChillerDrag' weapon=-3 special=0
+[5da36d13][game]: team_join player='14:(14)ChillerDrag' m_Team=-1
+[5da36d15][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36d15][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36d15][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36d15][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36d15][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36d15][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36d15][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36d15][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36d15][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36d15][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36d15][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36d15][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36d15][server]: '(12)ChillerDrag' -> '(12)ChillerDrag'
+[5da36d15][server]: '(13)ChillerDrag' -> '(13)ChillerDrag'
+[5da36d16][chat]: *** '(14)ChillerDrag' joined the game
+[5da36d16][game]: team_join player='14:(14)ChillerDrag' m_Team=0
+[5da36d19][game]: kill killer='14:(14)ChillerDrag' victim='6:(6)ChillerDrago' weapon=1 special=0
+[5da36d1a][server]: 'ChillerDragon' -> 'ChillerDragon'
+[5da36d1a][server]: '(1)ChillerDrago' -> '(1)ChillerDrago'
+[5da36d1a][server]: '(2)ChillerDrago' -> '(2)ChillerDrago'
+[5da36d1a][server]: '(3)ChillerDrago' -> '(3)ChillerDrago'
+[5da36d1a][server]: '(4)ChillerDrago' -> '(4)ChillerDrago'
+[5da36d1a][server]: '(5)ChillerDrago' -> '(5)ChillerDrago'
+[5da36d1a][server]: '(6)ChillerDrago' -> '(6)ChillerDrago'
+[5da36d1a][server]: '(7)ChillerDrago' -> '(7)ChillerDrago'
+[5da36d1a][server]: '(8)ChillerDrago' -> '(8)ChillerDrago'
+[5da36d1a][server]: '(9)ChillerDrago' -> '(9)ChillerDrago'
+[5da36d1a][server]: '(10)ChillerDrag' -> '(10)ChillerDrag'
+[5da36d1a][server]: '(11)ChillerDrag' -> '(11)ChillerDrag'
+[5da36d1a][server]: '(12)ChillerDrag' -> '(12)ChillerDrag'
+[5da36d1a][server]: '(13)ChillerDrag' -> '(13)ChillerDrag'
+[5da36d1b][game]: pickup player='14:(14)ChillerDrag' item=2/3
+[5da36d1c][register]: WARNING: Master server is not responding, switching master
+[5da36d1c][engine/mastersrv]: refreshing master server addresses
+[5da36d1c][register]: refreshing ip addresses
+[5da36d1c][engine/mastersrv]: saving addresses
+[5da36d1c][register]: fetching server counts
+[5da36d1c][game]: kill killer='14:(14)ChillerDrag' victim='12:(12)ChillerDrag' weapon=3 special=0
+[5da36d1c][game]: kill killer='14:(14)ChillerDrag' victim='2:(2)ChillerDrago' weapon=3 special=0
+[5da36d1f][register]: chose 'master4.teeworlds.com' as master, sending heartbeats
+[5da36d20][server]: client dropped. cid=14 addr=172.20.10.9:11662 reason=''
+[5da36d20][game]: kill killer='14:(14)ChillerDrag' victim='14:(14)ChillerDrag' weapon=-3 special=0
+[5da36d20][chat]: *** '(14)ChillerDrag' has left the game
+[5da36d20][game]: leave player='14:(14)ChillerDrag'
+[5da36d2f][server]: client dropped. cid=4 addr=[0:0:0:0:0:0:0:1]:21764 reason='Timeout'
+[5da36d2f][game]: kill killer='4:(4)ChillerDrago' victim='4:(4)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(4)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='4:(4)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=12 addr=[0:0:0:0:0:0:0:1]:25205 reason='Timeout'
+[5da36d2f][game]: kill killer='12:(12)ChillerDrag' victim='12:(12)ChillerDrag' weapon=-3 special=0
+[5da36d2f][chat]: *** '(12)ChillerDrag' has left the game (Timeout)
+[5da36d2f][game]: leave player='12:(12)ChillerDrag'
+[5da36d2f][server]: client dropped. cid=0 addr=[0:0:0:0:0:0:0:1]:26046 reason='Timeout'
+[5da36d2f][game]: kill killer='0:ChillerDragon' victim='0:ChillerDragon' weapon=-3 special=0
+[5da36d2f][chat]: *** 'ChillerDragon' has left the game (Timeout)
+[5da36d2f][game]: leave player='0:ChillerDragon'
+[5da36d2f][server]: client dropped. cid=2 addr=[0:0:0:0:0:0:0:1]:5557 reason='Timeout'
+[5da36d2f][game]: kill killer='2:(2)ChillerDrago' victim='2:(2)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(2)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='2:(2)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=5 addr=[0:0:0:0:0:0:0:1]:19661 reason='Timeout'
+[5da36d2f][game]: kill killer='5:(5)ChillerDrago' victim='5:(5)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(5)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='5:(5)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=7 addr=[0:0:0:0:0:0:0:1]:64765 reason='Timeout'
+[5da36d2f][game]: kill killer='7:(7)ChillerDrago' victim='7:(7)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(7)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='7:(7)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=11 addr=[0:0:0:0:0:0:0:1]:31804 reason='Timeout'
+[5da36d2f][game]: kill killer='11:(11)ChillerDrag' victim='11:(11)ChillerDrag' weapon=-3 special=0
+[5da36d2f][chat]: *** '(11)ChillerDrag' has left the game (Timeout)
+[5da36d2f][game]: leave player='11:(11)ChillerDrag'
+[5da36d2f][server]: client dropped. cid=13 addr=[0:0:0:0:0:0:0:1]:54532 reason='Timeout'
+[5da36d2f][game]: kill killer='13:(13)ChillerDrag' victim='13:(13)ChillerDrag' weapon=-3 special=0
+[5da36d2f][chat]: *** '(13)ChillerDrag' has left the game (Timeout)
+[5da36d2f][game]: leave player='13:(13)ChillerDrag'
+[5da36d2f][server]: client dropped. cid=15 addr=[0:0:0:0:0:0:0:1]:2284 reason='Timeout'
+[5da36d2f][game]: kill killer='15:(15)ChillerDrag' victim='15:(15)ChillerDrag' weapon=-3 special=0
+[5da36d2f][chat]: *** '(15)ChillerDrag' has left the game (Timeout)
+[5da36d2f][game]: leave player='15:(15)ChillerDrag'
+[5da36d2f][server]: client dropped. cid=8 addr=[0:0:0:0:0:0:0:1]:56251 reason='Timeout'
+[5da36d2f][game]: kill killer='8:(8)ChillerDrago' victim='8:(8)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(8)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='8:(8)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=10 addr=[0:0:0:0:0:0:0:1]:25283 reason='Timeout'
+[5da36d2f][game]: kill killer='10:(10)ChillerDrag' victim='10:(10)ChillerDrag' weapon=-3 special=0
+[5da36d2f][chat]: *** '(10)ChillerDrag' has left the game (Timeout)
+[5da36d2f][game]: leave player='10:(10)ChillerDrag'
+[5da36d2f][server]: client dropped. cid=1 addr=[0:0:0:0:0:0:0:1]:64065 reason='Timeout'
+[5da36d2f][game]: kill killer='1:(1)ChillerDrago' victim='1:(1)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(1)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='1:(1)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=3 addr=[0:0:0:0:0:0:0:1]:6353 reason='Timeout'
+[5da36d2f][game]: kill killer='3:(3)ChillerDrago' victim='3:(3)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(3)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='3:(3)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=6 addr=[0:0:0:0:0:0:0:1]:54450 reason='Timeout'
+[5da36d2f][game]: kill killer='6:(6)ChillerDrago' victim='6:(6)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(6)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='6:(6)ChillerDrago'
+[5da36d2f][server]: client dropped. cid=9 addr=[0:0:0:0:0:0:0:1]:16025 reason='Timeout'
+[5da36d2f][game]: kill killer='9:(9)ChillerDrago' victim='9:(9)ChillerDrago' weapon=-3 special=0
+[5da36d2f][chat]: *** '(9)ChillerDrago' has left the game (Timeout)
+[5da36d2f][game]: leave player='9:(9)ChillerDrago'
+
