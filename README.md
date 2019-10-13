@@ -95,8 +95,5 @@ if scorelimit is lower the wins and looses will be calculated on new round start
 So all players who leave during end screen won't be tracked.
 If the scorelimit is 1000 the wins and looses will be saved instantly on the 10th capture.
 
-``shuffle_teams`` confuses the script regarding team color.
-So all stats depending on team color are broken ( for now only wins and looses).  
-
-In general just keep in mind the script just parses the logs. So everything messing with the logs can be dangerous.
+Keep in mind the script just parses the logs. So everything messing with the logs can be dangerous.
 Things like ``restart`` and ``reload`` are untested and not recommended. Also using the rcon command ``say`` to create fake game messages like ``say 'nameless tee' has left the game`` is most likely crashing the server.
