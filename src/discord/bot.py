@@ -4,7 +4,7 @@
 # and then posts stdin to the webhook
 # can be used to pipe the tail -f of the teeworlds log into discord
 # example:
-# tail -fn1 logs/tee.log | ./bot.py 583224417517094692/8YBS_8Ft3naXarmLnMTxtAq5LfNvyZrYG7aZjLnGyy9ZNwhIlM0niR2n_rfRLUn5a8CA
+# tail -fn1 logs/tee.log | PYTHONIOENCODING="UTF-8" ./bot.py 583224417517094692/8YBS_8Ft3naXarmLnMTxtAq5LfNvyZrYG7aZjLnGyy9ZNwhIlM0niR2n_rfRLUn5a8CA
 
 import sys
 import requests
@@ -38,8 +38,8 @@ def main():
             HandleData(line)
     except EOFError:
         pass    # the telnet/netcat process finished; there's no more input
-    except UnicodeDecodeError:
-        print("[WARNING] UnicodeDecodeError! Please contact an admin.")
+    except UnicodeEncodeError:
+        print("[WARNING] UnicodeEncodeError! Please contact an admin.")
         pass
 
 if __name__ == "__main__":
