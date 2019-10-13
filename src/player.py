@@ -128,6 +128,8 @@ def HandlePlayerEnter(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
     id = data[id_start:id_end]
+    if g_settings.get("tw_version") == 6:
+        id = str(int(id, 16)) # 0.6 uses hex for ids in enter messages
     CreatePlayer(name=None, ID=id, ShowStats=True)
 
 # [server]: client dropped. cid=1 addr=172.20.10.9:53784 reason=''
@@ -152,6 +154,8 @@ def HandlePlayerTeam(data):
     player = GetPlayerByID(id)
     if player == None:
         say("[ERROR] teamchange failed id=" + str(id) + " data=" + str(data))
+        for p in aPlayers:
+            say("  id=" + str(id) + " name='" + str(p.name) + "'")
         sys.exit(1)
     team="invalid"
     data_end = data[-5:]
