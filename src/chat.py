@@ -30,7 +30,7 @@ def GetRankPlayer(msg, rank_cmd):
         return None
     msg_normal = msg
     msg = msg.lower()
-    id = GetChatID(msg_normal)
+    id_str = GetChatID(msg_normal)
     rankname_start = -1
     if (msg.find(rank_cmd + " ") != -1):
         cmd_end = msg.rfind(rank_cmd)
@@ -38,7 +38,7 @@ def GetRankPlayer(msg, rank_cmd):
     rankname_end = len(msg) - 1 #cut off newline
     rankname = msg_normal[rankname_start:rankname_end]
     if not rankname or rankname == "" or rankname_start == -1:
-        return player.GetPlayerByID(id), id
+        return player.GetPlayerByID(id_str), id_str
     argplayer = player.GetPlayerByName(rankname)
     if not argplayer:
         # try to find id prefix in argument name
@@ -80,12 +80,12 @@ def GetSpamName(msg):
 def GetChatID(msg):
     id_start = msg.find(" ") + 1
     id_end = cbase.cfind(msg, ":", 2)
-    id = msg[id_start:id_end]
-    return id
+    id_str = msg[id_start:id_end]
+    return id_str
 
 def GetSpamPlayer(msg):
-    id = GetChatID(msg)
-    return player.GetPlayerByID(id)
+    id_str = GetChatID(msg)
+    return player.GetPlayerByID(id_str)
 
 def SpamProtection(msg):
     p = GetSpamPlayer(msg)

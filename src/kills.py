@@ -5,7 +5,7 @@ import cbase
 import g_settings
 import player
 
-def HandleKills(data):
+def HandleKills(timestamp, data):
     killer_name = ""
     victim_name = ""
     killer_id = -1
@@ -87,4 +87,4 @@ def HandleKills(data):
 
     # say("[KILL] killer=" + killer_name + " victim=" + victim_name + " weapon=" + str(weapon))
     player.CheckFlaggerKill(victim_name, killer_name)
-    player.SetFlagger(victim_name, False)
+    player.SetFlagger(victim_name, False, timestamp)

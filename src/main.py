@@ -18,7 +18,7 @@ def DebugListPlayers():
     for p in player.GetPlayersArray():
         chat.echo("id=" + str(p.ID) + " name='" + str(p.name) + "' team=" + str(p.team))
 
-def HandleData(data):
+def HandleData(timestamp, data):
     global settings_file
     if (g_settings.get("tw_version") == None):
         # [server]: version 0.6 626fce9a778df4d4
@@ -57,13 +57,13 @@ def HandleData(data):
     elif (data.startswith("[chat]") or data.startswith("[teamchat]")):
         if (data.startswith("[chat]: ***")):
             if (data.startswith("[chat]: *** The blue flag was captured by '") or data.startswith("[chat]: *** The red flag was captured by '")):
-                flag.HandleFlagCap(data)
+                flag.HandleFlagCap(timestamp, data)
             elif (data.find("' changed name to '") != -1):
                 player.HandleNameChange(data)
             return
         chat.HandleChatMessage(data)
     elif (data.startswith("[game]")):
-        game.HandleGame(data)
+        game.HandleGame(timestamp, data)
 
 def MainLoop():
     while True:
@@ -72,9 +72,9 @@ def MainLoop():
             if not line:
                 break
             if g_settings.get("tw_version") == None or g_settings.get("tw_version") == 6:
-                HandleData(line[10:]) # cut off the timestamp
+                HandleData(line[1:9], line[10:]) # cut off the timestamp
             else: # 0.7 has longer timestamps
-                HandleData(line[21:]) # cut off the timestamp
+                HandleData(line[1:20], line[21:]) # cut off the timestamp
         except EOFError:
             # the telnet/netcat process finished; there's no more input
             chat.echo("[WARNING] End of file error.")

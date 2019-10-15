@@ -88,11 +88,11 @@ def GetPlayerIndexByName(name):
         index += 1
     return -1
 
-def GetPlayerIndexByID(id):
+def GetPlayerIndexByID(ID):
     global aPlayers
     index = 0
     for player in aPlayers:
-        if (player.ID == id):
+        if (player.ID == ID):
             return index
         index += 1
     return -1
@@ -104,12 +104,17 @@ def GetPlayerByName(name):
             return player
     return None
 
-def GetPlayerByID(id):
+def GetPlayerByID(ID):
     global aPlayers
     for p in aPlayers:
-        if (p.ID == id):
+        if (p.ID == ID):
             return p
     return None
+
+def DebugPlayerList():
+    global aPlayers
+    for p in aPlayers:
+        say("  id=" + str(p.ID) + " name='" + str(p.name) + "'")
 
 def PrintStatsAll(debug=False):
     global aPlayers
@@ -127,19 +132,19 @@ def PrintStatsAll(debug=False):
 def HandlePlayerEnter(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
-    id = data[id_start:id_end]
+    id_str = data[id_start:id_end]
     if g_settings.get("tw_version") == 6:
-        id = str(int(id, 16)) # 0.6 uses hex for ids in enter messages
-    CreatePlayer(name=None, ID=id, ShowStats=True)
+        id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in enter messages
+    CreatePlayer(name=None, ID=id_str, ShowStats=True)
 
 # [server]: client dropped. cid=1 addr=172.20.10.9:53784 reason=''
 def HandlePlayerLeave(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
-    id = data[id_start:id_end]
-    player = GetPlayerByID(id)
+    id_str = data[id_start:id_end]
+    player = GetPlayerByID(id_str)
     if player == None:
-        say("[WARNING] invalid player left id=" + str(id))
+        say("[WARNING] invalid player left id=" + str(id_str))
         # say("   DATA=" + str(data))
         # sys.exit(1)
     SaveAndDeletePlayer(player)
@@ -150,12 +155,11 @@ def HandlePlayerTeam(data):
     global aPlayers
     id_start = data.find("'") + 1
     id_end = cbase.cfind(data, ":", 2)
-    id = data[id_start:id_end]
-    player = GetPlayerByID(id)
+    id_str = data[id_start:id_end]
+    player = GetPlayerByID(id_str)
     if player == None:
-        say("[ERROR] teamchange failed id=" + str(id) + " data=" + str(data))
-        for p in aPlayers:
-            say("  id=" + str(id) + " name='" + str(p.name) + "'")
+        say("[ERROR] teamchange failed id=" + str(id_str) + " data=" + str(data))
+        DebugPlayerList()
         sys.exit(1)
     team="invalid"
     data_end = data[-5:]
@@ -200,11 +204,12 @@ def HandleNameChange(data):
     SaveAndDeletePlayerByName(old)
     CreatePlayer(new, player.ID, team=team)
 
-def SetFlagger(name, IsFlag):
+def SetFlagger(name, IsFlag, timestamp):
     global aPlayers
     for player in aPlayers:
         if (player.name == name):
             player.IsFlagger = IsFlag
+            player.grab_timestamp = timestamp
             return True
     return False
 

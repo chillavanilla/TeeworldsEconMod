@@ -72,6 +72,7 @@ class Player:
         self.LastChat = datetime.datetime.now()
         self.MuteScore = 0
         self.IsMuted = False
+        self.grab_timestamp = ""
     def __add__(self, other):
         tmp_player = Player(self.name)
         tmp_player.kills = self.kills + other.kills

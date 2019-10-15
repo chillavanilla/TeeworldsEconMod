@@ -7,7 +7,7 @@ from player import *
 import game
 import achievements
 
-def HandleFlagCap(data):
+def HandleFlagCap(timestamp, data):
     flag_color = "pink"
     if (data.find("blue", 5, 20) != -1):
         flag_color = "blue"
@@ -27,7 +27,7 @@ def HandleFlagCap(data):
         time = data[time_start:time_end]
     achievements.CheckFlag(name, time)
     UpdatePlayerFlagTime(name, time)
-    SetFlagger(name, False)
+    SetFlagger(name, False, timestamp)
     UpdatePlayerFlagCaps(name, flag_color, 1)
     #say("flag cap '" + name + "' in " + time + " secs color: " + flag_color)
 

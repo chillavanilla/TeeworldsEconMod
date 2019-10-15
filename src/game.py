@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
+import datetime
 from chiller_essential import *
+import cbase
 import player
 import kills
 
@@ -51,9 +53,9 @@ def UpdateWins(IsRed):
         if player.CountPlayers() > g_settings.get("win_players"):
             player.TeamWon("blue")
 
-def HandleGame(data):
+def HandleGame(timestamp, data):
     if (data.find("kill killer") != -1):
-        kills.HandleKills(data)
+        kills.HandleKills(timestamp, data)
     elif (data.startswith("[game]: start round type='")):
         global caps_red
         global caps_blue
@@ -74,5 +76,25 @@ def HandleGame(data):
         name_end   = data.rfind("'")     # last '
         name = data[name_start:name_end]
         player.UpdatePlayerFlagGrabs(name, 1)
-        player.SetFlagger(name, True)
-        #say("'" + name + "' grabbed the flag")
+        player.SetFlagger(name, True, timestamp)
+        if g_settings.get("debug"):
+            say("'" + str(name) + "' grabbed the flag ts=" + str(timestamp))
+    # [2019-10-15 11:41:04][game]: flag_capture player='0:ChillerDragon' team=0
+    elif (data.startswith("[game]: flag_capture player='")):
+        # UNUSED CODE FOR NOW
+        # NOT PRECISE ENOUGH
+        # DOES NOTHING CURRENTLY
+        id_start = data.find("'", 10) + 1
+        id_end   = cbase.cfind(data, ":", 2)
+        id_str = data[id_start:id_end]
+        p = player.GetPlayerByID(id_str)
+        if not p:
+            say("[ERROR] flag_cap player not found ID=" + str(id_str))
+            player.DebugPlayerList()
+            sys.exit(1)
+        # logs are only seconds precise but usual tw mesurement is two digits more precise
+        t1 = datetime.datetime.strptime(p.grab_timestamp, "%Y-%m-%d %H:%M:%S")
+        t2 = datetime.datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+        diff = (t2 - t1).total_seconds()
+        if g_settings.get("debug"):
+            say("'" + str(p.name) + "' capped the flag ts=" + str(timestamp) + " secs=" + str(diff))
