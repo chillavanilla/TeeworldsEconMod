@@ -87,4 +87,4 @@ def HandleKills(timestamp, data):
 
     # say("[KILL] killer=" + killer_name + " victim=" + victim_name + " weapon=" + str(weapon))
     player.CheckFlaggerKill(victim_name, killer_name)
-    player.SetFlagger(victim_name, False, timestamp)
+    player.SetFlagger(victim, False, timestamp)

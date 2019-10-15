@@ -72,11 +72,22 @@ def HandleGame(timestamp, data):
             else:
                 say("draw lul")
     elif (data.startswith("[game]: flag_grab player='")):
+        id_start = data.find("'", 10) + 1
+        id_end   = cbase.cfind(data, ":", 2)
+        id_str = data[id_start:id_end]
+        p = player.GetPlayerByID(id_str)
+        if not p:
+            say("[ERROR] flag_grab player not found ID=" + str(id_str))
+            player.DebugPlayerList()
+            sys.exit(1)
         name_start = data.find(":", 10) + 1  # first '
         name_end   = data.rfind("'")     # last '
         name = data[name_start:name_end]
-        player.UpdatePlayerFlagGrabs(name, 1)
-        player.SetFlagger(name, True, timestamp)
+        if p.name != name:
+            say("[ERROR] name missmatch p.name='" + str(p.name) + "' name='" + str(name) + "'")
+            sys.exit(1)
+        player.UpdatePlayerFlagGrabs(p, 1)
+        player.SetFlagger(p, True, timestamp)
         if g_settings.get("debug"):
             say("'" + str(name) + "' grabbed the flag ts=" + str(timestamp))
     # [2019-10-15 11:41:04][game]: flag_capture player='0:ChillerDragon' team=0

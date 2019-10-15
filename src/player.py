@@ -204,14 +204,12 @@ def HandleNameChange(data):
     SaveAndDeletePlayerByName(old)
     CreatePlayer(new, player.ID, team=team)
 
-def SetFlagger(name, IsFlag, timestamp):
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            player.IsFlagger = IsFlag
-            player.grab_timestamp = timestamp
-            return True
-    return False
+def SetFlagger(player, IsFlag, timestamp):
+    if not player:
+        return False
+    player.IsFlagger = IsFlag
+    player.grab_timestamp = timestamp
+    return True
 
 def CheckFlaggerKill(victim, killer):
     global aPlayers
@@ -314,16 +312,14 @@ def TeamWon(team):
         elif not player.team == "" and not player.team == "spectator":
             player.looses += 1
 
-def UpdatePlayerFlagGrabs(name, grabs):
+def UpdatePlayerFlagGrabs(player, grabs):
     if not CountPlayers() > g_settings.get("flag_players"):
-        return
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            player.flag_grabs += grabs
-            game.UpdateFlagGrabs(player.team == "red")
-            return True
-    return False
+        return False
+    if not player:
+        return False
+    player.flag_grabs += grabs
+    game.UpdateFlagGrabs(player.team == "red")
+    return True
 
 def UpdatePlayerFlagCaps(name, color, caps):
     if not CountPlayers() > g_settings.get("flag_players"):
