@@ -23,7 +23,7 @@ def HandleData(line):
     line_start = line.find(chat_str) + len(chat_str)
     line = line[line_start:]
     if name != "":
-        line = "[" + name + "]" + line
+        line = "[" + name + "] " + line
     print("line: " + line)
     requests.post("https://discordapp.com/api/webhooks/" + token, data={"content": line})
 
@@ -36,6 +36,7 @@ def main():
     token=sys.argv[1]
     if (len(sys.argv) > 2):
         name=sys.argv[2]
+    requests.post("https://discordapp.com/api/webhooks/" + token, data={"content": "=== STARTING BOT [" + name + "] ==="})
     try:
         while True:
             line = sys.stdin.readline()

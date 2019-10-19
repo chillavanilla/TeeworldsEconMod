@@ -17,10 +17,21 @@ aSettStr+=("sh_econ_port");aSettVal+=("8203")
 aSettStr+=("sh_tw_cfg_file");aSettVal+=("")
 aSettStr+=("sh_tw_version");aSettVal+=("6")
 
-if [ $1 == "--help" ]
+function kill_bot() {
+    pkill -f " --universal-id=tem-bot"
+}
+
+if [ "$1" == "--help" ]
 then
     echo "usage: $0 [<bot_name>] [<settings_file>]"
     exit 0
+elif [ "$1" == "--kill" ] || [ "$1" == "--stop" ]
+then
+    kill_bot
+fi
+if ! [ -x "$(command -v openssl)" ]; then
+  echo 'Error: openssl is not installed.' >&2
+  exit 1
 fi
 
 if [ $# -gt 0 ]; then
@@ -93,6 +104,19 @@ function read_settings_file() {
     done < $settings_file
 }
 
+id="invalid-tem-bot"
+function start_bot() {
+    kill_bot
+    id=$(openssl rand -base64 32)
+    echo "[+] starting bot.py logfile=$logfile id=$id"
+    $(tail -fn1 $log | PYTHONIOENCODING="UTF-8" ./bot.py $token $name --id=$id --universal-id=tem-bot) &
+}
+
+function stop_bot() {
+    echo "[-] stopping bot.py with id=$id"
+    pkill -f $id
+}
+
 read_settings_file
 
 logpath="${aSettVal[0]}"
@@ -100,8 +124,20 @@ token="${aSettVal[1]}"
 echo "token=${token:0:10}..."
 echo "logpath=$logpath"
 echo "name=$name"
-logfile=`ls $logpath | tail -1`
-log="$logpath$logfile"
 cd ../src/discord/
-tail -fn1 $log | PYTHONIOENCODING="UTF-8" ./bot.py $token $name
+
+while [ true ]
+do
+    logfile=`ls $logpath | tail -1`
+    latest_log="$logpath$logfile"
+    if [ "$log" != "$latest_log" ]
+    then
+        echo "logs differ old=$log new=$latest_log"
+        echo "restaring bot..."
+        log=$latest_log
+        stop_bot
+        start_bot
+    fi
+    sleep 3
+done
 
