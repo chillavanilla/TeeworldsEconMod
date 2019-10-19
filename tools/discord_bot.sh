@@ -105,7 +105,6 @@ function read_settings_file() {
 
 id="invalid-tem-bot"
 function start_bot() {
-    kill_bot
     id=$(openssl rand -base64 32)
     echo "[+] starting bot.py logfile=$logfile id=$id"
     $(tail -fn1 $log | PYTHONIOENCODING="UTF-8" ./bot.py $token $name --id=$id --universal-id=tem-bot) &
