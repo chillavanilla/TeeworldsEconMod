@@ -20,6 +20,9 @@ aSettStr+=("sh_tw_version");aSettVal+=("6")
 function kill_bot() {
     pkill -f " --universal-id=tem-bot"
 }
+function log() {
+    echo "$1"
+}
 
 if [ "$1" == "--help" ]
 then
@@ -42,10 +45,6 @@ if [ $# -gt 1 ]; then
     log "settings file=$2"
     settings_file=$2
 fi
-
-function log() {
-    echo "$1"
-}
 
 # TODO: remove duplicates from start_tem.sh
 # and move them to a lib.sh
