@@ -52,6 +52,17 @@ function check_path() {
     then
         return # path found nothing todo
     fi
+    if [ -d "$HOME/.teeworlds/dumps/$path" ]
+    then
+        # https://github.com/teeworlds/teeworlds/commit/c705f048f3f62e0ed92686e19763a61309125d98
+        # new logger system
+        # should also support other storage.cfg locations
+        # not too sure about how that actually should be supported
+        # only logs are under dumps/ so hardcoding dumps/ is not good
+        # TODO: improve this
+        log "Warning: using path $HOME/.teeworlds/dumps/$path"
+        return
+    fi
     log "$warning"
     log "should be at: $path"
     if [ "$create" != "0" ]
