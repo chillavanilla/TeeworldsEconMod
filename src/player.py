@@ -206,8 +206,9 @@ def HandleNameChange(data):
 
 def SetFlagger(player, IsFlag, timestamp = ""):
     if not player:
-        say("[ERROR] set flagger failed: invalid player.")
-        # sys.exit(1) # TODO: !!!!
+        if IsFlag:
+            say("[ERROR] set flagger failed: invalid player.")
+            sys.exit(1)
         return False
     if IsFlag and timestamp == "":
         say("[ERROR] set flagger failed: empty timestamp.")
