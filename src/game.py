@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import datetime
+import re
 from chiller_essential import *
 import cbase
 import player
 import kills
+import flag
 
 caps_red = 0 # they are seen as score
 caps_blue = 0 # it doesnt track how often the blue flag was captured but how often the blue team capped the red flag
@@ -74,7 +76,7 @@ def HandleGame(timestamp, data):
     elif (data.startswith("[game]: flag_grab player='")):
         id_start = data.find("'", 10) + 1
         id_end   = cbase.cfind(data, ":", 2)
-        id_str = data[id_start:id_end]
+        id_str   = data[id_start:id_end]
         p = player.GetPlayerByID(id_str)
         if not p:
             say("[ERROR] flag_grab player not found ID=" + str(id_str))
@@ -82,19 +84,24 @@ def HandleGame(timestamp, data):
             sys.exit(1)
         name_start = data.find(":", 10) + 1  # first '
         name_end   = data.rfind("'")     # last '
-        name = data[name_start:name_end]
+        name       = data[name_start:name_end]
         if p.name != name:
             say("[ERROR] name missmatch p.name='" + str(p.name) + "' name='" + str(name) + "'")
             sys.exit(1)
         player.UpdatePlayerFlagGrabs(p, 1)
         player.SetFlagger(p, True, timestamp)
         if g_settings.get("debug"):
-            say("'" + str(name) + "' grabbed the flag ts=" + str(timestamp))
+            say("[DEBUG] '" + str(name) + "' grabbed the flag ts=" + str(timestamp))
     # [2019-10-15 11:41:04][game]: flag_capture player='0:ChillerDragon' team=0
     elif (data.startswith("[game]: flag_capture player='")):
+        flag.HandleFlapCap07(data)
+        """
         # UNUSED CODE FOR NOW
         # NOT PRECISE ENOUGH
         # DOES NOTHING CURRENTLY
+        # WOULD SUPPORT 0.7 VERSIONS PRIOR TO THIS COMMIT
+        # https://github.com/teeworlds/teeworlds/commit/5c1d32f65ecaf893d589875df9eaedc1c1a76858
+        # IT IS HIGHLY RECOMMENDED TO USE A LATER TW VERSION TO NOT MESS UP RECORDS
         id_start = data.find("'", 10) + 1
         id_end   = cbase.cfind(data, ":", 2)
         id_str = data[id_start:id_end]
@@ -109,3 +116,4 @@ def HandleGame(timestamp, data):
         diff = (t2 - t1).total_seconds()
         if g_settings.get("debug"):
             say("'" + str(p.name) + "' capped the flag ts=" + str(timestamp) + " secs=" + str(diff))
+        """

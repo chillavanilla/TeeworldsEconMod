@@ -33,18 +33,22 @@ def ShowAchievements(name):
     return True
 
 
-def CheckFlag(name, time):
+def CheckFlag(player, time):
+    if not player:
+        say("[ERROR] check flag failed: invalid player.")
+        sys.exit(1)
+    name = player.name
     if str(time) == "13.37":
-        if player.UpdateAchievement(name, "haxx0r"):
+        if player.UpdateAchievement(player, "haxx0r"):
             say("[achievement] '" + str(name) + "' unlocked: haxx0r")
     elif str(time) == "4.20":
-        if player.UpdateAchievement(name, "blazeit"):
+        if player.UpdateAchievement(player, "blazeit"):
             say("[achievement] '" + str(name) + "' unlocked: blaze it")
     elif str(time) == "6.66":
-        if player.UpdateAchievement(name, "satan"):
+        if player.UpdateAchievement(player, "satan"):
             say("[achievement] '" + str(name) + "' unlocked: satan")
     elif str(time) == "6.90":
-        if player.UpdateAchievement(name, "virgin"):
+        if player.UpdateAchievement(player, "virgin"):
             say("[achievement] '" + str(name) + "' unlocked: virgin")
     #else:
         #say("'" + str(time) + "' is no achievement time")

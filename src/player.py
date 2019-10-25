@@ -204,8 +204,14 @@ def HandleNameChange(data):
     SaveAndDeletePlayerByName(old)
     CreatePlayer(new, player.ID, team=team)
 
-def SetFlagger(player, IsFlag, timestamp):
+def SetFlagger(player, IsFlag, timestamp = ""):
     if not player:
+        say("[ERROR] set flagger failed: invalid player.")
+        # sys.exit(1) # TODO: !!!!
+        return False
+    if IsFlag and timestamp == "":
+        say("[ERROR] set flagger failed: empty timestamp.")
+        sys.exit(1)
         return False
     player.IsFlagger = IsFlag
     player.grab_timestamp = timestamp
@@ -224,32 +230,32 @@ def CheckFlaggerKill(victim, killer):
 
 # Update Player Values
 
-def UpdateAchievement(name, ach):
+def UpdateAchievement(player, ach):
+    if not player:
+        say("[ERROR] failed achievement: invalid player.")
+        sys.exit(1)
+        return False
     ts = str(datetime.datetime.now().year) + "-" +  str(datetime.datetime.now().month) + "-" + str(datetime.datetime.now().day)
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            if ach == "haxx0r":
-                if not player.a_haxx0r == "":
-                    return False
-                player.a_haxx0r = A_Best(ts, player.a_haxx0r)
-            elif ach == "blazeit":
-                if not player.a_blazeit == "":
-                    return False
-                player.a_blazeit = A_Best(ts, player.a_blazeit)
-            elif ach == "satan":
-                if not player.a_satan == "":
-                    return False
-                player.a_satan = A_Best(ts, player.a_satan)
-            elif ach == "virgin":
-                if not player.a_virgin == "":
-                    return False
-                player.a_virgin = A_Best(ts, player.a_virgin)
-            else:
-                say("[WARNING] unknown achievement '" + str(ach) + "'")
-                return
-            return True
-    return False
+    if ach == "haxx0r":
+        if not player.a_haxx0r == "":
+            return False
+        player.a_haxx0r = A_Best(ts, player.a_haxx0r)
+    elif ach == "blazeit":
+        if not player.a_blazeit == "":
+            return False
+        player.a_blazeit = A_Best(ts, player.a_blazeit)
+    elif ach == "satan":
+        if not player.a_satan == "":
+            return False
+        player.a_satan = A_Best(ts, player.a_satan)
+    elif ach == "virgin":
+        if not player.a_virgin == "":
+            return False
+        player.a_virgin = A_Best(ts, player.a_virgin)
+    else:
+        say("[WARNING] unknown achievement '" + str(ach) + "'")
+        return False
+    return True
 
 def ProcessMultiKills(p, weapon):
     now = cbase.get_timestamp()
@@ -321,36 +327,38 @@ def UpdatePlayerFlagGrabs(player, grabs):
     game.UpdateFlagGrabs(player.team == "red")
     return True
 
-def UpdatePlayerFlagCaps(name, color, caps):
+def UpdatePlayerFlagCaps(player, color, caps):
+    if not player:
+        say("[ERROR] failed player.UpdatePlayerFlagCaps: invalid player.")
+        sys.exit(1)
+        return False
     if not CountPlayers() > g_settings.get("flag_players"):
-        return
-    global aPlayers
-    for player in aPlayers:
-        if (player.name == name):
-            if (color == "blue"):
-                player.flag_caps_blue += caps
-            elif (color == "red"):
-                player.flag_caps_red += caps
-            else:
-                say("savage '" + name + "' captured the pink flag")
-            return True
-    return False
+        return False
+    if (color == "blue"):
+        player.flag_caps_blue += caps
+    elif (color == "red"):
+        player.flag_caps_red += caps
+    else:
+        say("savage '" + player.name + "' captured the pink flag")
+        return False
+    return True
 
-def UpdatePlayerFlagTime(name, time):
-    global aPlayers
+def UpdatePlayerFlagTime(player, time):
+    if not player:
+        say("[ERROR] failed player.UpdatePlayerFlagTime: invalid player.")
+        sys.exit(1)
+        return False
     time = float(time)
-    for player in aPlayers:
-        if (player.name == name):
-            try: # TypeError: unorderable types: float() < str()
-                if (time < float(player.flag_time)):
-                    diff = player.flag_time - time
-                    diff = float("{0:.2f}".format(diff))
-                    say("[FastCap] '" + name + "' " + str(diff) + " seconds faster")
-                    player.flag_time = time
-                elif (int(player.flag_time) == 0):
-                    player.flag_time = time
-                return True
-            except:
-                say("[WARNING] error calculating flag time (" + str(time) + ") and (" + str(player.flag_time) + ")")
-                sys.exit(1)
+    try: # TypeError: unorderable types: float() < str()
+        if (time < float(player.flag_time)):
+            diff = player.flag_time - time
+            diff = float("{0:.2f}".format(diff))
+            say("[FastCap] '" + player.name + "' " + str(diff) + " seconds faster")
+            player.flag_time = time
+        elif (int(player.flag_time) == 0):
+            player.flag_time = time
+        return True
+    except:
+        say("[ERROR] error calculating flag time (" + str(time) + ") and (" + str(player.flag_time) + ")")
+        sys.exit(1)
     return False
