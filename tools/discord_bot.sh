@@ -119,6 +119,20 @@ read_settings_file
 
 logpath="${aSettVal[0]}"
 token="${aSettVal[1]}"
+
+if [[ ${logpath:0:1} != "/" ]] && [[ ! -d $logpath ]]
+then
+    echo "Invalid logpath '$logpath'"
+    dumpspath=$HOME/.teeworlds/dumps/$logpath
+    if [ -d $dumpspath ]
+    then
+        logpath=$dumpspath
+        echo "Using dumps path: $logpath"
+    else
+        exit 1
+    fi
+fi
+
 echo "token=${token:0:10}..."
 echo "logpath=$logpath"
 echo "name=$name"
