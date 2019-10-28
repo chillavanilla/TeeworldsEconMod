@@ -1,0 +1,49 @@
+[2019-10-28 21:12:38][engine]: running on unix-linux-amd64
+[2019-10-28 21:12:38][engine]: arch is little endian
+[2019-10-28 21:12:38][storage]: couldn't open storage.cfg
+[2019-10-28 21:12:38][storage]: using standard paths
+[2019-10-28 21:12:38][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[2019-10-28 21:12:38][storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')
+[2019-10-28 21:12:38][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla7')
+[2019-10-28 21:12:38][storage]: added path '$APPDIR' ('.')
+[2019-10-28 21:12:38][console]: executing 'autoexec.cfg'
+[2019-10-28 21:12:38][server]: starting...
+[2019-10-28 21:12:38][datafile]: loading. filename='maps/ctf5_f.map'
+[2019-10-28 21:12:38][datafile]: allocsize=2408
+[2019-10-28 21:12:38][datafile]: readsize=2080
+[2019-10-28 21:12:38][datafile]: swaplen=2100
+[2019-10-28 21:12:38][datafile]: item_size=1712
+[2019-10-28 21:12:38][datafile]: loading done. datafile='maps/ctf5_f.map'
+[2019-10-28 21:12:38][datafile]: loading data index=11 size=223 uncompressed=712
+[2019-10-28 21:12:38][datafile]: loading data index=12 size=1219 uncompressed=5156
+[2019-10-28 21:12:38][datafile]: loading data index=13 size=19 uncompressed=468
+[2019-10-28 21:12:38][datafile]: loading data index=14 size=560 uncompressed=1524
+[2019-10-28 21:12:38][datafile]: loading data index=15 size=830 uncompressed=2468
+[2019-10-28 21:12:38][datafile]: loading data index=16 size=1303 uncompressed=5220
+[2019-10-28 21:12:38][datafile]: loading data index=17 size=330 uncompressed=1192
+[2019-10-28 21:12:38][datafile]: loading data index=18 size=1695 uncompressed=7284
+[2019-10-28 21:12:38][datafile]: loading data index=19 size=1146 uncompressed=4492
+[2019-10-28 21:12:38][datafile]: loading data index=20 size=156 uncompressed=648
+[2019-10-28 21:12:38][datafile]: loading data index=21 size=27 uncompressed=512
+[2019-10-28 21:12:38][server]: maps/ctf5_f.map sha256 is 8692f4f91239b298b6ecadb4700d1a7a7f166742e3864d8026a41c1d43e64a42
+[2019-10-28 21:12:38][server]: maps/ctf5_f.map crc is 3a1694a7
+[2019-10-28 21:12:38][econ]: bound to localhost:1337
+[2019-10-28 21:12:38][server]: server name is 'ChillerDragon's Vanilla test server 7'
+[2019-10-28 21:12:38][server]: version 0.7 802f1be60a05665f
+[2019-10-28 21:12:38][engine/mastersrv]: refreshing master server addresses
+[2019-10-28 21:12:38][register]: refreshing ip addresses
+[2019-10-28 21:12:39][engine/mastersrv]: saving addresses
+[2019-10-28 21:12:39][register]: fetching server counts
+[2019-10-28 21:12:40][server]: player is ready. ClientID=0 addr=172.16.91.57:53610
+[2019-10-28 21:12:41][game]: Teams are balanced (red=1 blue=0)
+[2019-10-28 21:12:41][server]: player has entered the game. ClientID=0 addr=172.16.91.57:53610
+[2019-10-28 21:12:41][game]: team_join player='0:ChillerDragon' team=0
+[2019-10-28 21:12:42][register]: chose 'master2.teeworlds.com' as master, sending heartbeats
+[2019-10-28 21:12:43][game]: pickup player='0:ChillerDragon' item=2
+[2019-10-28 21:12:49][game]: flag_grab player='0:ChillerDragon' team=0
+[2019-10-28 21:12:51][game]: pickup player='0:ChillerDragon' item=3
+[2019-10-28 21:12:55][game]: flag_capture player='0:ChillerDragon' team=0 time=6.66
+[2019-10-28 21:12:57][server]: client dropped. cid=0 addr=172.16.91.57:53610 reason=''
+[2019-10-28 21:12:57][game]: kill killer='0:0:ChillerDragon' victim='0:0:ChillerDragon' weapon=-3 special=0
+[2019-10-28 21:12:57][game]: leave player='0:ChillerDragon'
+[2019-10-28 21:12:57][game]: Teams are balanced (red=0 blue=0)
