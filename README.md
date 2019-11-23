@@ -8,8 +8,7 @@ A python script which communicates with teeworlds server log as input and econ c
 
 on debian based systems do:
 ```
-sudo apt install python3 git
-sudo apt install python3-pip
+sudo apt install python3 python3-pip git expect
 git clone https://github.com/ChillaVanilla/TeeworldsEconMod.git
 cd TeeworldsEconMod
 pip3 install -r requirements.txt
@@ -50,7 +49,7 @@ and then respond via netcat connection to the teeworlds econ api.
 
 # Dependencies
 
-You need python3 installed and a teeworlds server with an autoexec.cfg including:
+You need python3 and expect installed. And a teeworlds server with an autoexec.cfg including:
 ```
 ec_port "port"
 ec_password "password"
