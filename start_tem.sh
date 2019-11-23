@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+shopt -s extglob # used for trailing slashes globbing
 echo "========================"
 echo "|| Teeworlds Econ Mod ||"
 echo "|| by ChillerDragon   ||"
@@ -111,6 +112,10 @@ function parse_settings_line() {
             if  [ "$sett" == "${aSettStr[$i]}" ]
             then
                 printf "[TEM:setting] (%s)%-16s=  %s\n" "$i" "${sett:3}" "$val"
+                if [[ "${aSettStr[$i]}" =~ path ]]
+                then
+                    val="${val%%+(/)}" # strip trailing slash
+                fi
                 aSettVal[$i]="$val"
                 return
             fi
