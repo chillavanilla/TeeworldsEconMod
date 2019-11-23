@@ -67,7 +67,7 @@ function check_path() {
     log "should be at: $path"
     if [ "$create" != "0" ]
     then
-        read -p "Do you want to create the path? [y/n]" -n 1 -r
+        read -p "Do you want to create the path? [y/N]" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -87,7 +87,7 @@ function create_settings() {
     fi
     local i
     log "FileError: '$settings_file' not found"
-    read -p "Do you want to create one? [y/n]" -n 1 -r
+    read -p "Do you want to create one? [y/N]" -n 1 -r
     echo 
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
