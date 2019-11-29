@@ -82,7 +82,7 @@ def MainLoop():
             chat.echo("[WARNING] End of file error.")
             sys.exit(2)
         except UnicodeDecodeError:
-            chat.say("[WARNING] UnicodeDecodeError! Please contact an admin.")
+            chat.echo("[WARNING] UnicodeDecodeError! Please contact an admin.")
             pass
 
 def main(argv):

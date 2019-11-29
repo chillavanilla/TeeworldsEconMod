@@ -154,7 +154,7 @@ def HandlePlayerLeave(data):
     id_str = data[id_start:id_end]
     player = GetPlayerByID(id_str)
     if player == None:
-        echo("[WARNING] invalid player left id=" + str(id_str))
+        echo("[ERROR] invalid player left id=" + str(id_str))
         say("   DATA=" + str(data))
         sys.exit(1)
     SaveAndDeletePlayer(player)
