@@ -128,14 +128,24 @@ def PrintStatsAll(debug=False):
         for player in aPlayers:
             say("'" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " spree: " + str(player.best_spree) + " flags: " + str(player.flag_caps_red + player.flag_caps_blue) + " fastest cap: " + str(player.flag_time))
 
-# [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
-def HandlePlayerEnter(data):
+# [server]: player is ready. ClientID=0 addr=172.20.10.9:52244
+def HandlePlayerReady(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
     id_str = data[id_start:id_end]
     if g_settings.get("tw_version") == 6:
-        id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in enter messages
+        id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
+    # name is actually "(connecting)" but better use None
     CreatePlayer(name=None, ID=id_str, ShowStats=True)
+
+# [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
+# def HandlePlayerEnter(data):
+#     id_start = data.find("=") + 1
+#     id_end = data.find(" ", id_start)
+#     id_str = data[id_start:id_end]
+#     if g_settings.get("tw_version") == 6:
+#         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in enter messages
+#     CreatePlayer(name=None, ID=id_str, ShowStats=True)
 
 # [server]: client dropped. cid=1 addr=172.20.10.9:53784 reason=''
 def HandlePlayerLeave(data):
@@ -145,8 +155,8 @@ def HandlePlayerLeave(data):
     player = GetPlayerByID(id_str)
     if player == None:
         echo("[WARNING] invalid player left id=" + str(id_str))
-        # say("   DATA=" + str(data))
-        # sys.exit(1)
+        say("   DATA=" + str(data))
+        sys.exit(1)
     SaveAndDeletePlayer(player)
 
 # [game]: team_join player='0:ChillerDragon' team=0

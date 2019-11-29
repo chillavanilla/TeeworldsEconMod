@@ -50,8 +50,10 @@ def HandleData(timestamp, data):
             chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
     elif (data.startswith("[server]: client dropped. cid=")):
         player.HandlePlayerLeave(data[:-1]) # chop of newline
-    elif (data.startswith("[server]: player has entered the game. ClientID=")):
-        player.HandlePlayerEnter(data[:-1]) # chop of newline
+    elif (data.startswith("[server]: player is ready. ClientID=")):
+        player.HandlePlayerReady(data[:-1]) # chop of newline
+    # elif (data.startswith("[server]: player has entered the game. ClientID=")):
+    #     player.HandlePlayerEnter(data[:-1]) # chop of newline
     elif (data.startswith("[game]: team_join player='")):
         player.HandlePlayerTeam(data[:-1]) # chop of newline
     elif (data.startswith("[chat]") or data.startswith("[teamchat]")):
