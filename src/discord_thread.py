@@ -12,5 +12,5 @@ class send_discord(Thread):
     def run(self):
         if g_settings.get("discord_token") != None:
             self.message = self.message.replace("'", "'\\''") # yes shell quote escape is madness
-            os.system("python3.4 src/discord/webhook.py '" + g_settings.get("discord_token") + "' '" + self.message + "'")
+            os.system("python src/discord/webhook.py '" + g_settings.get("discord_token") + "' '" + self.message + "'")
             # requests.post("https://discordapp.com/api/webhooks/" + g_settings.get("discord_token"), data={"content": self.message})
