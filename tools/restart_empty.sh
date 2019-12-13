@@ -10,6 +10,7 @@
 shopt -s extglob # used for trailing slashes globbing
 
 is_debug=0
+is_twapi=1
 is_ping=0
 mode="Restart"
 if [[ "$2" == "-v" ]] || [[ "$2" == "--verbose" ]]
@@ -47,7 +48,6 @@ function sleep_m() {
 
 procs=$(pgrep -fc restart_empty.sh)
 procs=$((procs))
-echo "procs: $procs"
 if [ $procs -gt 1 ]
 then
     ps aux | grep restart_empty.sh | grep -v grep
@@ -79,15 +79,29 @@ fi
 
 # TODO: exit with error when log path starts with /
 discord_token=$(grep -o '^[^#]*' "$temsettings" | grep '^py_discord_token=' | tail -n1 | cut -d '=' -f2)
+twpath=$(grep -o '^[^#]*' "$temsettings" | grep '^sh_tw_path=' | tail -n1 | cut -d '=' -f2)
+twpath=$(echo "$twpath" | xargs) # strip trailing spaces
+twpath="${twpath%%+(/)}" # strip trailing slash
+twsettings="$twpath/autoexec.cfg"
 logpath=$(grep -o '^[^#]*' "$temsettings" | grep '^sh_logs_path=' | tail -n1 | cut -d '=' -f2)
 logpath="$twdumps/$logpath"
-logpath="${logpath%%+(/)}" # strip trailing slash
 logpath=$(echo "$logpath" | xargs) # strip trailing spaces
+logpath="${logpath%%+(/)}" # strip trailing slash
 logfile=$(ls $logpath | sort | tail -n1)
 echo "Found logpath: $logpath"
 echo "Latest log: $logfile"
 logfile="$logpath/$logfile"
 
+if [ ! -d "$twpath" ]
+then
+    echo "Error: twpath not found '$twpath'"
+    exit 1
+fi
+if [ ! -f "$twsettings" ]
+then
+    echo "Error: teeworlds settings not found '$twsettings'"
+    exit 1
+fi
 if [ "$is_ping" == "1" ]
 then
     if [ "$discord_token" == "" ]
@@ -101,6 +115,17 @@ then
     echo "Full log path: $logfile"
     echo "Error: logfile does not exist."
     exit 1
+fi
+
+port=$(grep -o '^[^#]*' "$twsettings" | grep '^sv_port' | tail -n1 | cut -d ' ' -f2)
+port=$(echo "$port" | xargs) # unquote
+port=$((port))
+if [ "$port" == "0" ]
+then
+    echo "Default to teeworlds port '8303'"
+    port=8303
+else
+    echo "Found teeworlds port '$port'"
 fi
 
 function ping_discord() {
@@ -121,23 +146,39 @@ function restart_srv() {
 }
 
 function check_empty() {
-    ready=$(grep -cP '^\[.{19}]\[server\]: player is ready. ClientID=' "$logfile")
-    drop=$(grep -cP '^\[.{19}]\[server\]: client dropped. cid=' "$logfile")
-    total=$((ready - drop))
-
-    dbg "ready=$ready dropped=$drop"
-    dbg "totoal=$total"
-
-    if [ "$total" -eq "0" ]
+    if [ "$is_twapi" == "1" ]
     then
-        if [ "$is_ping" == "1" ]; then
-            ping_discord "$ready" "$drop"
+        total=$(./tools/tw_api_empty.py localhost $port)
+        if [ "$total" -eq "0" ]
+        then
+            if [ "$is_ping" == "1" ]; then
+                ping_discord
+            else
+                restart_srv
+            fi
+            exit 0 # do not keep restarting on crash or pinging
         else
-            restart_srv
+            printf "%s failed players=%s " "$mode" "$total"
         fi
-        exit 0 # do not keep restarting on crash or pinging
     else
-        printf "%s failed players=%s " "$mode" "$total"
+        ready=$(grep -cP '^\[.{19}]\[server\]: player is ready. ClientID=' "$logfile")
+        drop=$(grep -cP '^\[.{19}]\[server\]: client dropped. cid=' "$logfile")
+        total=$((ready - drop))
+
+        dbg "ready=$ready dropped=$drop"
+        dbg "totoal=$total"
+
+        if [ "$total" -eq "0" ]
+        then
+            if [ "$is_ping" == "1" ]; then
+                ping_discord "$ready" "$drop"
+            else
+                restart_srv
+            fi
+            exit 0 # do not keep restarting on crash or pinging
+        else
+            printf "%s failed players=%s " "$mode" "$total"
+        fi
     fi
 }
 
