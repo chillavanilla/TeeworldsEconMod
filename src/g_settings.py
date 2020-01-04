@@ -11,7 +11,10 @@ SETTINGS = {
     "file_database": ["str", "stats/"],
     "discord_token": ["str", None],
     "discord_filter": ["[]", None],
-    "tw_version": ["int", None]
+    "tw_version": ["int", None],
+    "mod_discord": ["str", "<@&573940781082083339>"],
+    "votes_discord": ["int", 0],    # 1=chat info 2=ping on discord when vote is called
+    "votes_force": ["int", 0]       # force no when a vote is called
 }
 
 def get(setting):

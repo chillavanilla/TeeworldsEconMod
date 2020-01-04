@@ -8,6 +8,7 @@ import g_settings
 import parse_settings
 import chat
 import game
+import votes
 import player
 import flag
 import sql_stats
@@ -48,6 +49,11 @@ def HandleData(timestamp, data):
             chat.echo(str(player.CountPlayers()) + " players online")
         elif (data.startswith("[Console]: !dev")):
             chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
+    # [2020-01-04 15:31:47][server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
+    elif (data.startswith("[server]: '")): # also matches name changes "'foo' -> 'bar'"
+        d = data[:-1]
+        if (d.endswith("force=1") or d.endswith("force=0")):
+            votes.HandleCallVote(d)
     elif (data.startswith("[server]: client dropped. cid=")):
         player.HandlePlayerLeave(data[:-1]) # chop of newline
     elif (data.startswith("[server]: player is ready. ClientID=")):

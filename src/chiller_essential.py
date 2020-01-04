@@ -3,19 +3,25 @@ import sys
 import g_settings
 import discord_thread
 
-def EscapeStringKillers(str):
-    return str.replace('"', '\\"')
+def EscapeStringKillers(s):
+    return s.replace('"', '\\"')
 
-def say(str):
-    sys.stdout.write('say "' + EscapeStringKillers(str) + '"\n')
+def rcon_exec(s):
+    if g_settings.get("debug"):
+        say("rcon_exec('" + str(s) + "')")
+    sys.stdout.write(s + '\n')
     sys.stdout.flush()
 
-def broadcast(str):
-    sys.stdout.write('broadcast "' + EscapeStringKillers(str) + '"\n')
+def say(s):
+    sys.stdout.write('say "' + EscapeStringKillers(s) + '"\n')
     sys.stdout.flush()
 
-def echo(str):
-    sys.stdout.write('echo "' + EscapeStringKillers(str) + '"\n')
+def broadcast(s):
+    sys.stdout.write('broadcast "' + EscapeStringKillers(s) + '"\n')
+    sys.stdout.flush()
+
+def echo(s):
+    sys.stdout.write('echo "' + EscapeStringKillers(s) + '"\n')
     sys.stdout.flush()
 
 def log(s):

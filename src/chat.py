@@ -216,7 +216,7 @@ def HandleChatMessage(msg):
     elif (IsBanReasonInStr(cmd)): 
         say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
         name = GetRankName(msg_normal, ": ") # players containing : will be cutted in discord message but this is fine for now
-        send_discord("send help <@&573940781082083339>!")
+        send_discord("send help " + str(g_settings("mod_discord")) + "!")
     else:
         IsCmd = False
     if IsCmd:
