@@ -1,0 +1,79 @@
+[2020-01-04 15:30:23][engine]: running on unix-linux-amd64
+[2020-01-04 15:30:23][engine]: arch is little endian
+[2020-01-04 15:30:23][storage]: couldn't open storage.cfg
+[2020-01-04 15:30:23][storage]: using standard paths
+[2020-01-04 15:30:23][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[2020-01-04 15:30:23][storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')
+[2020-01-04 15:30:23][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla7')
+[2020-01-04 15:30:23][storage]: added path '$APPDIR' ('.')
+[2020-01-04 15:30:23][console]: executing 'autoexec.cfg'
+[2020-01-04 15:30:23][server]: starting...
+[2020-01-04 15:30:23][datafile]: loading. filename='maps/ctf5_f.map'
+[2020-01-04 15:30:23][datafile]: allocsize=2408
+[2020-01-04 15:30:23][datafile]: readsize=2080
+[2020-01-04 15:30:23][datafile]: swaplen=2100
+[2020-01-04 15:30:23][datafile]: item_size=1712
+[2020-01-04 15:30:23][datafile]: loading done. datafile='maps/ctf5_f.map'
+[2020-01-04 15:30:23][datafile]: loading data index=11 size=223 uncompressed=712
+[2020-01-04 15:30:23][datafile]: loading data index=12 size=1219 uncompressed=5156
+[2020-01-04 15:30:23][datafile]: loading data index=13 size=19 uncompressed=468
+[2020-01-04 15:30:23][datafile]: loading data index=14 size=560 uncompressed=1524
+[2020-01-04 15:30:23][datafile]: loading data index=15 size=830 uncompressed=2468
+[2020-01-04 15:30:23][datafile]: loading data index=16 size=1303 uncompressed=5220
+[2020-01-04 15:30:23][datafile]: loading data index=17 size=330 uncompressed=1192
+[2020-01-04 15:30:23][datafile]: loading data index=18 size=1695 uncompressed=7284
+[2020-01-04 15:30:23][datafile]: loading data index=19 size=1146 uncompressed=4492
+[2020-01-04 15:30:23][datafile]: loading data index=20 size=156 uncompressed=648
+[2020-01-04 15:30:23][datafile]: loading data index=21 size=27 uncompressed=512
+[2020-01-04 15:30:23][server]: maps/ctf5_f.map sha256 is 8692f4f91239b298b6ecadb4700d1a7a7f166742e3864d8026a41c1d43e64a42
+[2020-01-04 15:30:23][server]: maps/ctf5_f.map crc is 3a1694a7
+[2020-01-04 15:30:23][econ]: bound to localhost:1337
+[2020-01-04 15:30:23][server]: server name is 'ChillerDragon's Vanilla test server 7'
+[2020-01-04 15:30:23][server]: version 0.7 802f1be60a05665f
+[2020-01-04 15:30:23][engine/mastersrv]: refreshing master server addresses
+[2020-01-04 15:30:23][engine]: job added
+[2020-01-04 15:30:23][engine]: job added
+[2020-01-04 15:30:23][engine]: job added
+[2020-01-04 15:30:23][engine]: job added
+[2020-01-04 15:30:23][register]: refreshing ip addresses
+[2020-01-04 15:30:23][engine/mastersrv]: saving addresses
+[2020-01-04 15:30:23][register]: fetching server counts
+[2020-01-04 15:30:23][register]: chose 'master1.teeworlds.com' as master, sending heartbeats
+[2020-01-04 15:31:23][connection]: got connection, sending connect+accept
+[2020-01-04 15:31:23][connection]: connecting online
+[2020-01-04 15:31:23][server]: player is ready. ClientID=0 addr=10.52.176.91:52345
+[2020-01-04 15:31:23][game]: Teams are balanced (red=1 blue=0)
+[2020-01-04 15:31:23][server]: player has entered the game. ClientID=0 addr=10.52.176.91:52345
+[2020-01-04 15:31:23][game]: team_join player='0:ChillerDragon' team=0
+[2020-01-04 15:31:23][register]: WARNING: Master server is not responding, switching master
+[2020-01-04 15:31:23][engine/mastersrv]: refreshing master server addresses
+[2020-01-04 15:31:23][engine]: job added
+[2020-01-04 15:31:23][engine]: job added
+[2020-01-04 15:31:23][engine]: job added
+[2020-01-04 15:31:23][engine]: job added
+[2020-01-04 15:31:23][register]: refreshing ip addresses
+[2020-01-04 15:31:24][engine/mastersrv]: saving addresses
+[2020-01-04 15:31:24][register]: fetching server counts
+[2020-01-04 15:31:24][register]: chose 'master1.teeworlds.com' as master, sending heartbeats
+[2020-01-04 15:31:24][game]: pickup player='0:ChillerDragon' item=1
+[2020-01-04 15:31:25][game]: pickup player='0:ChillerDragon' item=1
+[2020-01-04 15:31:25][game]: pickup player='0:ChillerDragon' item=1
+[2020-01-04 15:31:25][game]: pickup player='0:ChillerDragon' item=2
+[2020-01-04 15:31:33][connection]: got connection, sending connect+accept
+[2020-01-04 15:31:34][connection]: connecting online
+[2020-01-04 15:31:34][server]: player is ready. ClientID=1 addr=10.52.176.91:53983
+[2020-01-04 15:31:34][game]: start match type='CTF' teamplay='1'
+[2020-01-04 15:31:34][game]: Teams are balanced (red=1 blue=1)
+[2020-01-04 15:31:35][conn]: asking for resend 6 5
+[2020-01-04 15:31:36][server]: player has entered the game. ClientID=1 addr=10.52.176.91:53983
+[2020-01-04 15:31:36][game]: team_join player='1:zilly dummy' team=1
+[2020-01-04 15:31:47][server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
+[2020-01-04 15:31:47][connection]: flushed connection due to timeout. 1 chunks.
+[2020-01-04 15:31:47][net_ban]: banned '10.52.176.91' for 5 minutes (Banned by vote)
+[2020-01-04 15:31:47][server]: client dropped. cid=0 addr=10.52.176.91:52345 reason='You have been banned for 5 minutes (Banned by vote)'
+[2020-01-04 15:31:47][game]: kill killer='0:0:ChillerDragon' victim='0:0:ChillerDragon' weapon=-3 special=0
+[2020-01-04 15:31:47][game]: leave player='0:ChillerDragon'
+[2020-01-04 15:31:47][server]: client dropped. cid=1 addr=10.52.176.91:53983 reason='You have been banned for 5 minutes (Banned by vote)'
+[2020-01-04 15:31:47][game]: kill killer='1:1:zilly dummy' victim='1:1:zilly dummy' weapon=-3 special=0
+[2020-01-04 15:31:47][game]: leave player='1:zilly dummy'
+[2020-01-04 15:31:47][game]: Teams are balanced (red=0 blue=0)
