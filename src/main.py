@@ -41,7 +41,10 @@ def HandleData(timestamp, data):
                 parse_settings.ReadSettingsFile(settings_file)
                 chat.echo("[==== SETTINGS ====]")
                 for key, value in g_settings.SETTINGS.items():
-                    chat.echo("[tem:setting] " + str(key) + " : " + str(value[1]))
+                    sett_val = value[1]
+                    if str(key) == "discord_token":
+                        sett_val = sett_val[:5] + "..."
+                    chat.echo("[tem:setting] " + str(key) + " : " + str(sett_val))
             except parse_settings.TemParseError as x:
                 chat.echo(str(x))
         elif (data.startswith("[Console]: !list")):
