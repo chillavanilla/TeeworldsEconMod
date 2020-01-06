@@ -25,7 +25,7 @@ def HandleData(line):
     if name != "":
         line = "[" + name + "] " + line
     print("line: " + line)
-    requests.post("https://discordapp.com/api/webhooks/" + token, data={"content": line})
+    requests.post("https://discordapp.com/api/webhooks/" + token, data={"content": "```" + line.replace("```", "\`\`\`") + "```"})
 
 def main():
     global token
