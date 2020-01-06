@@ -13,4 +13,4 @@ def HandleCallVote(data):
     if g_settings.get("votes_discord") != 0:
         say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
     if g_settings.get("votes_discord") == 2:
-        send_discord("vote called " + str(g_settings.get("mod_discord")) + "!\n" + str(data))
+        send_discord("vote called " + str(g_settings.get("mod_discord")) + "!\n" + str(data[:data.find(" cmd='ban")]))
