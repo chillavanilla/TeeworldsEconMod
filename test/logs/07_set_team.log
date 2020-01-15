@@ -1,0 +1,120 @@
+[2020-01-15 18:04:58][engine]: running on unix-linux-amd64
+[2020-01-15 18:04:58][engine]: arch is little endian
+[2020-01-15 18:04:58][storage]: couldn't open storage.cfg
+[2020-01-15 18:04:58][storage]: using standard paths
+[2020-01-15 18:04:58][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[2020-01-15 18:04:58][storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')
+[2020-01-15 18:04:58][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla7')
+[2020-01-15 18:04:58][storage]: added path '$APPDIR' ('.')
+[2020-01-15 18:04:58][console]: executing 'autoexec.cfg'
+[2020-01-15 18:04:58][server]: starting...
+[2020-01-15 18:04:58][datafile]: loading. filename='maps/ctf5_f.map'
+[2020-01-15 18:04:58][datafile]: allocsize=2408
+[2020-01-15 18:04:58][datafile]: readsize=2080
+[2020-01-15 18:04:58][datafile]: swaplen=2100
+[2020-01-15 18:04:58][datafile]: item_size=1712
+[2020-01-15 18:04:58][datafile]: loading done. datafile='maps/ctf5_f.map'
+[2020-01-15 18:04:58][datafile]: loading data index=11 size=223 uncompressed=712
+[2020-01-15 18:04:58][datafile]: loading data index=12 size=1219 uncompressed=5156
+[2020-01-15 18:04:58][datafile]: loading data index=13 size=19 uncompressed=468
+[2020-01-15 18:04:58][datafile]: loading data index=14 size=560 uncompressed=1524
+[2020-01-15 18:04:58][datafile]: loading data index=15 size=830 uncompressed=2468
+[2020-01-15 18:04:58][datafile]: loading data index=16 size=1303 uncompressed=5220
+[2020-01-15 18:04:58][datafile]: loading data index=17 size=330 uncompressed=1192
+[2020-01-15 18:04:58][datafile]: loading data index=18 size=1695 uncompressed=7284
+[2020-01-15 18:04:58][datafile]: loading data index=19 size=1146 uncompressed=4492
+[2020-01-15 18:04:58][datafile]: loading data index=20 size=156 uncompressed=648
+[2020-01-15 18:04:58][datafile]: loading data index=21 size=27 uncompressed=512
+[2020-01-15 18:04:58][server]: maps/ctf5_f.map sha256 is 8692f4f91239b298b6ecadb4700d1a7a7f166742e3864d8026a41c1d43e64a42
+[2020-01-15 18:04:58][server]: maps/ctf5_f.map crc is 3a1694a7
+[2020-01-15 18:04:58][econ]: bound to localhost:1337
+[2020-01-15 18:04:58][server]: server name is 'ChillerDragon's Vanilla test server 7'
+[2020-01-15 18:04:58][server]: version 0.7 802f1be60a05665f
+[2020-01-15 18:04:58][server]: WARNING: netversion hash differs
+[2020-01-15 18:04:58][engine/mastersrv]: refreshing master server addresses
+[2020-01-15 18:04:58][engine]: job added
+[2020-01-15 18:04:58][engine]: job added
+[2020-01-15 18:04:58][engine]: job added
+[2020-01-15 18:04:58][engine]: job added
+[2020-01-15 18:04:58][register]: refreshing ip addresses
+[2020-01-15 18:04:58][engine/mastersrv]: saving addresses
+[2020-01-15 18:04:58][register]: fetching server counts
+[2020-01-15 18:04:59][register]: chose 'master1.teeworlds.com' as master, sending heartbeats
+[2020-01-15 18:05:01][connection]: got connection, sending connect+accept
+[2020-01-15 18:05:01][connection]: connecting online
+[2020-01-15 18:05:01][server]: player is ready. ClientID=0 addr=[0:0:0:0:0:0:0:1]:51727
+[2020-01-15 18:05:01][game]: Teams are balanced (red=1 blue=0)
+[2020-01-15 18:05:01][server]: player has entered the game. ClientID=0 addr=[0:0:0:0:0:0:0:1]:51727
+[2020-01-15 18:05:01][game]: team_join player='0:bunny' team=0
+[2020-01-15 18:05:06][connection]: got connection, sending connect+accept
+[2020-01-15 18:05:06][connection]: connecting online
+[2020-01-15 18:05:06][server]: player is ready. ClientID=1 addr=172.20.10.9:57500
+[2020-01-15 18:05:06][game]: start match type='CTF' teamplay='1'
+[2020-01-15 18:05:06][game]: Teams are balanced (red=1 blue=1)
+[2020-01-15 18:05:06][server]: player has entered the game. ClientID=1 addr=172.20.10.9:57500
+[2020-01-15 18:05:06][game]: team_join player='1:ChillerDragon' team=1
+[2020-01-15 18:05:15][server]: ClientID=1 authed (admin)
+[2020-01-15 18:05:21][server]: ClientID=1 rcon='set_team 0 -1'
+[2020-01-15 18:05:21][server]: moved client 0 to team -1
+[2020-01-15 18:05:21][game]: kill killer='0:0:bunny' victim='0:0:bunny' weapon=-3 special=0
+[2020-01-15 18:05:21][game]: team_join player='0:bunny' team=0->-1
+[2020-01-15 18:05:21][game]: Teams are balanced (red=0 blue=1)
+[2020-01-15 18:05:31][chat]: 1:1:ChillerDragon: /stats bunny
+[2020-01-15 18:05:37][chat]: 1:1:ChillerDragon: /rank_all bunny
+[2020-01-15 18:05:46][server]: ClientID=1 rcon='set_team 0 1'
+[2020-01-15 18:05:46][server]: moved client 0 to team 1
+[2020-01-15 18:05:46][game]: team_join player='0:bunny' team=-1->1
+[2020-01-15 18:05:46][game]: Teams are NOT balanced (red=0 blue=2)
+[2020-01-15 18:05:56][server]: ClientID=1 rcon='set_team 0 2'
+[2020-01-15 18:05:56][server]: moved client 0 to team 1
+[2020-01-15 18:05:59][register]: WARNING: Master server is not responding, switching master
+[2020-01-15 18:05:59][engine/mastersrv]: refreshing master server addresses
+[2020-01-15 18:05:59][engine]: job added
+[2020-01-15 18:05:59][engine]: job added
+[2020-01-15 18:05:59][engine]: job added
+[2020-01-15 18:05:59][engine]: job added
+[2020-01-15 18:05:59][register]: refreshing ip addresses
+[2020-01-15 18:05:59][engine/mastersrv]: saving addresses
+[2020-01-15 18:05:59][register]: fetching server counts
+[2020-01-15 18:05:59][register]: chose 'master4.teeworlds.com' as master, sending heartbeats
+[2020-01-15 18:06:01][server]: ClientID=1 rcon='set_team 0 0'
+[2020-01-15 18:06:01][server]: moved client 0 to team 0
+[2020-01-15 18:06:01][game]: kill killer='0:1:bunny' victim='0:1:bunny' weapon=-3 special=0
+[2020-01-15 18:06:01][game]: team_join player='0:bunny' team=1->0
+[2020-01-15 18:06:01][game]: Teams are balanced (red=1 blue=1)
+[2020-01-15 18:06:07][chat]: 1:1:ChillerDragon: /stats bunny
+[2020-01-15 18:06:07][game]: pickup player='1:ChillerDragon' item=3
+[2020-01-15 18:06:10][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:11][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:11][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:11][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:12][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:12][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:12][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:12][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:12][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:12][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:12][game]: kill killer='1:1:ChillerDragon' victim='0:0:bunny' weapon=1 special=0
+[2020-01-15 18:06:13][game]: shot player='1:ChillerDragon' team=1 weapon=1
+[2020-01-15 18:06:20][server]: ClientID=1 rcon='set_team 0 -1'
+[2020-01-15 18:06:20][server]: moved client 0 to team -1
+[2020-01-15 18:06:20][game]: kill killer='0:0:bunny' victim='0:0:bunny' weapon=-3 special=0
+[2020-01-15 18:06:20][game]: team_join player='0:bunny' team=0->-1
+[2020-01-15 18:06:20][game]: Teams are balanced (red=0 blue=1)
+[2020-01-15 18:06:36][server]: client dropped. cid=0 addr=[0:0:0:0:0:0:0:1]:51727 reason='Timeout'
+[2020-01-15 18:06:36][game]: leave player='0:bunny'
+[2020-01-15 18:06:59][register]: WARNING: Master server is not responding, switching master
+[2020-01-15 18:06:59][engine/mastersrv]: refreshing master server addresses
+[2020-01-15 18:06:59][engine]: job added
+[2020-01-15 18:06:59][engine]: job added
+[2020-01-15 18:06:59][engine]: job added
+[2020-01-15 18:06:59][engine]: job added
+[2020-01-15 18:06:59][register]: refreshing ip addresses
+[2020-01-15 18:06:59][engine/mastersrv]: saving addresses
+[2020-01-15 18:06:59][register]: fetching server counts
+[2020-01-15 18:06:59][register]: chose 'master4.teeworlds.com' as master, sending heartbeats
+[2020-01-15 18:07:08][conn]: closed reason=''
+[2020-01-15 18:07:08][server]: client dropped. cid=1 addr=172.20.10.9:57500 reason=''
+[2020-01-15 18:07:08][game]: kill killer='1:1:ChillerDragon' victim='1:1:ChillerDragon' weapon=-3 special=0
+[2020-01-15 18:07:08][game]: leave player='1:ChillerDragon'
+[2020-01-15 18:07:08][game]: Teams are balanced (red=0 blue=0)

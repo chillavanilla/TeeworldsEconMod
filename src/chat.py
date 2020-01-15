@@ -27,7 +27,7 @@ def IsBanReasonInStr(str):
 def GetRankPlayer(msg, rank_cmd):
     if not g_settings.get("stats_mode") == "sql":
         say("not supported in file stats mode")
-        return None
+        return None, None
     msg_normal = msg
     msg = msg.lower()
     id_str = GetChatID(msg_normal)
@@ -151,6 +151,9 @@ def HandleChatMessage(msg):
     #elif (cmd.endswith(": /stats_all")):
         #player.PrintStatsAll(True)
     elif (cmd.find(": /stats") != -1):
+        if not g_settings.get("stats_mode") == "sql":
+            say("not supported in file stats mode")
+            return
         p, name = GetRankPlayer(msg_normal, ": /stats")
         if not p:
             say("[stats] player '" + str(name) + "' is not online.")
