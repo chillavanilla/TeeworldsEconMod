@@ -157,7 +157,7 @@ function read_settings_file() {
             fi
         done
         # echo "config: $line_set value: $line_val"
-        parse_settings_line $line_set $line_val
+        parse_settings_line "$line_set" "$line_val"
     done < $settings_file
 }
 
