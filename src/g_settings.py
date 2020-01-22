@@ -10,7 +10,8 @@ SETTINGS = {
     "sql_database": ["str", "stats.db"],
     "file_database": ["str", "stats/"],
     "discord_token": ["str", None],
-    "discord_filter": ["[]", None],
+    "chat_filter": ["[]", None],
+    "filter_discord": ["int", 0],    # 0=off 1=send message to discord when chat_filter matches
     "tw_version": ["int", None],
     "mod_discord": ["str", "<@&573940781082083339>"],
     "votes_discord": ["int", 0],    # 1=chat info 2=ping on discord when vote is called

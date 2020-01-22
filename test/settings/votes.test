@@ -6,6 +6,6 @@ sh_econ_port=8203
 py_debug=0
 py_stats_mode=file
 py_file_database=stats/
-py_discord_filter=foo,bar,baz
+py_chat_filter=foo,bar,baz
 py_votes_discord=2
 py_votes_force=1

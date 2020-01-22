@@ -13,7 +13,7 @@ import game
 import achievements
 
 def IsBanReasonInStr(str):
-    words = g_settings.get("discord_filter")
+    words = g_settings.get("chat_filter")
     if not words:
         return False
     for word in words:
@@ -219,7 +219,8 @@ def HandleChatMessage(msg):
     elif (IsBanReasonInStr(cmd)): 
         say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
         name = GetRankName(msg_normal, ": ") # players containing : will be cutted in discord message but this is fine for now
-        send_discord("send help " + str(g_settings.get("mod_discord")) + "!")
+        if g_settings.get("filter_discord") == 1:
+            send_discord("send help " + str(g_settings.get("mod_discord")) + "!")
     else:
         IsCmd = False
     if IsCmd:
