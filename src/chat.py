@@ -220,7 +220,7 @@ def HandleChatMessage(msg):
         say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
         name = GetRankName(msg_normal, ": ") # players containing : will be cutted in discord message but this is fine for now
         if g_settings.get("filter_discord") == 1:
-            send_discord("send help " + str(g_settings.get("mod_discord")) + "!")
+            send_discord("chat trigger " + str(g_settings.get("mod_discord")) + "!\n" + str(msg))
     else:
         IsCmd = False
     if IsCmd:
