@@ -39,6 +39,7 @@ aSettStr+=("sh_econ_port");aSettVal+=("8203")
 aSettStr+=("sh_logs_path");aSettVal+=("/path/to/log/directory")
 aSettStr+=("sh_tw_cfg_file");aSettVal+=("")
 aSettStr+=("sh_tw_version");aSettVal+=("6")
+aSettStr+=("sh_discord_token_verbose");aSettVal+=("")
 
 if [ $# -gt 0 ]; then
     log "settings file=$1"
@@ -176,6 +177,7 @@ read_settings_file
 # - log path        4
 # - cfg path        5
 # - tw version      6
+# - discord token   7 ( NOT USED BY THIS SCRIPT ONLY BY tools/discord_bot.sh )
 
 twsettings=""
 

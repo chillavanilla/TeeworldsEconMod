@@ -9,6 +9,7 @@ settings_file="../tem.settings"
 name="nameless"
 aSettStr=();aSettVal=()
 aSettStr+=("sh_logs_path");aSettVal+=("/path/to/log/directory")
+aSettStr+=("sh_discord_token_verbose");aSettVal+=("")
 aSettStr+=("py_discord_token");aSettVal+=("")
 aSettStr+=("sh_tw_path");aSettVal+=("/path/to/your/teeworlds/directory")
 aSettStr+=("sh_tw_binary");aSettVal+=("name_of_teeworlds_srv")
