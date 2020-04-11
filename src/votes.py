@@ -3,11 +3,12 @@ import re
 from chiller_essential import *
 
 def IsBlockedReason(reason):
+    reason.lower()
     words = g_settings.get("votes_blocked_reasons")
     if not words:
         return False
     for word in words:
-        if (reason.find(word) != -1):
+        if (reason.find(word.lower()) != -1):
             return True
     return False
 
