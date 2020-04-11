@@ -11,7 +11,7 @@ class TemParseError(Exception):
 
 def parse_error(err_type, err_msg):
     echo("[ERROR:settings] " + str(err_type) + ": " + str(err_msg))
-    raise TemParseError(err_msg)
+    raise TemParseError(err_type + ": " + err_msg)
 
 def parse_bool(sett, val, line_num):
         val = val.lower()
