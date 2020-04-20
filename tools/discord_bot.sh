@@ -16,7 +16,7 @@ aSettStr+=("sh_tw_binary");aSettVal+=("name_of_teeworlds_srv")
 aSettStr+=("sh_econ_password");aSettVal+=("password")
 aSettStr+=("sh_econ_port");aSettVal+=("8203")
 aSettStr+=("sh_tw_cfg_file");aSettVal+=("")
-aSettStr+=("sh_tw_version");aSettVal+=("0.6")
+aSettStr+=("sh_tw_version");aSettVal+=("6")
 
 function kill_bot() {
     pkill -f " --universal-id=tem-bot"
