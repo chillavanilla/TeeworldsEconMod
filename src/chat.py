@@ -77,12 +77,35 @@ def GetSpamName(msg):
     name = msg[name_start:name_end]
     return name
 
-# in 0.7.5 id position was swapped
-# https://github.com/teeworlds/teeworlds/commit/5090c39d94bad0b6dda8caaef271133c46c00ee0#diff-a2df712cfb938eda9a173f36c865c2cc
+CHAT_NONE=0
+CHAT_ALL=1
+CHAT_TEAM=2
+CHAT_WHISPER=3
+
 def GetChatID(msg):
-    id_start = msg.find(" ") + 1
-    id_end = cbase.cfind(msg, ":", 2)
-    id_str = msg[id_start:id_end]
+    # TODO: move constants to better place
+    # TODO: refactor this code
+    # TODO: support versions higher than 0.7.5 (care "0.7.10" < "0.7.5" is true in python)
+    # in 0.7.5 id position was swapped
+    # https://github.com/teeworlds/teeworlds/commit/5090c39d94bad0b6dda8caaef271133c46c00ee0#diff-a2df712cfb938eda9a173f36c865c2cc
+    id_str = None # python scoping ?!
+    if g_settings.get("tw_version") == "0.7.5":
+        mode_start = msg.find(" ") + 1
+        mode_end = cbase.cfind(msg, ":", 2)
+        mode_str = msg[mode_start:mode_end]
+        msg = msg[mode_end:-1]
+        if int(mode_str) == CHAT_TEAM:
+            id_start = cbase.cfind(msg, ":", 2) + 1
+            id_end = cbase.cfind(msg, ":", 3)
+            id_str = msg[id_start:id_end]
+        else:
+            id_start = msg.find(":") + 1
+            id_end = cbase.cfind(msg, ":", 2)
+            id_str = msg[id_start:id_end]
+    else:
+        id_start = msg.find(" ") + 1
+        id_end = cbase.cfind(msg, ":", 2)
+        id_str = msg[id_start:id_end]
     return id_str
 
 def GetSpamPlayer(msg):

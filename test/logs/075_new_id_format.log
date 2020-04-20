@@ -1,0 +1,60 @@
+[2020-04-20 22:55:58][engine]: running on unix-linux-amd64
+[2020-04-20 22:55:58][engine]: arch is little endian
+[2020-04-20 22:55:58][storage]: couldn't open storage.cfg
+[2020-04-20 22:55:58][storage]: using standard paths
+[2020-04-20 22:55:58][storage]: added path '$USERDIR' ('/home/chiller/.teeworlds')
+[2020-04-20 22:55:58][storage]: added path '$DATADIR' ('/usr/share/games/teeworlds/data')
+[2020-04-20 22:55:58][storage]: added path '$CURRENTDIR' ('/home/chiller/Desktop/vanilla7')
+[2020-04-20 22:55:58][storage]: added path '$APPDIR' ('.')
+[2020-04-20 22:55:58][console]: executing 'autoexec.cfg'
+[2020-04-20 22:55:58][server]: starting...
+[2020-04-20 22:55:58][datafile]: loading. filename='maps/ctf5_f.map'
+[2020-04-20 22:55:58][datafile]: allocsize=2504
+[2020-04-20 22:55:58][datafile]: readsize=2080
+[2020-04-20 22:55:58][datafile]: swaplen=2100
+[2020-04-20 22:55:58][datafile]: item_size=1712
+[2020-04-20 22:55:58][datafile]: loading done. datafile='maps/ctf5_f.map'
+[2020-04-20 22:55:58][datafile]: loading data index=11 size=223 uncompressed=712
+[2020-04-20 22:55:58][datafile]: loading data index=12 size=1219 uncompressed=5156
+[2020-04-20 22:55:58][datafile]: loading data index=13 size=19 uncompressed=468
+[2020-04-20 22:55:58][datafile]: loading data index=14 size=560 uncompressed=1524
+[2020-04-20 22:55:58][datafile]: loading data index=15 size=830 uncompressed=2468
+[2020-04-20 22:55:58][datafile]: loading data index=16 size=1303 uncompressed=5220
+[2020-04-20 22:55:58][datafile]: loading data index=17 size=330 uncompressed=1192
+[2020-04-20 22:55:58][datafile]: loading data index=18 size=1695 uncompressed=7284
+[2020-04-20 22:55:58][datafile]: loading data index=19 size=1146 uncompressed=4492
+[2020-04-20 22:55:58][datafile]: loading data index=20 size=156 uncompressed=648
+[2020-04-20 22:55:58][datafile]: loading data index=21 size=27 uncompressed=512
+[2020-04-20 22:55:58][server]: maps/ctf5_f.map sha256 is 8692f4f91239b298b6ecadb4700d1a7a7f166742e3864d8026a41c1d43e64a42
+[2020-04-20 22:55:58][server]: maps/ctf5_f.map crc is 3a1694a7
+[2020-04-20 22:55:58][econ]: bound to localhost:1337
+[2020-04-20 22:55:58][server]: server name is 'ChillerDragon's Vanilla test server 7'
+[2020-04-20 22:55:58][server]: netversion 0.7 802f1be60a05665f
+[2020-04-20 22:55:58][server]: game version 0.7.5
+[2020-04-20 22:55:58][engine/mastersrv]: refreshing master server addresses
+[2020-04-20 22:55:58][engine]: job added
+[2020-04-20 22:55:58][engine]: job added
+[2020-04-20 22:55:58][engine]: job added
+[2020-04-20 22:55:58][engine]: job added
+[2020-04-20 22:55:58][register]: refreshing ip addresses
+[2020-04-20 22:55:58][engine/mastersrv]: saving addresses
+[2020-04-20 22:55:58][register]: fetching server counts
+[2020-04-20 22:56:01][register]: chose 'master3.teeworlds.com' as master, sending heartbeats
+[2020-04-20 22:56:07][connection]: got connection, sending accept
+[2020-04-20 22:56:07][connection]: connecting online
+[2020-04-20 22:56:07][server]: player is ready. ClientID=0 addr=172.16.91.57:62482
+[2020-04-20 22:56:07][game]: Teams are balanced (red=1 blue=0)
+[2020-04-20 22:56:07][server]: player has entered the game. ClientID=0 addr=172.16.91.57:62482
+[2020-04-20 22:56:07][game]: team_join player='0:ChillerDragon' team=0
+[2020-04-20 22:56:07][server]: dropped weird message 'invalid' (0), failed on '(type out of range)'
+[2020-04-20 22:56:24][chat]: 1:0:ChillerDragon: hello from 0.7.5 + new version commit
+[2020-04-20 22:56:33][teamchat]: 2:0:0:ChillerDragon: team chat
+[2020-04-20 22:56:36][chat]: 1:0:ChillerDragon: /rank
+[2020-04-20 22:56:39][chat]: 1:0:ChillerDragon: /rank ChillerDragon
+[2020-04-20 22:56:43][teamchat]: 2:0:0:ChillerDragon: /help
+[2020-04-20 22:56:49][teamchat]: 2:0:0:ChillerDragon: /help ChillerDragon
+[2020-04-20 22:56:54][conn]: closed reason=''
+[2020-04-20 22:56:54][server]: client dropped. cid=0 addr=172.16.91.57:62482 reason=''
+[2020-04-20 22:56:54][game]: kill killer='0:0:ChillerDragon' victim='0:0:ChillerDragon' weapon=-3 special=0
+[2020-04-20 22:56:54][game]: leave player='0:ChillerDragon'
+[2020-04-20 22:56:55][game]: Teams are balanced (red=0 blue=0)
