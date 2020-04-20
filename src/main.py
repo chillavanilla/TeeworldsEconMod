@@ -24,9 +24,10 @@ def HandleData(timestamp, data):
     if (g_settings.get("tw_version") == None):
         # [server]: version 0.6 626fce9a778df4d4
         # [server]: version 0.7 802f1be60a05665f
+        # [server]: netversion 0.7 802f1be60a05665f
         if (data.find("[server]: version 0.6 ") != -1):
             g_settings.set("tw_version", "0.6")
-        if (data.find("[server]: version 0.7 ") != -1):
+        if (data.find("[server]: version 0.7 ") != -1 or data.find("[server]: netversion 0.7 ") != -1):
             g_settings.set("tw_version", "0.7")
     if (data.startswith("[register]")):
         # chat.say("register found: " + data) #working but was only useless chat spam for testing
