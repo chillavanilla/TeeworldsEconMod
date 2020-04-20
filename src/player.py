@@ -133,7 +133,7 @@ def HandlePlayerReady(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
     id_str = data[id_start:id_end]
-    if g_settings.get("tw_version") == 6:
+    if g_settings.get("tw_version")[0:3] == "0.6":
         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
     # name is actually "(connecting)" but better use None
     CreatePlayer(name=None, ID=id_str, ShowStats=True)
@@ -143,7 +143,7 @@ def HandlePlayerReady(data):
 #     id_start = data.find("=") + 1
 #     id_end = data.find(" ", id_start)
 #     id_str = data[id_start:id_end]
-#     if g_settings.get("tw_version") == 6:
+#     if g_settings.get("tw_version")[0:3] == "0.6":
 #         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in enter messages
 #     CreatePlayer(name=None, ID=id_str, ShowStats=True)
 

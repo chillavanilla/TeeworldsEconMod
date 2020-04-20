@@ -77,6 +77,8 @@ def GetSpamName(msg):
     name = msg[name_start:name_end]
     return name
 
+# in 0.7.5 id position was swapped
+# https://github.com/teeworlds/teeworlds/commit/5090c39d94bad0b6dda8caaef271133c46c00ee0#diff-a2df712cfb938eda9a173f36c865c2cc
 def GetChatID(msg):
     id_start = msg.find(" ") + 1
     id_end = cbase.cfind(msg, ":", 2)

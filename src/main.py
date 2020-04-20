@@ -25,9 +25,9 @@ def HandleData(timestamp, data):
         # [server]: version 0.6 626fce9a778df4d4
         # [server]: version 0.7 802f1be60a05665f
         if (data.find("[server]: version 0.6 ") != -1):
-            g_settings.set("tw_version", 6)
+            g_settings.set("tw_version", "0.6")
         if (data.find("[server]: version 0.7 ") != -1):
-            g_settings.set("tw_version", 7)
+            g_settings.set("tw_version", "0.7")
     if (data.startswith("[register]")):
         # chat.say("register found: " + data) #working but was only useless chat spam for testing
         pass
@@ -82,7 +82,7 @@ def MainLoop():
             line = sys.stdin.readline()
             if not line:
                 break
-            if g_settings.get("tw_version") == None or g_settings.get("tw_version") == 6:
+            if g_settings.get("tw_version") == None or g_settings.get("tw_version")[0:3] == "0.6":
                 HandleData(line[1:9], line[10:]) # cut off the timestamp
             else: # 0.7 has longer timestamps
                 HandleData(line[1:20], line[21:]) # cut off the timestamp

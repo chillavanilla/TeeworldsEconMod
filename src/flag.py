@@ -27,7 +27,7 @@ def __HandleFlagCap(player_obj, time, flag_color):
 
 # 0.6 exclusive
 def HandleFlagCap06(timestamp, data):
-    if g_settings.get("tw_version") != 6:
+    if g_settings.get("tw_version")[0:3] != "0.6":
         return
     flag_color = "pink"
     if (data.find("blue", 5, 20) != -1):
@@ -51,7 +51,7 @@ def HandleFlagCap06(timestamp, data):
 
 # 0.7 exclusive
 def HandleFlapCap07(data):
-    if g_settings.get("tw_version") != 7:
+    if g_settings.get("tw_version")[0:3] != "0.7":
         return
     # old 0.7
     # flag_capture player='0:ChillerDragon' team=0

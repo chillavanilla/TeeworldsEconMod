@@ -14,7 +14,7 @@ def HandleKills(timestamp, data):
     victim = None
     weapon = ""
 
-    if g_settings.get("tw_version") == 6 or g_settings.get("tw_version") == None: # default 6
+    if g_settings.get("tw_version")[0:3] == "0.6" or g_settings.get("tw_version") == None: # default 6
         # sample kill messages:
         # [game]: kill killer='0:ChillerDragon' victim='1:ChillerDragon.*' weapon=3 special=0
         # [game]: kill killer='0:A' victim='1:ChillerDragon.*' weapon=3 special=0

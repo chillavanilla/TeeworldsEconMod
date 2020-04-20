@@ -38,7 +38,7 @@ aSettStr+=("sh_econ_password");aSettVal+=("password")
 aSettStr+=("sh_econ_port");aSettVal+=("8203")
 aSettStr+=("sh_logs_path");aSettVal+=("/path/to/log/directory")
 aSettStr+=("sh_tw_cfg_file");aSettVal+=("")
-aSettStr+=("sh_tw_version");aSettVal+=("6")
+aSettStr+=("sh_tw_version");aSettVal+=("0.6")
 aSettStr+=("sh_discord_token_verbose");aSettVal+=("")
 
 if [ $# -gt 0 ]; then
