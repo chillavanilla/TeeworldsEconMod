@@ -217,20 +217,40 @@ then
     tw_settings_file="-f ${aSettVal[5]}"
 fi
 
-nc_os="nc"
+function teeworlds_srv() {
+    ./${aSettVal[1]} "$twsettings" "$tw_settings_file"
+}
 
-if [ "$(uname)" == "Darwin" ]; then
-    nc_os="nc_macOS"
-    log "detected macOS"
-elif [ "$(uname -s)" == "Linux" ]; then
-    log "detected Linux"
-elif [ "$(uname -s)" == "MINGW32_NT" ]; then
-    log "warning MINGW support isnt guaranteed"
-elif [ "$(uname -s)" == "MINGW64_NT" ]; then
-    log "warning MINGW support isnt guaranteed"
-fi
+function main_py() {
+    local path="$1"
+    local settingsfile="$2"
+    cd "$path" || { err "invalid econ path '$path'"; exit 1; }
+    ./src/main.py --settings="$settingsfile"
+}
 
+function netcat() {
+    local path="$1"
+    local ec_pw="$2"
+    local ec_port="$3"
+    local settingsfile="$4"
+    local nc_os
+    nc_os="nc"
+    if [ "$(uname)" == "Darwin" ]; then
+        nc_os="nc_macOS"
+        log "detected macOS"
+    elif [ "$(uname -s)" == "Linux" ]; then
+        log "detected Linux"
+    elif [ "$(uname -s)" == "MINGW32_NT" ]; then
+        log "warning MINGW support isnt guaranteed"
+    elif [ "$(uname -s)" == "MINGW64_NT" ]; then
+        log "warning MINGW support isnt guaranteed"
+    fi
+    cd "$path" || { err "invalid netcat path '$path'"; exit 1; }
+    ./bin/$nc_os.exp "$ec_pw" "$ec_port" settings="$settingsfile"
+}
+
+cmd="(teeworlds_srv \"$twsettings\" $tw_settings_file) | (main_py \"$econ_mod_path\" \"$settings_file\") | (netcat \"$econ_mod_path\" \"${aSettVal[2]}\" \"${aSettVal[3]}\" \"$settings_file\")"
 log "run server | pipe into main.py | pipe into netcat connection: "
-log "executing: ./${aSettVal[1]} \"$twsettings\" $tw_settings_file | cd $econ_mod_path;./src/main.py --settings=$settings_file | ./bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file"
-(./${aSettVal[1]} "$twsettings" $tw_settings_file) | (cd $econ_mod_path;./src/main.py --settings=$settings_file) | (cd $econ_mod_path;./bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file)
+log "executing: $cmd"
+eval "$cmd"
 
