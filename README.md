@@ -1,6 +1,4 @@
 # TeeworldsEconMod
-[![CircleCI](https://circleci.com/gh/chillavanilla/TeeworldsEconMod.svg?style=svg)](https://circleci.com/gh/chillavanilla/TeeworldsEconMod)
-
 
 A python script which communicates with teeworlds server log as input and econ connection as output.
 
