@@ -9,24 +9,28 @@ function log() {
     echo "[TEM] $1"
 }
 
+function err() {
+    echo "[TEM:ERROR] $1"
+}
+
 # check dependencys
 command -v expect >/dev/null 2>&1 || {
-  echo >&2 "Error: expect is not found please install it!";
-  if [ "$(uname)" == "Darwin" ]; then
-    echo >&2 "MacOS: brew install expect";
-  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    echo >&2 "Debian/Ubuntu: sudo apt install expect";
-  fi
-  exit 1;
+    echo >&2 "Error: expect is not found please install it!";
+    if [ "$(uname)" == "Darwin" ]; then
+        echo >&2 "MacOS: brew install expect";
+    elif [ -x "$(command -v apt)" ]; then
+        echo >&2 "Debian/Ubuntu: sudo apt install expect";
+    fi
+    exit 1;
 }
 command -v nc >/dev/null 2>&1 || {
-  echo >&2 "Error: netcat is not found please install it!";
-  if [ "$(uname)" == "Darwin" ]; then
-    echo >&2 "MacOS: brew install netcat";
-  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-    echo >&2 "Debian/Ubuntu: sudo apt install netcat";
-  fi
-  exit 1;
+    echo >&2 "Error: netcat is not found please install it!";
+    if [ "$(uname)" == "Darwin" ]; then
+        echo >&2 "MacOS: brew install netcat";
+    elif [ -x "$(command -v apt)" ]; then
+        echo >&2 "Debian/Ubuntu: sudo apt install netcat";
+    fi
+    exit 1;
 }
 
 # init variables
@@ -73,7 +77,7 @@ function check_path() {
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
-            mkdir -p $path
+            mkdir -p "$path"
             log "created folder at: $path"
             return
         fi
@@ -83,7 +87,7 @@ function check_path() {
 }
 
 function create_settings() {
-    if [ -f $settings_file ];
+    if [ -f "$settings_file" ];
     then
         return
     fi
@@ -93,13 +97,15 @@ function create_settings() {
     echo 
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        echo "# TeeworldsEconMod (TEM) by ChillerDragon" > $settings_file
-        echo "# https://github.com/chillavanilla/TeeworldsEconMod" >> $settings_file
-        for i in "${!aSettStr[@]}"
-        do
-            echo "${aSettStr[$i]}=${aSettVal[$i]}" >> $settings_file
-        done
-        nano $settings_file
+        {
+            echo "# TeeworldsEconMod (TEM) by ChillerDragon"
+            echo "# https://github.com/chillavanilla/TeeworldsEconMod"
+            for i in "${!aSettStr[@]}"
+            do
+                echo "${aSettStr[$i]}=${aSettVal[$i]}"
+            done
+        } > "$settings_file"
+        nano "$settings_file"
     fi
     exit 1
 }
@@ -112,7 +118,7 @@ function parse_settings_line() {
         do
             if  [ "$sett" == "${aSettStr[$i]}" ]
             then
-                printf "[TEM:setting] (%s)%-16s=  %s\n" "$i" "${sett:3}" "$val"
+                printf "[TEM:setting] (%s)%-16s=  %s\\n" "$i" "${sett:3}" "$val"
                 if [[ "${aSettStr[$i]}" =~ path ]]
                 then
                     val="${val%%+(/)}" # strip trailing slash
@@ -127,7 +133,7 @@ function parse_settings_line() {
 
 function read_settings_file() {
     local i
-    while read line
+    while read -r line
     do
         if [ "${line:0:1}" == "#" ]
         then
@@ -150,7 +156,7 @@ function read_settings_file() {
             then
                 line_set="${split_line[$i]}"
             else
-                if [ $i -gt 1 ]
+                if [ "$i" -gt "1" ]
                 then
                     line_val+="="
                 fi
@@ -159,12 +165,12 @@ function read_settings_file() {
         done
         # echo "config: $line_set value: $line_val"
         parse_settings_line "$line_set" "$line_val"
-    done < $settings_file
+    done < "$settings_file"
 }
 
 create_settings # create fresh if null
 aSettVal[6]="" # overwrite defualt used for sample config by create_settings()
-econ_mod_path=`pwd`
+econ_mod_path="$(pwd)"
 log "saved current path=$econ_mod_path"
 log "loading settings.."
 read_settings_file
@@ -197,7 +203,7 @@ then
 fi
 
 log "navigate to teeworlds path=${aSettVal[0]}"
-cd ${aSettVal[0]}
+cd "${aSettVal[0]}" || { err "invalid path '${aSettVal[0]}'"; exit 1; }
 
 tw_settings_file=""
 if [ "${aSettVal[5]}" ]
@@ -216,11 +222,11 @@ nc_os="nc"
 if [ "$(uname)" == "Darwin" ]; then
     nc_os="nc_macOS"
     log "detected macOS"
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+elif [ "$(uname -s)" == "Linux" ]; then
     log "detected Linux"
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+elif [ "$(uname -s)" == "MINGW32_NT" ]; then
     log "warning MINGW support isnt guaranteed"
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+elif [ "$(uname -s)" == "MINGW64_NT" ]; then
     log "warning MINGW support isnt guaranteed"
 fi
 
