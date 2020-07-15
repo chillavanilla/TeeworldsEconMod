@@ -1,0 +1,40 @@
+name: Main
+
+on: [push, pull_request]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Prepare Linux
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install shellcheck python3 bc -y
+    - name: Prepare MacOS
+      if: contains(matrix.os, 'macOS')
+      run: |
+        brew update
+        brew install python3
+  run-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, ubuntu-16.04]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test on Linux
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        cd test
+        ./test.sh --verbose
+    - name: Test on MacOS
+      if: contains(matrix.os, 'macOS')
+      run: |
+        cd test
+        ./test.sh --verbose
+    - name: Shellcheck on Linux
+      if: contains(matrix.os, 'ubuntu')
+      run: |
+        echo "todo"; # shellcheck start_tem.sh
