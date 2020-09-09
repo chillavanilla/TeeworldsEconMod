@@ -194,8 +194,15 @@ def HandlePlayerTeam(data):
         DeletePlayer(player.ID) # delete invalid tmp player
         CreatePlayer(name, player.ID, player.team)
     elif player.name != name:
-        say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
-        sys.exit(1)
+        # https://github.com/chillavanilla/TeeworldsEconMod/issues/49
+        # it is very rare but possible that one joins without name
+        # the during join the placeholder (connecting) is shown in the logs
+        # but later the actual name is used
+        if player.name == "(connecting)":
+            say("[WARNING] untracked namechange from '" + player.name + "' to '" + name + "'")
+        else:
+            say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
+            sys.exit(1)
 
 def HandleNameChange(data):
     old_start = data.find("'") + 1
