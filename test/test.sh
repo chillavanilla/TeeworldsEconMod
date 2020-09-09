@@ -6,8 +6,8 @@ tmp_tem_log=/tmp/test_tem_log.txt
 show_progress=0
 
 verbose=0
-logs_path=logs
-settings_path=settings
+logs_path=./logs
+settings_path=./settings
 stdin_log=0
 interactive_dbg=0
 
@@ -15,7 +15,7 @@ RESET="\033[0m"
 BOLD="\033[1m"
 
 function set_paths() {
-    if [ $# -gt 0 ]
+    if [ "$1" != "" ]
     then
         if [ "$1" == "-" ]
         then
@@ -32,7 +32,7 @@ function set_paths() {
         logs_path="$1"
         echo "using custom logs path: $1"
     fi
-    if [ $# -gt 1 ]
+    if [ "$2" != "" ]
     then
         if [ ! -d "$2" ]
         then
@@ -79,17 +79,17 @@ then
 elif [ "$1" == "--verbose" ] || [ "$1" == "-v" ]
 then
     verbose=1
-    set_paths $2 $3
+    set_paths "$2" "$3"
 elif [ "$1" == "--interactive" ] || [ "$1" == "-i" ]
 then
     interactive_dbg=1
-    set_paths $2 $3
+    set_paths "$2" "$3"
 elif [ "$1" == "--progress" ] || [ "$1" == "-p" ]
 then
     show_progress=1
-    set_paths $2 $3
+    set_paths "$2" "$3"
 else
-    set_paths $1 $2
+    set_paths "$1" "$2"
 fi
 
 failed=0
@@ -120,7 +120,7 @@ function print_log_lines() {
                 >&2 echo "lines processed $current_log_line at log $total_logs ..."
             fi
         fi
-    done < $1
+    done < "$1"
 }
 
 mkdir -p stats
@@ -165,10 +165,10 @@ function test_log() {
     log=$1
     setting=$2
     echo   "+---------------------------------------+"
-    printf "| log: %-32s |\n" $log
+    printf "| log: %-32s |\n" "$log"
     echo   "+---------------------------------------+"
     show_lines=$verbose
-    tem_lines=$(print_log_lines $log | ../src/main.py --settings=$setting)
+    tem_lines=$(print_log_lines "$log" | ../src/main.py --settings="$setting")
     if [ $? -eq 0 ]
     then
         printf "[\033[0;32mSUCCESS\033[0m]\n"
@@ -182,34 +182,34 @@ function test_log() {
     if [ "$show_lines" == "1" ]
     then
         echo " === setting: $setting === "
-        cat $setting
+        cat "$setting"
         echo " ================ "
         echo "$tem_lines"
     fi
     total_logs=$((total_logs+1))
 }
 
-start_ts=`date +%s.%N`
+start_ts="$(date +%s.%N)"
 
 if [ $stdin_log -eq 1 ]
 then
-    for setting in $(ls $settings_path/*.test)
+    for setting in "$settings_path"/*.test
     do
-        test_log $logs_path $setting
+        test_log "$logs_path" "$setting"
     done
 else
-    for log in $(ls $logs_path/*.log)
+    for log in "$logs_path"/*.log
     do
-        for setting in $(ls $settings_path/*.test)
+        for setting in "$settings_path"/*.test
         do
-            test_log $log $setting
+            test_log "$log" "$setting"
         done
     done
 fi
 
 # timestamp credits go to jwchew
 # https://unix.stackexchange.com/a/88802
-end_ts=`date +%s.%N`
+end_ts="$(date +%s.%N)"
 
 dt=$(echo "$end_ts - $start_ts" | bc)
 dd=$(echo "$dt/86400" | bc)
@@ -220,9 +220,9 @@ dm=$(echo "$dt3/60" | bc)
 ds=$(echo "$dt3-60*$dm" | bc)
 
 echo ""
-printf "Total runtime: %d:%02d:%02d:%02.4f\n" $dd $dh $dm $ds
-printf "failed: \033[0;31m$failed/$total_logs\033[0m\n"
-printf "passed: \033[0;32m$passed/$total_logs\033[0m\n"
+printf "Total runtime: %d:%02d:%02d:%02.4f\n" "$dd" "$dh" "$dm" "$ds"
+printf "failed: \033[0;31m %d/%d \033[0m\n" "$failed" "$total_logs"
+printf "passed: \033[0;32m %d/%d \033[0m\n" "$passed" "$total_logs"
 
 if [ $failed -gt 0 ]
 then
