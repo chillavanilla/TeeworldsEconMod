@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import re
 from chiller_essential import *
+import chat
 
 def IsBlockedReason(reason):
     reason.lower()
@@ -32,6 +33,6 @@ def HandleCallVote(data):
             else:
                 say("[WARNING] Vote parsing error. Please contact a admin.")
     if g_settings.get("votes_discord") != 0:
-        say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
+        chat.admin_contact_msg()
     if g_settings.get("votes_discord") == 2:
         send_discord("vote called " + str(g_settings.get("mod_discord")) + "!\n" + str(data[:data.find(" cmd='ban")]))

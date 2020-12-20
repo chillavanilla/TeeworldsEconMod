@@ -241,8 +241,8 @@ def HandleChatMessage(msg):
         say("got player: " + str(name))
         # say("current spree: " + str(p.killingspree))
     # handle this like a chat command (so it has spam prot)
-    elif (IsBanReasonInStr(cmd)): 
-        say("[INFO] Contact the admin on discord (" + str(g_settings.get("admin_discord")) + ") to report players.")
+    elif (IsBanReasonInStr(cmd)):
+        admin_contact_msg()
         name = GetRankName(msg_normal, ": ") # players containing : will be cutted in discord message but this is fine for now
         if g_settings.get("filter_discord") == 1:
             send_discord("chat trigger " + str(g_settings.get("mod_discord")) + "!\n" + str(msg))
@@ -250,3 +250,8 @@ def HandleChatMessage(msg):
         IsCmd = False
     if IsCmd:
         SpamProtection(msg_normal)
+
+def admin_contact_msg():
+    if str(g_settings.get("admin_contact")) == "":
+        return
+    say("[INFO] Contact the admin " + str(g_settings.get("admin_contact")) + " to report players.")
