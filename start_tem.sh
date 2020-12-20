@@ -105,7 +105,12 @@ function create_settings() {
                 echo "${aSettStr[$i]}=${aSettVal[$i]}"
             done
         } > "$settings_file"
-        nano "$settings_file"
+        if [ -z "$EDITOR" ]
+        then
+            nano "$settings_file"
+        else
+            $EDITOR "$settings_file"
+        fi
     fi
     exit 1
 }
