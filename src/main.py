@@ -36,12 +36,12 @@ def HandleData(timestamp, data):
     if (data.startswith("[register]")):
         # chat.say("register found: " + data) #working but was only useless chat spam for testing
         pass
-    elif (data.startswith("[Console]")):
+    elif (data.lower().startswith("[console]")):
         if (data.find("No such command") != -1):
             return
-        elif (data.startswith("[Console]: !cmdlist")) or (data.startswith("[Console]: !help")) or (data.startswith("[Console]: !info")):
+        elif (data.lower().startswith("[console]: !cmdlist")) or (data.lower().startswith("[console]: !help")) or (data.lower().startswith("[console]: !info")):
             chat.echo("Commands: !help, !list, !dev, !reload_settings")
-        elif (data.startswith("[Console]: !reload_settings")):
+        elif (data.lower().startswith("[console]: !reload_settings")):
             try:
                 parse_settings.ReadSettingsFile(settings_file)
                 chat.echo("[==== SETTINGS ====]")
@@ -52,10 +52,10 @@ def HandleData(timestamp, data):
                     chat.echo("[tem:setting] " + str(key) + " : " + str(sett_val))
             except parse_settings.TemParseError as x:
                 chat.echo(str(x))
-        elif (data.startswith("[Console]: !list")):
+        elif (data.lower().startswith("[console]: !list")):
             DebugListPlayers()
             chat.echo(str(player.CountPlayers()) + " players online")
-        elif (data.startswith("[Console]: !dev")):
+        elif (data.lower().startswith("[console]: !dev")):
             chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
     # [2020-01-04 15:31:47][server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
     elif (data.startswith("[server]: '")): # also matches name changes "'foo' -> 'bar'"
