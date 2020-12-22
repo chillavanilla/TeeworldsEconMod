@@ -5,13 +5,7 @@ echo "|| Teeworlds Econ Mod ||"
 echo "|| by ChillerDragon   ||"
 echo "========================"
 
-function log() {
-    echo "[TEM] $1"
-}
-
-function err() {
-    echo "[TEM:ERROR] $1"
-}
+source ./src/bash/logger.sh
 
 # check dependencys
 command -v expect >/dev/null 2>&1 || {
