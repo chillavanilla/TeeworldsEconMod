@@ -179,7 +179,7 @@ read_settings_file
 # - binary          1
 # - econ_password   2
 # - econ_port       3
-# - log path        4
+# - logs path       4
 # - cfg path        5
 # - tw version      6
 # - discord token   7 ( NOT USED BY THIS SCRIPT ONLY BY tools/discord_bot.sh )
