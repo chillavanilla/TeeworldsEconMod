@@ -198,7 +198,7 @@ then
         # 0.7 appends .txt anyways
         extension=""
     fi
-    twsettings="logfile ${aSettVal[4]}/${aSettVal[1]}_$(date +%F_%H-%M-%S)$extension;"
+    twsettings="logfile ${aSettVal[4]}/${aSettVal[1]##*/}_$(date +%F_%H-%M-%S)$extension;"
 fi
 
 log "navigate to teeworlds path=${aSettVal[0]}"
