@@ -4,6 +4,7 @@ import chat
 import g_settings
 import player
 import parse_settings
+import locked_names
 
 def DebugListPlayers():
     for p in player.GetPlayersArray():
@@ -11,7 +12,7 @@ def DebugListPlayers():
 
 def ExecCommand(command, settings_file):
     if ((command == "cmdlist") or (command == "help") or (command == "info")):
-        chat.echo("Commands: !help, !list, !dev, !reload_settings")
+        chat.echo("Commands: !help, !list, !dev, !reload_settings !locked_names")
     elif (command == "reload_settings"):
         try:
             parse_settings.ReadSettingsFile(settings_file)
@@ -29,3 +30,5 @@ def ExecCommand(command, settings_file):
         chat.echo(str(player.CountPlayers()) + " players online")
     elif (command == "dev"):
         chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
+    elif (command == "locked_names"):
+        locked_names.GetInstance().list_names()

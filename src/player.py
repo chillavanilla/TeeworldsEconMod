@@ -4,6 +4,7 @@ import time
 import g_settings
 import game
 import cbase
+import locked_names
 from chiller_essential import *
 from save_stats import *
 from base_player import *
@@ -196,6 +197,9 @@ def HandlePlayerTeam(data):
         # player just joined and still has to be loaded
         DeletePlayer(player.ID) # delete invalid tmp player
         CreatePlayer(name, player.ID, player.IP, player.team)
+        locked = locked_names.GetInstance()
+        if not locked.check(name, player.IP):
+            rcon_exec("kick " + str(player.ID) + " please change name")
     elif player.name != name:
         # https://github.com/chillavanilla/TeeworldsEconMod/issues/49
         # it is very rare but possible that one joins without name
