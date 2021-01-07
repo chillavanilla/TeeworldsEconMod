@@ -20,8 +20,10 @@ jobs:
       run: |
         brew update
         brew install python3
-    - name: Python dependencys
-      run: python3 -m pip install -r requirements.txt
+    - name: Prepare python
+      run: |
+        python3 -m pip install --upgrade pip setuptools wheel
+        python3 -m pip install -r requirements.txt
     - name: Test on Linux
       if: contains(matrix.os, 'ubuntu')
       run: |
