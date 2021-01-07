@@ -9,22 +9,22 @@ from save_stats import *
 from base_player import *
 import datetime
 
-def CreatePlayer(name, ID=-1, team="", ShowStats=True, spree=0):
+def CreatePlayer(name, ID=-1, IP="", team="", ShowStats=True, spree=0):
     global aPlayers
-    init_player = InitPlayer(name, ID, team, ShowStats, spree)
+    init_player = InitPlayer(name, ID, IP, team, ShowStats, spree)
     if not init_player:
         say("[ERROR] CreatePlayer init_player=None name='" + str(name) + "' ID=" + str(ID))
         sys.exit(1)
     aPlayers.append(init_player)
     #say("added player '" + name + "'")
 
-def InitPlayer(name, ID, team, ShowStats, spree):
+def InitPlayer(name, ID, IP, team, ShowStats, spree):
     init_player = None
     load_player = LoadStats(name)
     if load_player:
         if ShowStats:
             load_player.ShowStats()
-        init_player = Player(name, ID, load_player.flag_time, load_player.best_spree, team)
+        init_player = Player(name, ID, IP, load_player.flag_time, load_player.best_spree, team)
         init_player.a_haxx0r = load_player.a_haxx0r
         init_player.a_blazeit = load_player.a_blazeit
         init_player.a_satan = load_player.a_satan
@@ -37,7 +37,7 @@ def InitPlayer(name, ID, team, ShowStats, spree):
         init_player.WEAPON_KILLS[4] = load_player.WEAPON_KILLS[4]
         init_player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
     else:
-        init_player = Player(name, ID=ID, team=team)
+        init_player = Player(name, ID=ID, IP=IP, team=team)
     return init_player
 
 def GetPlayersArray():
@@ -77,7 +77,7 @@ def RefreshAllPlayers():
     for player in aPlayers:
         p = player
         SaveAndDeletePlayer(player)
-        CreatePlayer(p.name, p.ID, p.team, ShowStats=False, spree=p.killingspree)
+        CreatePlayer(p.name, p.ID, IP=p.IP, team=p.team, ShowStats=False, spree=p.killingspree)
 
 def GetPlayerIndexByName(name):
     global aPlayers
@@ -133,10 +133,13 @@ def HandlePlayerReady(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
     id_str = data[id_start:id_end]
+    ip_start = data.find("addr=") + 5
+    ip_end = data.find(":", ip_start)
+    ip_str = data[ip_start:ip_end]
     if g_settings.get("tw_version")[0:3] == "0.6":
         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
     # name is actually "(connecting)" but better use None
-    CreatePlayer(name=None, ID=id_str, ShowStats=True)
+    CreatePlayer(name=None, ID=id_str, IP=ip_str, ShowStats=True)
 
 # [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
 # def HandlePlayerEnter(data):
@@ -192,7 +195,7 @@ def HandlePlayerTeam(data):
     if player.name == None:
         # player just joined and still has to be loaded
         DeletePlayer(player.ID) # delete invalid tmp player
-        CreatePlayer(name, player.ID, player.team)
+        CreatePlayer(name, player.ID, player.IP, player.team)
     elif player.name != name:
         # https://github.com/chillavanilla/TeeworldsEconMod/issues/49
         # it is very rare but possible that one joins without name
@@ -218,7 +221,7 @@ def HandleNameChange(data):
         sys.exit(1)
     team = player.team
     SaveAndDeletePlayerByName(old)
-    CreatePlayer(new, player.ID, team=team)
+    CreatePlayer(new, player.ID, player.IP, team=team)
 
 def SetFlagger(player, IsFlag, timestamp = ""):
     if not player:

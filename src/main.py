@@ -18,7 +18,7 @@ settings_file = ""
 
 def DebugListPlayers():
     for p in player.GetPlayersArray():
-        chat.echo("id=" + str(p.ID) + " name='" + str(p.name) + "' team=" + str(p.team))
+        chat.echo("id=" + str(p.ID) + " addr=" + str(p.IP) + " name='" + str(p.name) + "' team=" + str(p.team))
 
 def HandleData(timestamp, data):
     global settings_file
