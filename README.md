@@ -60,6 +60,22 @@ Additional config variables can be found in
 src/global_settings.py
 ```
 
+You can also lock names and only allow connections from specific regions.
+This is to combat player faking and can be used to protect kill/death ratio.
+
+Create a file called ``locked_names.json`` that contains an array of locked names in this format:
+
+```json
+[
+  { "name": "ChillerDragon", "region": "Bavaria" }
+]
+```
+
+Then create a [ipinfo](https://ipinfo.io/) account and set the api token in your tem.settings file:
+```
+py_ipinfo_token=exampletoken
+```
+
 # Testing
 
 To make sure everything runs fine on your system you can try running the tests.
