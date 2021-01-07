@@ -3,8 +3,11 @@ name: Main
 on: [push, pull_request]
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
+  run-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, ubuntu-16.04]
     steps:
     - uses: actions/checkout@v2
     - name: Prepare Linux
@@ -17,13 +20,8 @@ jobs:
       run: |
         brew update
         brew install python3
-  run-tests:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest, ubuntu-16.04]
-    steps:
-    - uses: actions/checkout@v2
+    - name: Python dependencys
+      run: python3 -m pip install -r requirements.txt
     - name: Test on Linux
       if: contains(matrix.os, 'ubuntu')
       run: |
