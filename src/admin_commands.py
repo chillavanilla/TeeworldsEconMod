@@ -25,6 +25,7 @@ def ExecCommand(command, settings_file):
                 chat.echo("[tem:setting] " + str(key) + " : " + str(sett_val))
         except parse_settings.TemParseError as x:
             chat.echo(str(x))
+        locked_names.GetInstance(Force = True)
     elif (command == "list"):
         DebugListPlayers()
         chat.echo(str(player.CountPlayers()) + " players online")
