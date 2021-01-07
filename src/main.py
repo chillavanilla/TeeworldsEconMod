@@ -13,12 +13,9 @@ import votes
 import player
 import flag
 import sql_stats
+import admin_commands
 
 settings_file = ""
-
-def DebugListPlayers():
-    for p in player.GetPlayersArray():
-        chat.echo("id=" + str(p.ID) + " addr=" + str(p.IP) + " name='" + str(p.name) + "' team=" + str(p.team))
 
 def HandleData(timestamp, data):
     global settings_file
@@ -39,25 +36,8 @@ def HandleData(timestamp, data):
     elif (data.lower().startswith("[console]")):
         if (data.find("No such command") != -1):
             return
-        elif (data.lower().startswith("[console]: !cmdlist")) or (data.lower().startswith("[console]: !help")) or (data.lower().startswith("[console]: !info")):
-            chat.echo("Commands: !help, !list, !dev, !reload_settings")
-        elif (data.lower().startswith("[console]: !reload_settings")):
-            try:
-                parse_settings.ReadSettingsFile(settings_file)
-                chat.echo("[==== SETTINGS ====]")
-                for key, value in g_settings.SETTINGS.items():
-                    sett_val = value[1]
-                    if str(key) == "discord_token":
-                        if sett_val and len(sett_val) > 6:
-                            sett_val = sett_val[:5] + "..."
-                    chat.echo("[tem:setting] " + str(key) + " : " + str(sett_val))
-            except parse_settings.TemParseError as x:
-                chat.echo(str(x))
-        elif (data.lower().startswith("[console]: !list")):
-            DebugListPlayers()
-            chat.echo(str(player.CountPlayers()) + " players online")
-        elif (data.lower().startswith("[console]: !dev")):
-            chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
+        elif (data.lower().startswith("[console]: !")):
+            admin_commands.ExecCommand(data.lower()[12:-1], settings_file)
     # [2020-01-04 15:31:47][server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
     elif (data.startswith("[server]: '")): # also matches name changes "'foo' -> 'bar'"
         d = data[:-1]
