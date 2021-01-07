@@ -48,7 +48,8 @@ def HandleData(timestamp, data):
                 for key, value in g_settings.SETTINGS.items():
                     sett_val = value[1]
                     if str(key) == "discord_token":
-                        sett_val = sett_val[:5] + "..."
+                        if sett_val and len(sett_val) > 6:
+                            sett_val = sett_val[:5] + "..."
                     chat.echo("[tem:setting] " + str(key) + " : " + str(sett_val))
             except parse_settings.TemParseError as x:
                 chat.echo(str(x))
