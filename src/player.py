@@ -207,6 +207,7 @@ def HandlePlayerTeam(data):
         # but later the actual name is used
         if player.name == "(connecting)":
             say("[WARNING] untracked namechange from '" + player.name + "' to '" + name + "'")
+            player.name = name
         else:
             say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
             sys.exit(1)
