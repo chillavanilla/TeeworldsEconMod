@@ -163,6 +163,10 @@ function read_settings_file() {
 				line_val+="${split_line[$i]}"
 			fi
 		done
+		if [ "${line: -1}" == "=" ] && [ "$(echo "$line" | grep -o "=" | wc -l)" -gt "1" ]
+		then
+			line_val+="="
+		fi
 		# echo "config: $line_set value: $line_val"
 		parse_settings_line "$line_set" "$line_val"
 	done < "$settings_file"
