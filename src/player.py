@@ -171,6 +171,8 @@ def HandlePlayerTeam(data):
     id_str = data[id_start:id_end]
     player = GetPlayerByID(id_str)
     if player == None:
+        if g_settings.get("hotplug") == 1:
+            return
         say("[ERROR] teamchange failed id=" + str(id_str) + " data=" + str(data))
         DebugPlayerList()
         sys.exit(1)

@@ -31,7 +31,7 @@ def HandleData(timestamp, data):
     if m:
         version = m.group(1)
         if version.find("0.7/0.6") != -1:
-            version = "0.7"
+            version = "0.7.5"
         g_settings.set("tw_version", version)
     if (data.startswith("[register]")):
         # chat.say("register found: " + data) #working but was only useless chat spam for testing

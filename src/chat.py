@@ -115,6 +115,8 @@ def GetSpamPlayer(msg):
 def SpamProtection(msg):
     p = GetSpamPlayer(msg)
     if not p:
+        if g_settings.get("hotplug") == 1:
+            return False
         say("[ERROR] SpamProtection() failed! please contact an admin")
         sys.exit(1)
     now = datetime.datetime.now()
@@ -138,6 +140,8 @@ def SpamProtection(msg):
 def IsMuted(msg):
     p = GetSpamPlayer(msg)
     if not p:
+        if g_settings.get("hotplug") == 1:
+            return False
         say("[WARNING] IsMuted() failed! please contact an admin")
         return False
     if (p.IsMuted):
