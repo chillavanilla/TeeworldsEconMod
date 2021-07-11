@@ -46,7 +46,7 @@ def InitDataBase():
         cur.execute(create_stats_table)
         log("created '" + str(g_settings.get("sql_database")) + "' Players table")
 
-def HasStats(name):
+def has_stats(name):
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         c = con.cursor()
@@ -56,7 +56,7 @@ def HasStats(name):
             return True
     return False
 
-def LoadStatsSQL(name):
+def load_stats_sql(name):
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         c = con.cursor()
@@ -116,15 +116,15 @@ def LoadStatsSQL(name):
         tmp_player.a_virgin = row[0][21]
     return tmp_player
 
-def SaveStatsSQL(player):
+def save_stats_sql(player):
     name = player.name
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     if not player:
         say("[stats-sql] failed to load player '" + name + "'")
         return False
-    if HasStats(name):
+    if has_stats(name):
         #say("[stats-sql] found stats --> loading and appending")
-        load_player = LoadStatsSQL(name)
+        load_player = load_stats_sql(name)
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
             sys.exit(1)
@@ -198,15 +198,15 @@ def SaveStatsSQL(player):
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
 
-def SaveStatsPartiallySQL(player):
+def save_stats_partially_sql(player):
     name = player.name
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     if not player:
         say("[stats-sql] failed to load player '" + name + "'")
         return False
-    if HasStats(name):
+    if has_stats(name):
         #say("[stats-sql] found stats --> loading and appending")
-        load_player = LoadStatsSQL(name)
+        load_player = load_stats_sql(name)
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
             sys.exit(1)
@@ -260,7 +260,7 @@ def SaveStatsPartiallySQL(player):
 #    S t a t s    #
 ###################
 
-def RankSpree(name):
+def rank_spree(name):
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
@@ -276,7 +276,7 @@ def RankSpree(name):
         value = row[0][2]
         say(str(rank) + ". '" + str(name) + "' spree " + str(value))
 
-def RankFlagTime(name):
+def rank_flag_time(name):
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
@@ -296,7 +296,7 @@ def RankFlagTime(name):
         say(str(rank) + ". '" + str(name) + "' time " + str(value))
     return True
 
-def RankFlagCaps(name):
+def rank_flag_caps(name):
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
@@ -314,7 +314,7 @@ def RankFlagCaps(name):
         value = row[0][2]
         say(str(rank) + ". '" + str(name) + "' flagcaps " + str(value))
 
-def RankKills(name):
+def rank_kills(name):
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
@@ -330,7 +330,7 @@ def RankKills(name):
         kills = row[0][2]
         say(str(rank) + ". '" + str(name) + "' kills " + str(kills))
 
-def BestFlagCaps():
+def best_flag_caps():
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         c = con.cursor()
@@ -344,7 +344,7 @@ def BestFlagCaps():
             value = row[x][1]
             say(str(x + 1) + ". '" + str(name) + "' flagcaps: " + str(value))
 
-def BestSprees():
+def best_spree():
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         c = con.cursor()
@@ -358,7 +358,7 @@ def BestSprees():
             value = row[x][1]
             say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
 
-def BestSprees():
+def best_spree():
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         c = con.cursor()
@@ -372,7 +372,7 @@ def BestSprees():
             value = row[x][1]
             say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
 
-def BestTimes():
+def best_times():
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         c = con.cursor()
@@ -386,7 +386,7 @@ def BestTimes():
             value = row[x][1]
             say(str(x + 1) + ". '" + str(name) + "' time: " + str(value))
 
-def BestKillers():
+def best_killers():
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         c = con.cursor()

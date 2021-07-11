@@ -5,7 +5,7 @@ import cbase
 import g_settings
 import player
 
-def HandleKills(timestamp, data):
+def handle_kills(timestamp, data):
     killer_name = ""
     victim_name = ""
     killer_id = -1
@@ -22,12 +22,12 @@ def HandleKills(timestamp, data):
         killer_start = data.find(":", 10) + 1
         killer_end = data.find("' victim='", killer_start + 1)
         killer_name = data[killer_start:killer_end]
-        killer = player.GetPlayerByName(killer_name)
+        killer = player.get_player_by_name(killer_name)
 
         victim_start = data.find(":", killer_end) + 1
         victim_end = data.find("' weapon=", victim_start + 1)
         victim_name = data[victim_start:victim_end]
-        victim = player.GetPlayerByName(victim_name)
+        victim = player.get_player_by_name(victim_name)
 
         weapon_start = data.rfind("weapon=") + 7
         weapon_end = data.rfind(" special=")
@@ -62,11 +62,11 @@ def HandleKills(timestamp, data):
             else:
                 killer_name = m.group("k_name")
                 killer_id = m.group("k_id")
-                killer = player.GetPlayerByID(killer_id)
+                killer = player.get_player_by_id(killer_id)
 
             victim_name = m.group("v_name")
             victim_id = m.group("v_id")
-            victim = player.GetPlayerByID(victim_id)
+            victim = player.get_player_by_id(victim_id)
 
             weapon = m.group("weapon")
         else:
@@ -74,7 +74,7 @@ def HandleKills(timestamp, data):
             sys.exit(1)
 
     if not killer == victim and killer: # don't count suicide as kill or when killer left already
-        if not player.UpdatePlayerKills(killer, 1, int(weapon)):
+        if not player.update_player_kills(killer, 1, int(weapon)):
             if g_settings.get("hotplug") == 1:
                 return
             say("[ERROR] failed adding kill:")
@@ -84,7 +84,7 @@ def HandleKills(timestamp, data):
             say("   DATA=" + data)
             sys.exit(1)
     if not str(weapon) == "-3": # don't count disconnect or teamswitch as death
-        if not player.UpdatePlayerDeaths(victim, killer_name, 1):
+        if not player.update_player_deaths(victim, killer_name, 1):
             if g_settings.get("hotplug") == 1:
                 return
             say("[ERROR] failed adding death:")
@@ -95,5 +95,5 @@ def HandleKills(timestamp, data):
             sys.exit(1)
 
     # say("[KILL] killer=" + killer_name + " victim=" + victim_name + " weapon=" + str(weapon))
-    player.CheckFlaggerKill(victim_name, killer_name)
-    player.SetFlagger(victim, False, timestamp)
+    player.check_flagger_kill(victim_name, killer_name)
+    player.set_flagger(victim, False, timestamp)

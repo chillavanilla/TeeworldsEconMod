@@ -17,7 +17,7 @@ UpdatedPlayers = 0
 def say(str):
     print(str)
 
-def BestTime(t1, t2):
+def best_time(t1, t2):
     t = min(t1,t2)
     if t == 0:
         return max(t1, t2) #if no time yet --> set the highest
@@ -44,7 +44,7 @@ class Player:
         tmp_player.flag_grabs = self.flag_grabs + other.flag_grabs
         tmp_player.flag_caps_red = self.flag_caps_red + other.flag_caps_red
         tmp_player.flag_caps_blue = self.flag_caps_blue + other.flag_caps_blue
-        tmp_player.flag_time = BestTime(self.flag_time, other.flag_time)
+        tmp_player.flag_time = best_time(self.flag_time, other.flag_time)
         tmp_player.flagger_kills = self.flagger_kills + other.flagger_kills
         tmp_player.best_spree = max(self.best_spree, other.best_spree)
         """
@@ -57,7 +57,7 @@ class Player:
         say("k/d: " + str(tmp_player.kills) + " g/r/b/t: " + str(tmp_player.flag_grabs) + "/" + str(tmp_player.flag_caps_red) + "/" + str(tmp_player.flag_caps_blue) + "/" + str(tmp_player.flag_time))
         """
         return tmp_player
-    def ShowStats(self):
+    def show_stats(self):
         say("[stats] '" + self.name + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths) + " killingspree: " + str(self.best_spree))
 
 create_stats_table = """
@@ -92,7 +92,7 @@ def HasStatsFile(name):
         return True
     return False
 
-def LoadStatsFile(name):
+def load_stats_file(name):
     if not HasStatsFile(name):
         return None
     try:
@@ -123,7 +123,7 @@ def HasStatsSQL(name):
             return True
     return False
 
-def LoadStatsSQL(name):
+def load_stats_sql(name):
     con = lite.connect("stats.db")
     with con:
         c = con.cursor()
@@ -143,7 +143,7 @@ def LoadStatsSQL(name):
         tmp_player.best_spree = row[0][9]
     return tmp_player
 
-def SaveStatsSQL(player):
+def save_stats_sql(player):
     global AddedPlayers
     global UpdatedPlayers
     con = lite.connect("stats.db")
@@ -153,7 +153,7 @@ def SaveStatsSQL(player):
     name = player.name
     if HasStatsSQL(name):
         #say("[stats-sql] found stats --> loading and appending")
-        load_player = LoadStatsSQL(name)
+        load_player = load_stats_sql(name)
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
             sys.exit(1)
@@ -206,11 +206,11 @@ def FileToSQL():
         if StatsFile.endswith(".acc"):
             name = StatsFile[:StatsFile.rfind(".acc")]
             #say("global stats loading '" + name + "'")
-            #tmp_player = LoadStats(name)
+            #tmp_player = load_stats(name)
             if name:
-                player = LoadStatsFile(name)
+                player = load_stats_file(name)
                 if player:
-                    SaveStatsSQL(player)
+                    save_stats_sql(player)
                     TotalPlayers += 1
                 else:
                     say("failed to load player from file")

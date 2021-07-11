@@ -6,16 +6,16 @@ import player
 import parse_settings
 import locked_names
 
-def DebugListPlayers():
+def debug_list_players():
     for p in player.GetPlayersArray():
         chat.echo("id=" + str(p.ID) + " addr=" + str(p.IP) + " name='" + str(p.name) + "' team=" + str(p.team))
 
-def ExecCommand(command, settings_file):
+def exec_command(command, settings_file):
     if ((command == "cmdlist") or (command == "help") or (command == "info")):
         chat.echo("Commands: !help, !list, !dev, !reload_settings !locked_names")
     elif (command == "reload_settings"):
         try:
-            parse_settings.ReadSettingsFile(settings_file)
+            parse_settings.read_settings_file(settings_file)
             chat.echo("[==== SETTINGS ====]")
             for key, value in g_settings.SETTINGS.items():
                 sett_val = value[1]
@@ -25,11 +25,11 @@ def ExecCommand(command, settings_file):
                 chat.echo("[tem:setting] " + str(key) + " : " + str(sett_val))
         except parse_settings.TemParseError as x:
             chat.echo(str(x))
-        locked_names.GetInstance(Force = True)
+        locked_names.get_instance(Force = True)
     elif (command == "list"):
-        DebugListPlayers()
-        chat.echo(str(player.CountPlayers()) + " players online")
+        debug_list_players()
+        chat.echo(str(player.count_players()) + " players online")
     elif (command == "dev"):
         chat.echo("debug=" + str(g_settings.get("debug")) + " stats=" + g_settings.get("stats_mode"))
     elif (command == "locked_names"):
-        locked_names.GetInstance().list_names()
+        locked_names.get_instance().list_names()

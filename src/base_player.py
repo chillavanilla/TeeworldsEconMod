@@ -4,20 +4,20 @@ import datetime
 
 aPlayers=[]
 
-def CalcKD(k, d):
+def calc_kd(k, d):
     if k == 0:
         return str(0)
     if d == 0:
         return str(k)
     return str("%.2f" % (k / d))
 
-def BestTime(t1, t2):
+def best_time(t1, t2):
     t = min(t1,t2)
     if t == 0:
         return max(t1, t2) #if no time yet --> set the highest
     return t #if captured already use lowest time
 
-def A_Best(a1, a2):
+def a_best(a1, a2):
     if a1 == "":
         return a2
     elif a2 == "":
@@ -72,7 +72,7 @@ class Player:
         self.team = team
         self.LastChat = datetime.datetime.now()
         self.MuteScore = 0
-        self.IsMuted = False
+        self.is_muted = False
         self.grab_timestamp = ""
     def __add__(self, other):
         tmp_player = Player(self.name)
@@ -101,15 +101,15 @@ class Player:
         tmp_player.flag_grabs = self.flag_grabs + other.flag_grabs
         tmp_player.flag_caps_red = self.flag_caps_red + other.flag_caps_red
         tmp_player.flag_caps_blue = self.flag_caps_blue + other.flag_caps_blue
-        tmp_player.flag_time = BestTime(self.flag_time, other.flag_time)
+        tmp_player.flag_time = best_time(self.flag_time, other.flag_time)
         tmp_player.flagger_kills = self.flagger_kills + other.flagger_kills
         tmp_player.best_spree = max(self.best_spree, other.best_spree)
         tmp_player.wins = self.wins + other.wins
         tmp_player.looses = self.looses + other.looses
-        tmp_player.a_haxx0r = A_Best(self.a_haxx0r, other.a_haxx0r)
-        tmp_player.a_blazeit = A_Best(self.a_blazeit, other.a_blazeit)
-        tmp_player.a_satan = A_Best(self.a_satan, other.a_satan)
-        tmp_player.a_virgin = A_Best(self.a_virgin, other.a_virgin)
+        tmp_player.a_haxx0r = a_best(self.a_haxx0r, other.a_haxx0r)
+        tmp_player.a_blazeit = a_best(self.a_blazeit, other.a_blazeit)
+        tmp_player.a_satan = a_best(self.a_satan, other.a_satan)
+        tmp_player.a_virgin = a_best(self.a_virgin, other.a_virgin)
         """
         say("== merging '" + other.name + "' -> into -> '" + self.name + "' ===")
         say("src: ")
@@ -120,11 +120,11 @@ class Player:
         say("k/d: " + str(tmp_player.kills) + " g/r/b/t: " + str(tmp_player.flag_grabs) + "/" + str(tmp_player.flag_caps_red) + "/" + str(tmp_player.flag_caps_blue) + "/" + str(tmp_player.flag_time))
         """
         return tmp_player
-    def ShowStats(self):
+    def show_stats(self):
         say("[stats] '" + str(self.name) + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths) + " killingspree: " + str(self.best_spree))
         #say("[stats] '" + self.name + "' flagtime: " + str(self.flag_time))
-    def ShowStatsRound(self):
-        say("[round-stats] '" + str(self.name) + "' kd: " + CalcKD(self.kills,self.deaths) + " (" + str(self.kills) + "/" + str(self.deaths) + ")")
+    def show_stats_round(self):
+        say("[round-stats] '" + str(self.name) + "' kd: " + calc_kd(self.kills,self.deaths) + " (" + str(self.kills) + "/" + str(self.deaths) + ")")
         # say("hammer: " + str(self.WEAPON_KILLS[0]))
         # say("gun: " + str(self.WEAPON_KILLS[1]))
         # say("shotgun: " + str(self.WEAPON_KILLS[2]))

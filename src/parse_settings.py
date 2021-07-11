@@ -35,7 +35,7 @@ def parse_list(sett, val, line_num):
         return str(val)
     parse_error("ListError", str(line_num) + ":'" + str(val) + "' not in list " + str(list_vals))
 
-def ReadSettingsLine(line, line_num):
+def read_settings_line(line, line_num):
     s = line.find("=")
     sett = line[3:s]
     val = line[s+1:].strip()
@@ -61,7 +61,7 @@ def ReadSettingsLine(line, line_num):
     else:
         parse_error("TypeError", "invalid type " + str(line_num) + ":'" + str(g_settings.SETTINGS[sett][0]) + "'")
 
-def ReadSettingsFile(file):
+def read_settings_file(file):
     line_num = 0
     with open(file) as f:
         for line in f:
@@ -72,4 +72,4 @@ def ReadSettingsFile(file):
                 continue # ignore shell settings
             elif not line.strip():
                 continue # ignore empty lines
-            ReadSettingsLine(line, line_num)
+            read_settings_line(line, line_num)

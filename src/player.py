@@ -10,77 +10,77 @@ from save_stats import *
 from base_player import *
 import datetime
 
-def CreatePlayer(name, ID=-1, IP="", team="", ShowStats=True, spree=0):
+def create_player(name, ID=-1, IP="", team="", ShowStats=True, spree=0):
     global aPlayers
-    init_player = InitPlayer(name, ID, IP, team, ShowStats, spree)
+    player = init_player(name, ID, IP, team, ShowStats, spree)
     if not init_player:
         say("[ERROR] CreatePlayer init_player=None name='" + str(name) + "' ID=" + str(ID))
         sys.exit(1)
-    aPlayers.append(init_player)
+    aPlayers.append(player)
     #say("added player '" + name + "'")
 
-def InitPlayer(name, ID, IP, team, ShowStats, spree):
-    init_player = None
-    load_player = LoadStats(name)
+def init_player(name, ID, IP, team, ShowStats, spree):
+    player = None
+    load_player = load_stats(name)
     if load_player:
         if ShowStats:
-            load_player.ShowStats()
-        init_player = Player(name, ID, IP, load_player.flag_time, load_player.best_spree, team)
-        init_player.a_haxx0r = load_player.a_haxx0r
-        init_player.a_blazeit = load_player.a_blazeit
-        init_player.a_satan = load_player.a_satan
-        init_player.a_virgin = load_player.a_virgin
-        init_player.killingspree = spree
-        init_player.WEAPON_KILLS[0] = load_player.WEAPON_KILLS[0]
-        init_player.WEAPON_KILLS[1] = load_player.WEAPON_KILLS[1]
-        init_player.WEAPON_KILLS[2] = load_player.WEAPON_KILLS[2]
-        init_player.WEAPON_KILLS[3] = load_player.WEAPON_KILLS[3]
-        init_player.WEAPON_KILLS[4] = load_player.WEAPON_KILLS[4]
-        init_player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
+            load_player.show_stats()
+        player = Player(name, ID, IP, load_player.flag_time, load_player.best_spree, team)
+        player.a_haxx0r = load_player.a_haxx0r
+        player.a_blazeit = load_player.a_blazeit
+        player.a_satan = load_player.a_satan
+        player.a_virgin = load_player.a_virgin
+        player.killingspree = spree
+        player.WEAPON_KILLS[0] = load_player.WEAPON_KILLS[0]
+        player.WEAPON_KILLS[1] = load_player.WEAPON_KILLS[1]
+        player.WEAPON_KILLS[2] = load_player.WEAPON_KILLS[2]
+        player.WEAPON_KILLS[3] = load_player.WEAPON_KILLS[3]
+        player.WEAPON_KILLS[4] = load_player.WEAPON_KILLS[4]
+        player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
     else:
-        init_player = Player(name, ID=ID, IP=IP, team=team)
-    return init_player
+        player = Player(name, ID=ID, IP=IP, team=team)
+    return player
 
 def GetPlayersArray():
     global aPlayers
     return aPlayers
 
-def DeletePlayer(id):
+def delete_player(id):
     global aPlayers
-    #aPlayers.remove(GetPlayerByName(name))
-    del aPlayers[GetPlayerIndexByID(id)]
+    #aPlayers.remove(get_player_by_name(name))
+    del aPlayers[get_player_index_by_id(id)]
     #say("deleted player '" + name + "'")
 
-def CountPlayers():
+def count_players():
     global aPlayers
     return len(aPlayers)
 
-def SaveAndDeletePlayerByName(name):
-    player = GetPlayerByName(name)
+def save_and_delete_player_by_name(name):
+    player = get_player_by_name(name)
     if not player:
         return False
-    SaveAndDeletePlayer(player)
+    save_and_delete_player(player)
 
-def SaveAndDeletePlayer(player):
+def save_and_delete_player(player):
     if not player:
         return False
     # dirty killingspree update
     # TODO: do an sql query here to support same player online multiple names
     # for 0.7 same name servers and multiple servers running at once
     player.best_spree = max(player.killingspree, player.best_spree)
-    DeletePlayer(player.ID) #delete old player without spree update
+    delete_player(player.ID) #delete old player without spree update
     aPlayers.append(player) #add new player with spree update
     SaveStats(player)
-    DeletePlayer(player.ID)
+    delete_player(player.ID)
 
-def RefreshAllPlayers():
+def refresh_all_players():
     global aPlayers
     for player in aPlayers:
         p = player
-        SaveAndDeletePlayer(player)
-        CreatePlayer(p.name, p.ID, IP=p.IP, team=p.team, ShowStats=False, spree=p.killingspree)
+        save_and_delete_player(player)
+        create_player(p.name, p.ID, IP=p.IP, team=p.team, ShowStats=False, spree=p.killingspree)
 
-def GetPlayerIndexByName(name):
+def get_player_index_by_name(name):
     global aPlayers
     index = 0
     for player in aPlayers:
@@ -89,7 +89,7 @@ def GetPlayerIndexByName(name):
         index += 1
     return -1
 
-def GetPlayerIndexByID(ID):
+def get_player_index_by_id(ID):
     global aPlayers
     index = 0
     for player in aPlayers:
@@ -98,26 +98,26 @@ def GetPlayerIndexByID(ID):
         index += 1
     return -1
 
-def GetPlayerByName(name):
+def get_player_by_name(name):
     global aPlayers
     for player in aPlayers:
         if (player.name == name):
             return player
     return None
 
-def GetPlayerByID(ID):
+def get_player_by_id(ID):
     global aPlayers
     for p in aPlayers:
         if (p.ID == ID):
             return p
     return None
 
-def DebugPlayerList():
+def debug_player_list():
     global aPlayers
     for p in aPlayers:
         say("  id=" + str(p.ID) + " name='" + str(p.name) + "'")
 
-def PrintStatsAll(debug=False):
+def print_stats_all(debug=False):
     global aPlayers
     if (debug):
         say("Kills/Deaths/Spree Grabs/RedCaps/BlueCaps/CapTime/FlaggerKills")
@@ -130,7 +130,7 @@ def PrintStatsAll(debug=False):
             say("'" + player.name + "' k/d: " + str(player.kills) + "/" + str(player.deaths) + " spree: " + str(player.best_spree) + " flags: " + str(player.flag_caps_red + player.flag_caps_blue) + " fastest cap: " + str(player.flag_time))
 
 # [server]: player is ready. ClientID=0 addr=172.20.10.9:52244
-def HandlePlayerReady(data):
+def handle_player_ready(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
     id_str = data[id_start:id_end]
@@ -140,41 +140,41 @@ def HandlePlayerReady(data):
     if g_settings.get("tw_version")[0:3] == "0.6":
         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
     # name is actually "(connecting)" but better use None
-    CreatePlayer(name=None, ID=id_str, IP=ip_str, ShowStats=True)
+    create_player(name=None, ID=id_str, IP=ip_str, ShowStats=True)
 
 # [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
-# def HandlePlayerEnter(data):
+# def handle_player_enter(data):
 #     id_start = data.find("=") + 1
 #     id_end = data.find(" ", id_start)
 #     id_str = data[id_start:id_end]
 #     if g_settings.get("tw_version")[0:3] == "0.6":
 #         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in enter messages
-#     CreatePlayer(name=None, ID=id_str, ShowStats=True)
+#     create_player(name=None, ID=id_str, ShowStats=True)
 
 # [server]: client dropped. cid=1 addr=172.20.10.9:53784 reason=''
-def HandlePlayerLeave(data):
+def handle_player_leave(data):
     id_start = data.find("=") + 1
     id_end = data.find(" ", id_start)
     id_str = data[id_start:id_end]
-    player = GetPlayerByID(id_str)
+    player = get_player_by_id(id_str)
     if player == None:
         echo("[WARNING] invalid player left id=" + str(id_str))
         echo("   DATA=" + str(data))
-    SaveAndDeletePlayer(player)
+    save_and_delete_player(player)
 
 # [game]: team_join player='0:ChillerDragon' team=0
 # [game]: team_join player='0:ChillerDragon' team=0->-1
-def HandlePlayerTeam(data):
+def handle_player_team(data):
     global aPlayers
     id_start = data.find("'") + 1
     id_end = cbase.cfind(data, ":", 2)
     id_str = data[id_start:id_end]
-    player = GetPlayerByID(id_str)
+    player = get_player_by_id(id_str)
     if player == None:
         if g_settings.get("hotplug") == 1:
             return
         say("[ERROR] teamchange failed id=" + str(id_str) + " data=" + str(data))
-        DebugPlayerList()
+        debug_player_list()
         sys.exit(1)
     team="invalid"
     data_end = data[-5:]
@@ -197,9 +197,9 @@ def HandlePlayerTeam(data):
     name = data[name_start:name_end]
     if player.name == None:
         # player just joined and still has to be loaded
-        DeletePlayer(player.ID) # delete invalid tmp player
-        CreatePlayer(name, player.ID, player.IP, player.team)
-        locked = locked_names.GetInstance()
+        delete_player(player.ID) # delete invalid tmp player
+        create_player(name, player.ID, player.IP, player.team)
+        locked = locked_names.get_instance()
         if not locked.check(name, player.IP):
             rcon_exec("kick " + str(player.ID) + " please change name")
     elif player.name != name:
@@ -214,7 +214,7 @@ def HandlePlayerTeam(data):
             say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
             sys.exit(1)
 
-def HandleNameChange(data):
+def handle_name_change(data):
     old_start = data.find("'") + 1
     old_end = data.find("' changed name to '")
     old = data[old_start:old_end]
@@ -222,17 +222,17 @@ def HandleNameChange(data):
     new_end = data.rfind("'")
     new = data[new_start:new_end]
     team = ""
-    player = GetPlayerByName(old)
+    player = get_player_by_name(old)
     if not player:
         if g_settings.get("hotplug") == 1:
             return
         say("[ERROR] name_change player not found name=" + str(old))
         sys.exit(1)
     team = player.team
-    SaveAndDeletePlayerByName(old)
-    CreatePlayer(new, player.ID, player.IP, team=team)
+    save_and_delete_player_by_name(old)
+    create_player(new, player.ID, player.IP, team=team)
 
-def SetFlagger(player, IsFlag, timestamp = ""):
+def set_flagger(player, IsFlag, timestamp = ""):
     if not player:
         if IsFlag:
             if g_settings.get("hotplug") == 1:
@@ -248,7 +248,7 @@ def SetFlagger(player, IsFlag, timestamp = ""):
     player.grab_timestamp = timestamp
     return True
 
-def CheckFlaggerKill(victim, killer):
+def check_flagger_kill(victim, killer):
     global aPlayers
     for v in aPlayers:
         if (v.name == victim):
@@ -261,7 +261,7 @@ def CheckFlaggerKill(victim, killer):
 
 # Update Player Values
 
-def UpdateAchievement(player, ach):
+def update_achievement(player, ach):
     if not player:
         say("[ERROR] failed achievement: invalid player.")
         sys.exit(1)
@@ -270,25 +270,25 @@ def UpdateAchievement(player, ach):
     if ach == "haxx0r":
         if not player.a_haxx0r == "":
             return False
-        player.a_haxx0r = A_Best(ts, player.a_haxx0r)
+        player.a_haxx0r = a_best(ts, player.a_haxx0r)
     elif ach == "blazeit":
         if not player.a_blazeit == "":
             return False
-        player.a_blazeit = A_Best(ts, player.a_blazeit)
+        player.a_blazeit = a_best(ts, player.a_blazeit)
     elif ach == "satan":
         if not player.a_satan == "":
             return False
-        player.a_satan = A_Best(ts, player.a_satan)
+        player.a_satan = a_best(ts, player.a_satan)
     elif ach == "virgin":
         if not player.a_virgin == "":
             return False
-        player.a_virgin = A_Best(ts, player.a_virgin)
+        player.a_virgin = a_best(ts, player.a_virgin)
     else:
         say("[WARNING] unknown achievement '" + str(ach) + "'")
         return False
     return True
 
-def ProcessMultiKills(p, weapon):
+def process_multi_kills(p, weapon):
     now = cbase.get_timestamp()
     diff = now - p.LastKill
     if (diff > 300000000):
@@ -310,38 +310,38 @@ def ProcessMultiKills(p, weapon):
     p.LastMultiKill = now
     return now
 
-def UpdatePlayerKills(player, kills, weapon):
+def update_player_kills(player, kills, weapon):
     # say("kill weapon=" + WEAPONS[weapon])
     if not player:
         return False
     if weapon < 0: # ddrace has negative weapons disconnect
         return True
-    player.LastKill = ProcessMultiKills(player, weapon)
+    player.LastKill = process_multi_kills(player, weapon)
     player.LastKillWeapon = weapon
     player.kills += kills
     player.WEAPON_KILLS[weapon] += kills
-    if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
+    if count_players() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
         player.killingspree += kills
         if (player.killingspree % 10 == 0):
             broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
     return True
     
-def UpdatePlayerDeaths(player, killer, deaths):
+def update_player_deaths(player, killer, deaths):
     if not player:
         return False
     player.deaths += deaths
-    if CountPlayers() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
+    if count_players() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
         if player.killingspree > 9:
             broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
         if player.killingspree > player.best_spree:
             if (player.killingspree > 9):
                 say("'" + player.name + "' new killingspree record! Old: " + str(player.best_spree) + " New: " + str(player.killingspree))
             player.best_spree = player.killingspree
-            SaveStatsPartially(player)
+            save_stats_partially(player)
         player.killingspree = 0
     return True
 
-def TeamWon(team):
+def team_won(team):
     global aPlayers
     if not team == "red" and not team == "blue":
         say("[WARNING] invalid team won " + str(team))
@@ -351,21 +351,21 @@ def TeamWon(team):
         elif not player.team == "" and not player.team == "spectator":
             player.looses += 1
 
-def UpdatePlayerFlagGrabs(player, grabs):
-    if not CountPlayers() > g_settings.get("flag_players"):
+def update_player_flag_grabs(player, grabs):
+    if not count_players() > g_settings.get("flag_players"):
         return False
     if not player:
         return False
     player.flag_grabs += grabs
-    game.UpdateFlagGrabs(player.team == "red")
+    game.update_flag_grabs(player.team == "red")
     return True
 
-def UpdatePlayerFlagCaps(player, color, caps):
+def update_player_flag_caps(player, color, caps):
     if not player:
-        say("[ERROR] failed player.UpdatePlayerFlagCaps: invalid player.")
+        say("[ERROR] failed player.update_player_flag_caps: invalid player.")
         sys.exit(1)
         return False
-    if not CountPlayers() > g_settings.get("flag_players"):
+    if not count_players() > g_settings.get("flag_players"):
         return False
     if (color == "blue"):
         player.flag_caps_blue += caps
@@ -376,9 +376,9 @@ def UpdatePlayerFlagCaps(player, color, caps):
         return False
     return True
 
-def UpdatePlayerFlagTime(player, time):
+def update_player_flag_time(player, time):
     if not player:
-        say("[ERROR] failed player.UpdatePlayerFlagTime: invalid player.")
+        say("[ERROR] failed player.update_player_flag_time: invalid player.")
         sys.exit(1)
         return False
     time = float(time)

@@ -54,7 +54,7 @@ class LockedNames:
             return True
         return True
 
-def GetInstance(Force = False):
+def get_instance(Force = False):
     global locked_names_instance
     if not locked_names_instance or Force:
         locked_names_instance = LockedNames()

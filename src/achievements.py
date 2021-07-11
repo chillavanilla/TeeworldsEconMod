@@ -4,7 +4,7 @@ from base_player import *
 import player
 import save_stats
 
-def ShowAchievements(name):
+def show_achievements(name):
     global aPlayers
     player = None
     for p in aPlayers:
@@ -13,7 +13,7 @@ def ShowAchievements(name):
             break
     # player not online -> load from database
     if not player:
-        player = save_stats.LoadStats(name)
+        player = save_stats.load_stats(name)
     if not player:
         say("'" + str(name) + "' is unranked on this server")
         return False
@@ -33,22 +33,22 @@ def ShowAchievements(name):
     return True
 
 
-def CheckFlag(playerObj, time):
+def check_flag(playerObj, time):
     if not playerObj:
         say("[ERROR] check flag failed: invalid player.")
         sys.exit(1)
     name = playerObj.name
     if str(time) == "13.37":
-        if player.UpdateAchievement(playerObj, "haxx0r"):
+        if player.update_achievement(playerObj, "haxx0r"):
             say("[achievement] '" + str(name) + "' unlocked: haxx0r")
     elif str(time) == "4.20":
-        if player.UpdateAchievement(playerObj, "blazeit"):
+        if player.update_achievement(playerObj, "blazeit"):
             say("[achievement] '" + str(name) + "' unlocked: blaze it")
     elif str(time) == "6.66":
-        if player.UpdateAchievement(playerObj, "satan"):
+        if player.update_achievement(playerObj, "satan"):
             say("[achievement] '" + str(name) + "' unlocked: satan")
     elif str(time) == "6.90":
-        if player.UpdateAchievement(playerObj, "virgin"):
+        if player.update_achievement(playerObj, "virgin"):
             say("[achievement] '" + str(name) + "' unlocked: virgin")
     #else:
         #say("'" + str(time) + "' is no achievement time")

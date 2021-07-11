@@ -8,7 +8,7 @@ from save_stats import *
 
 aGlobalPlayers=[]
 
-def LoadGlobalStats():
+def load_global_stats():
     global aGlobalPlayers
     TotalPlayers = 0
     BestKills = 0
@@ -16,7 +16,7 @@ def LoadGlobalStats():
         if StatsFile.endswith(".acc"):
             name = StatsFile[:StatsFile.rfind(".acc")]
             #say("global stats loading '" + name + "'")
-            tmp_player = LoadStats(name)
+            tmp_player = load_stats(name)
             if (tmp_player.kills > BestKills):
                 say("'" + tmp_player.name + "' new kills score (" + str(BestKills) + " -> " + str(tmp_player.kills) + ")")
                 BestKills = tmp_player.kills
@@ -29,9 +29,9 @@ def LoadGlobalStats():
         else:
             continue
     say("loaded " + str(TotalPlayers) + " players in total") 
-    SortPlayersByKills()
+    sort_players_by_kills()
 
-def SortPlayersByKills():
+def sort_players_by_kills():
     global aGlobalPlayers
     
     '''

@@ -22,7 +22,7 @@ def SaveStatsFile(player):
     name = player.name
     if HasStats(name):
         #say("[stats] found stats --> loading and appending")
-        load_player = LoadStatsFile(name)
+        load_player = load_stats_file(name)
         if not load_player:
             say("[stats] (save) error loading stats for player='" + name + "' filename='" + StatsFile(name) + "'")
             sys.exit(1)
@@ -51,7 +51,7 @@ def SaveStatsFile(player):
         sys.exit(1)
     return False
 
-def LoadStatsFile(name):
+def load_stats_file(name):
     from player import Player
     if not HasStats(name):
         return None
@@ -79,14 +79,14 @@ def LoadStatsFile(name):
         sys.exit(1)
         return None
 
-def SaveStatsPartiallyFile(player):
+def save_stats_partially_file(player):
     if not player:
         say("[stats] (partially) failed to load player.")
         return False
     name = player.name
     if HasStats(name):
         #say("[stats] found stats --> loading and appending")
-        load_player = LoadStatsFile(name)
+        load_player = load_stats_file(name)
         if not load_player:
             say("[stats] (partially) error loading stats for player='" + name + "' filename='" + StatsFile(name) + "'")
             sys.exit(1)

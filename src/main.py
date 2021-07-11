@@ -42,32 +42,32 @@ def handle_data(timestamp, data):
         if data.find("No such command") != -1:
             return
         elif data.lower().startswith("[console]: !"):
-            admin_commands.ExecCommand(data.lower()[12:-1], SETTINGS_FILE)
+            admin_commands.exec_command(data.lower()[12:-1], SETTINGS_FILE)
     # [2020-01-04 15:31:47][server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
     # also matches name changes "'foo' -> 'bar'"
     elif data.startswith("[server]: '"):
         d = data[:-1]
         if d.endswith("force=1") or d.endswith("force=0"):
-            votes.HandleCallVote(d)
+            votes.handle_call_vote(d)
     elif data.startswith("[server]: client dropped. cid="):
-        player.HandlePlayerLeave(data[:-1])  # chop of newline
+        player.handle_player_leave(data[:-1])  # chop of newline
     elif data.startswith("[server]: player is ready. ClientID="):
-        player.HandlePlayerReady(data[:-1])  # chop of newline
+        player.handle_player_ready(data[:-1])  # chop of newline
     # elif data.startswith("[server]: player has entered the game. ClientID="):
-    #     player.HandlePlayerEnter(data[:-1]) # chop of newline
+    #     player.handle_player_enter(data[:-1]) # chop of newline
     elif data.startswith("[game]: team_join player='"):
-        player.HandlePlayerTeam(data[:-1])  # chop of newline
+        player.handle_player_team(data[:-1])  # chop of newline
     elif data.startswith("[chat]") or data.startswith("[teamchat]"):
         if data.startswith("[chat]: ***"):
             if (data.startswith("[chat]: *** The blue flag was captured by '")
                     or data.startswith("[chat]: *** The red flag was captured by '")):
                 flag.HandleFlagCap06(timestamp, data)
             elif data.find("' changed name to '") != -1:
-                player.HandleNameChange(data)
+                player.handle_name_change(data)
             return
-        chat.HandleChatMessage(data)
+        chat.handle_chat_message(data)
     elif data.startswith("[game]"):
-        game.HandleGame(timestamp, data)
+        game.handle_game(timestamp, data)
 
 
 def main_loop():
@@ -117,7 +117,7 @@ def main(argv):
             str(SETTINGS_FILE) +
             "'")
         sys.exit(2)
-    parse_settings.ReadSettingsFile(SETTINGS_FILE)
+    parse_settings.read_settings_file(SETTINGS_FILE)
 
     chat.log("[TEM] loaded settings: ")
     chat.log(g_settings.SETTINGS)

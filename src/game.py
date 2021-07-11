@@ -12,75 +12,75 @@ caps_blue = 0 # it doesnt track how often the blue flag was captured but how oft
 grabs_red = 0
 grabs_blue = 0
 
-def GetBestScore():
-    return max(GetScoreRed(), GetScoreBlue())
+def get_best_score():
+    return max(get_score_red(), get_score_blue())
 
-def GetScoreRed():
+def get_score_red():
     return caps_red * 100 + grabs_red
 
-def GetScoreBlue():
+def get_score_blue():
     return caps_blue * 100 + grabs_blue
 
-def UpdateFlagGrabs(IsRed):
+def update_flag_grabs(is_red):
     global grabs_red
     global grabs_blue
-    if IsRed:
+    if is_red:
         grabs_red += 1
     else:
         grabs_blue += 1
 
-def UpdateFlagCaps(IsRed):
+def update_flag_caps(is_red):
     global caps_red
     global caps_blue
-    if IsRed:
+    if is_red:
         caps_red += 1
     else:
         caps_blue += 1
     if caps_red > 9:
-        UpdateWins(True)
+        update_wins(True)
     elif caps_blue > 9:
-        UpdateWins(False)
+        update_wins(False)
 
-def UpdateWins(IsRed):
+def update_wins(is_red):
     global caps_red
     global caps_blue
     caps_red = 0
     caps_blue = 0
-    if IsRed:
+    if is_red:
         echo("red won")
-        if player.CountPlayers() > g_settings.get("win_players"):
-            player.TeamWon("red")
+        if player.count_players() > g_settings.get("win_players"):
+            player.team_won("red")
     else:
         echo("blue won")
-        if player.CountPlayers() > g_settings.get("win_players"):
-            player.TeamWon("blue")
+        if player.count_players() > g_settings.get("win_players"):
+            player.team_won("blue")
 
-def HandleGame(timestamp, data):
+def handle_game(timestamp, data):
     if (data.find("kill killer") != -1):
-        kills.HandleKills(timestamp, data)
+        kills.handle_kills(timestamp, data)
     elif (data.startswith("[game]: start round type='")):
         global caps_red
         global caps_blue
         # [game]: start round type='CTF' teamplay='1'
         say("[SERVER] ChillerDragon wishes you all hf & gl c:")
-        player.RefreshAllPlayers()
+        player.refresh_all_players()
         if (data.startswith("[game]: start round type='CTF'")):
             if caps_red == 0 and caps_blue == 0: # already catched by 10 flags auto detection
                 return
             if caps_red > caps_blue:
-                UpdateWins(True)
+                update_wins(True)
             elif caps_red < caps_blue:
-                UpdateWins(False)
+                update_wins(False)
             else:
                 say("draw lul")
     elif (data.startswith("[game]: flag_grab player='")):
         id_start = data.find("'", 10) + 1
         id_end   = cbase.cfind(data, ":", 2)
         id_str   = data[id_start:id_end]
-        p = player.GetPlayerByID(id_str)
+        p = player.get_player_by_id(id_str)
         if not p:
             say("[ERROR] flag_grab player not found ID=" + str(id_str))
-            player.DebugPlayerList()
+            player.debug_player_list()
             sys.exit(1)
         name_start = data.find(":", 10) + 1  # first '
         name_end   = data.rfind("'")     # last '
@@ -88,8 +88,8 @@ def HandleGame(timestamp, data):
         if p.name != name:
             say("[ERROR] name missmatch p.name='" + str(p.name) + "' name='" + str(name) + "'")
             sys.exit(1)
-        player.UpdatePlayerFlagGrabs(p, 1)
-        player.SetFlagger(p, True, timestamp)
+        player.update_player_flag_grabs(p, 1)
+        player.set_flagger(p, True, timestamp)
         if g_settings.get("debug"):
             say("[DEBUG] '" + str(name) + "' grabbed the flag ts=" + str(timestamp))
     # [2019-10-15 11:41:04][game]: flag_capture player='0:ChillerDragon' team=0
@@ -105,10 +105,10 @@ def HandleGame(timestamp, data):
         id_start = data.find("'", 10) + 1
         id_end   = cbase.cfind(data, ":", 2)
         id_str = data[id_start:id_end]
-        p = player.GetPlayerByID(id_str)
+        p = player.get_player_by_id(id_str)
         if not p:
             say("[ERROR] flag_cap player not found ID=" + str(id_str))
-            player.DebugPlayerList()
+            player.debug_player_list()
             sys.exit(1)
         # logs are only seconds precise but usual tw mesurement is two digits more precise
         t1 = datetime.datetime.strptime(p.grab_timestamp, "%Y-%m-%d %H:%M:%S")

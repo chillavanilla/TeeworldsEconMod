@@ -18,10 +18,10 @@ def __HandleFlagCap(player_obj, time, flag_color):
         say("   flag=" + flag_color)
         sys.exit(1)
     name = player_obj.name
-    achievements.CheckFlag(player_obj, time)
-    player.UpdatePlayerFlagTime(player_obj, time)
-    player.SetFlagger(player_obj, False)
-    player.UpdatePlayerFlagCaps(player_obj, flag_color, 1)
+    achievements.check_flag(player_obj, time)
+    player.update_player_flag_time(player_obj, time)
+    player.set_flagger(player_obj, False)
+    player.update_player_flag_caps(player_obj, flag_color, 1)
     if g_settings.get("debug"):
         say("[DEBUG] flag cap '" + name + "' in '" + str(time) + "' secs color: '" + flag_color + "'")
 
@@ -32,10 +32,10 @@ def HandleFlagCap06(timestamp, data):
     flag_color = "pink"
     if (data.find("blue", 5, 20) != -1):
         flag_color = "blue"
-        game.UpdateFlagCaps(True)
+        game.update_flag_caps(True)
     elif (data.find("red", 5, 20) != -1):
         flag_color = "red"
-        game.UpdateFlagCaps(False)
+        game.update_flag_caps(False)
 
     name_start = data.find("'") + 1
     name_end = data.rfind("'")
@@ -46,7 +46,7 @@ def HandleFlagCap06(timestamp, data):
         time_start = data.rfind("(") + 1
         time_end = data.rfind(" sec")
         time = data[time_start:time_end]
-    p = player.GetPlayerByName(name)
+    p = player.get_player_by_name(name)
     __HandleFlagCap(p, time, flag_color)
 
 # 0.7 exclusive
@@ -68,7 +68,7 @@ def HandleFlapCap07(data):
         return
     if g_settings.get("debug"):
         say("[DEBUG] flag cap in '" + m.group("time") + "' seconds.")
-    p = player.GetPlayerByID(m.group("id"))
+    p = player.get_player_by_id(m.group("id"))
     flag_color = "red"
     if p.team == "red":
         flag_color = "blue"
