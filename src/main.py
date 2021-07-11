@@ -29,7 +29,10 @@ def HandleData(timestamp, data):
             g_settings.set("tw_version", "0.7")
     m = re.match(r'\[server\]: game version (.*)', data)
     if m:
-        g_settings.set("tw_version", m.group(1))
+        version = m.group(1)
+        if version.find("0.7/0.6") != -1:
+            version = "0.7"
+        g_settings.set("tw_version", version)
     if (data.startswith("[register]")):
         # chat.say("register found: " + data) #working but was only useless chat spam for testing
         pass
