@@ -38,6 +38,7 @@ aSettStr+=("sh_logs_path");aSettVal+=("/path/to/log/directory")
 aSettStr+=("sh_tw_cfg_file");aSettVal+=("")
 aSettStr+=("sh_tw_version");aSettVal+=("6")
 aSettStr+=("sh_discord_token_verbose");aSettVal+=("")
+aSettStr+=("sh_econ_addr");aSettVal+=("localhost")
 
 if [ $# -gt 0 ]; then
     log "settings file=$1"
@@ -183,6 +184,7 @@ read_settings_file
 # - cfg path        5
 # - tw version      6
 # - discord token   7 ( NOT USED BY THIS SCRIPT ONLY BY tools/discord_bot.sh )
+# - econ_addr       8
 
 twsettings=""
 
@@ -230,6 +232,6 @@ elif [ "$(uname -s)" == "MINGW64_NT" ]; then
 fi
 
 log "run server | pipe into main.py | pipe into netcat connection: "
-log "executing: ./${aSettVal[1]} \"$twsettings\" $tw_settings_file | cd $econ_mod_path;./src/main.py --settings=$settings_file | ./bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file"
-(./${aSettVal[1]} "$twsettings" $tw_settings_file) | (cd $econ_mod_path;./src/main.py --settings=$settings_file) | (cd $econ_mod_path;./bin/$nc_os.exp ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file)
+log "executing: ./${aSettVal[1]} \"$twsettings\" $tw_settings_file | cd $econ_mod_path;./src/main.py --settings=$settings_file | ./bin/$nc_os.exp ${aSettVal[8]} ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file"
+(./${aSettVal[1]} "$twsettings" $tw_settings_file) | (cd $econ_mod_path;./src/main.py --settings=$settings_file) | (cd $econ_mod_path;./bin/$nc_os.exp ${aSettVal[8]} ${aSettVal[2]} ${aSettVal[3]} settings=$settings_file)
 
