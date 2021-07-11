@@ -18,7 +18,8 @@ SETTINGS = {
     "votes_force": ["int", 0],      # force no when a vote is called
     "votes_blocked_reasons": ["[]", None],
     "ipinfo_token": ["str", ""],
-    "hotplug": ["int", 0] # set to one when start_tem.sh attaches to logfile rather than start a server this ignores some ERRORS
+    "hotplug": ["int", 0], # set to one when start_tem.sh attaches to logfile rather than start a server this ignores some ERRORS
+    "chat_command_prefix": ["str", "/"]
 }
 
 def get(setting):

@@ -147,74 +147,75 @@ def IsMuted(msg):
 def HandleChatMessage(msg):
     if IsMuted(msg):
         return
+    prefix = g_settings.get("chat_command_prefix")
     IsCmd = True
     msg_normal = msg
     msg = msg.lower()
     chat_cmd_start = cbase.cfind(msg, ":", 4) # the first possible occurence of a chat command (to filter chat command names)
     cmd = msg[chat_cmd_start:-1] #cut newline at end
-    if (cmd.endswith(": /help") or cmd.endswith(": /info") or cmd.endswith(": /cmdlist")):
+    if (cmd.endswith(": " + prefix + "help") or cmd.endswith(": " + prefix + "info") or cmd.endswith(": " + prefix + "cmdlist")):
         say("==== Teeworlds Econ Mod (TEM) ====")
         say("developed by ChillerDragon version: " + str(version.VERSION))
         say("https://github.com/ChillaVanilla/TeeworldsEconMod")
-        say("'/help' to show this help")
-        say("'/stats' to show round stats")
-        say("'/achievements' to show achievements")
+        say("'" + prefix + "help' to show this help")
+        say("'" + prefix + "stats' to show round stats")
+        say("'" + prefix + "achievements' to show achievements")
         if g_settings.get("stats_mode") == "sql":
-            say("'/top5' for all time stats commands")
-            say("'/rank' for all rank commands")
-    elif (cmd.endswith(": /top5")):
+            say("'" + prefix + "top5' for all time stats commands")
+            say("'" + prefix + "rank' for all rank commands")
+    elif (cmd.endswith(": " + prefix + "top5")):
         if g_settings.get("stats_mode") == "sql":
-            say("'/top_kills' to see top5 killers of all time")
+            say("'" + prefix + "top_kills' to see top5 killers of all time")
         if g_settings.get("stats_mode") == "sql":
-            say("'/top_flags' to see top5 flag cap times of all time")
+            say("'" + prefix + "top_flags' to see top5 flag cap times of all time")
         if g_settings.get("stats_mode") == "sql":
-            say("'/top_caps' to see top5 flag amount of all time")
+            say("'" + prefix + "top_caps' to see top5 flag amount of all time")
         if g_settings.get("stats_mode") == "sql":
-            say("'/top_sprees' to see top5 killing sprees of all time")
+            say("'" + prefix + "top_sprees' to see top5 killing sprees of all time")
         else:
             say("not supported in file stats mode")
-    #elif (cmd.endswith(": /stats_all")):
+    #elif (cmd.endswith(": " + prefix + "stats_all")):
         #player.PrintStatsAll(True)
-    elif (cmd.find(": /stats") != -1):
+    elif (cmd.find(": " + prefix + "stats") != -1):
         if not g_settings.get("stats_mode") == "sql":
             say("not supported in file stats mode")
             return
-        p, name = GetRankPlayer(msg_normal, ": /stats")
+        p, name = GetRankPlayer(msg_normal, ": " + prefix + "stats")
         if not p:
             say("[stats] player '" + str(name) + "' is not online.")
             return
         p.ShowStatsRound()
         #player.PrintStatsAll()
-    elif (cmd.endswith(": /top_caps")):
+    elif (cmd.endswith(": " + prefix + "top_caps")):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.BestFlagCaps()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": /top_flags")):
+    elif (cmd.endswith(": " + prefix + "top_flags")):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.BestTimes()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": /top_kills")):
+    elif (cmd.endswith(": " + prefix + "top_kills")):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.BestKillers()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": /top_sprees")):
+    elif (cmd.endswith(": " + prefix + "top_sprees")):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.BestSprees()
         else:
             say("not supported in file stats mode")
-    elif (cmd.find("/rank_kills") != - 1):
-        sql_stats.RankKills(GetRankName(msg_normal, ": /rank_kills"))
-    elif (msg.find("/rank_flags") != - 1):
-        sql_stats.RankFlagTime(GetRankName(msg_normal, ": /rank_flags"))
-    elif (msg.find("/rank_caps") != - 1):
-        sql_stats.RankFlagCaps(GetRankName(msg_normal, ": /rank_caps"))
-    elif (cmd.find("/rank_sprees") != - 1):
-        sql_stats.RankSpree(GetRankName(msg_normal, ": /rank_sprees"))
-    elif (cmd.find("/rank_all") != - 1):
-        name = GetRankName(msg_normal, ": /rank_all")
+    elif (cmd.find("" + prefix + "rank_kills") != - 1):
+        sql_stats.RankKills(GetRankName(msg_normal, ": " + prefix + "rank_kills"))
+    elif (msg.find("" + prefix + "rank_flags") != - 1):
+        sql_stats.RankFlagTime(GetRankName(msg_normal, ": " + prefix + "rank_flags"))
+    elif (msg.find("" + prefix + "rank_caps") != - 1):
+        sql_stats.RankFlagCaps(GetRankName(msg_normal, ": " + prefix + "rank_caps"))
+    elif (cmd.find("" + prefix + "rank_sprees") != - 1):
+        sql_stats.RankSpree(GetRankName(msg_normal, ": " + prefix + "rank_sprees"))
+    elif (cmd.find("" + prefix + "rank_all") != - 1):
+        name = GetRankName(msg_normal, ": " + prefix + "rank_all")
         if not name:
             return
         say("=== '" + str(name) + "'s stats ===")
@@ -222,19 +223,19 @@ def HandleChatMessage(msg):
         sql_stats.RankFlagTime(str(name))
         sql_stats.RankFlagCaps(str(name))
         sql_stats.RankSpree(str(name))
-    elif (cmd.find("/rank") != - 1):
+    elif (cmd.find("" + prefix + "rank") != - 1):
         if not g_settings.get("stats_mode") == "sql":
             say("not supported in file stats mode")
             return
-        say("'/rank_kills' to show global kills rank")
-        say("'/rank_sprees' to show global spree rank")
-        say("'/rank_flags' to show global flag time rank")
-        say("'/rank_caps' to show global flag capture rank")
-    elif (cmd.find("/achievements") != - 1):
-        name = GetRankName(msg_normal, ": /achievements")
+        say("'" + prefix + "rank_kills' to show global kills rank")
+        say("'" + prefix + "rank_sprees' to show global spree rank")
+        say("'" + prefix + "rank_flags' to show global flag time rank")
+        say("'" + prefix + "rank_caps' to show global flag capture rank")
+    elif (cmd.find("" + prefix + "achievements") != - 1):
+        name = GetRankName(msg_normal, ": " + prefix + "achievements")
         achievements.ShowAchievements(name)
-    elif (cmd.endswith(": /test")):
-        p, name = GetRankPlayer(msg_normal, ": /test")
+    elif (cmd.endswith(": " + prefix + "test")):
+        p, name = GetRankPlayer(msg_normal, ": " + prefix + "test")
         if not p:
             say("error")
             sys.exit(1)
