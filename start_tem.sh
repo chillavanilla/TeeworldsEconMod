@@ -132,40 +132,40 @@ function parse_settings_line() {
 }
 
 function read_settings_file() {
-    local i
-    while read -r line
-    do
-        if [ "${line:0:1}" == "#" ]
-        then
-            continue # ignore comments
-        elif [ "${line:0:3}" == "py_" ]
-        then
-            continue # ignore python settings
-        elif [ -z "$line" ]
-        then
-            continue # ignore empty lines
-        fi
-        line_set=""
-        line_val=""
-        IFS='=' read -ra split_line <<< "$line"
-        for i in "${!split_line[@]}"
-        do
-            # split by '=' and then join all the elements bigger than 0
-            # thus we allow using '=' inside the value
-            if [ "$i" == "0" ]
-            then
-                line_set="${split_line[$i]}"
-            else
-                if [ "$i" -gt "1" ]
-                then
-                    line_val+="="
-                fi
-                line_val+="${split_line[$i]}"
-            fi
-        done
-        # echo "config: $line_set value: $line_val"
-        parse_settings_line "$line_set" "$line_val"
-    done < "$settings_file"
+	local i
+	while read -r line
+	do
+		if [ "${line:0:1}" == "#" ]
+		then
+			continue # ignore comments
+		elif [ "${line:0:3}" == "py_" ]
+		then
+			continue # ignore python settings
+		elif [ -z "$line" ]
+		then
+			continue # ignore empty lines
+		fi
+		line_set=""
+		line_val=""
+		IFS='=' read -ra split_line <<< "$line"
+		for i in "${!split_line[@]}"
+		do
+			# split by '=' and then join all the elements bigger than 0
+			# thus we allow using '=' inside the value
+			if [ "$i" == "0" ]
+			then
+				line_set="${split_line[$i]}"
+			else
+				if [ "$i" -gt "1" ]
+				then
+					line_val+="="
+				fi
+				line_val+="${split_line[$i]}"
+			fi
+		done
+		# echo "config: $line_set value: $line_val"
+		parse_settings_line "$line_set" "$line_val"
+	done < "$settings_file"
 }
 
 create_settings # create fresh if null
