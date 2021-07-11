@@ -58,7 +58,7 @@ def handle_data(timestamp, data):
     elif data.startswith("[game]: team_join player='"):
         player.HandlePlayerTeam(data[:-1])  # chop of newline
     elif data.startswith("[chat]") or data.startswith("[teamchat]"):
-        if data.startswith("[chat]: ***":
+        if data.startswith("[chat]: ***"):
             if (data.startswith("[chat]: *** The blue flag was captured by '")
                     or data.startswith("[chat]: *** The red flag was captured by '")):
                 flag.HandleFlagCap06(timestamp, data)
@@ -70,7 +70,7 @@ def handle_data(timestamp, data):
         game.HandleGame(timestamp, data)
 
 
-def MainLoop():
+def main_loop():
     while True:
         try:
             line = sys.stdin.readline()
@@ -87,7 +87,6 @@ def MainLoop():
             sys.exit(2)
         except UnicodeDecodeError:
             chat.echo("[WARNING] UnicodeDecodeError! Please contact an admin.")
-            pass
 
 
 def main(argv):
@@ -123,7 +122,7 @@ def main(argv):
     chat.log("[TEM] loaded settings: ")
     chat.log(g_settings.SETTINGS)
     sql_stats.InitDataBase()
-    MainLoop()
+    main_loop()
 
 
 if __name__ == "__main__":
