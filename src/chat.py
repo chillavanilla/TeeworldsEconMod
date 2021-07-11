@@ -241,6 +241,8 @@ def HandleChatMessage(msg):
     elif (cmd.endswith(": " + prefix + "test")):
         p, name = GetRankPlayer(msg_normal, ": " + prefix + "test")
         if not p:
+            if g_settings.get("hotplug") == 1:
+                return
             say("error")
             sys.exit(1)
         say("got player: " + str(name))
