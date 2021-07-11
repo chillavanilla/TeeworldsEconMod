@@ -120,19 +120,19 @@ def spam_protection(msg):
         say("[ERROR] spam_protection() failed! please contact an admin")
         sys.exit(1)
     now = datetime.datetime.now()
-    diff = now - p.LastChat
-    p.LastChat = now
-    #say("chat diff seconds: " + str(diff.seconds) + " LastChat: " + str(p.LastChat))
+    diff = now - p.last_chat
+    p.last_chat = now
+    #say("chat diff seconds: " + str(diff.seconds) + " last_chat: " + str(p.last_chat))
     seconds = diff.seconds
     if (seconds < 15):
-        p.MuteScore += 1
-    if (p.MuteScore > 5):
+        p.mute_score += 1
+    if (p.mute_score > 5):
         if not p.is_muted:
             p.is_muted = True
             say("'" + str(p.name) + "' is banned from the command system (spam)")
     if (seconds > 120):
         p.is_muted = False
-        p.MuteScore = 0
+        p.mute_score = 0
     if (p.is_muted):
         return True
     return False

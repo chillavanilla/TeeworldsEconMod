@@ -36,7 +36,7 @@ class Player:
         self.best_spree = spree
         #round variables (not saved)
         self.killingspree = 0
-        self.IsFlagger = False
+        self.is_flagger = False
     def __add__(self, other):
         tmp_player = Player(self.name)
         tmp_player.kills = self.kills + other.kills

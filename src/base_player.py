@@ -4,32 +4,36 @@ import datetime
 
 aPlayers=[]
 
-def calc_kd(k, d):
-    if k == 0:
+def calc_kd(kills, deaths):
+    """Return the Kills/Deaths ratio as a string."""
+    if kills == 0:
         return str(0)
-    if d == 0:
-        return str(k)
-    return str("%.2f" % (k / d))
+    if deaths == 0:
+        return str(kills)
+    return str("%.2f" % (kills / deaths))
 
-def best_time(t1, t2):
-    t = min(t1,t2)
-    if t == 0:
-        return max(t1, t2) #if no time yet --> set the highest
-    return t #if captured already use lowest time
+def best_time(time1, time2):
+    """Return the best of two given times."""
+    time = min(time1,time2)
+    if time == 0:
+        return max(time1, time2) #if no time yet --> set the highest
+    return time #if captured already use lowest time
 
-def a_best(a1, a2):
-    if a1 == "":
-        return a2
-    elif a2 == "":
-        return a1
-    if a1 < a2:
-        return a1 # use oldest time
-    return a2
+def a_best(achievement1, achievement2):
+    """Return the best of two given achievements"""
+    if achievement1 == "":
+        return achievement2
+    elif achievement2 == "":
+        return achievement1
+    if achievement1 < achievement2:
+        return achievement1 # use oldest time
+    return achievement2
 
 class Player:
-    def __init__(self, name, ID=-1, IP="", time=0.0, spree=0, team=""):
-        self.ID = ID
-        self.IP = IP
+    """The Player object keeps track of stats"""
+    def __init__(self, name, cid=-1, ip="", time=0.0, spree=0, team=""):
+        self.cid = cid
+        self.ip = ip
         self.name = name
         self.kills = 0
         self.WEAPON_KILLS = {
@@ -63,15 +67,15 @@ class Player:
         self.a_virgin = ""
         # round variables (not saved)
         self.killingspree = 0
-        self.LastKill = 0               # time
-        self.LastMultiKill = None       # time
-        self.LastMultiKillWeapon = None # weapon id
-        self.CurrentMulti = 0           # max 32
-        self.IsComboMulti = False       # gets set to true if weapons switch during multi
-        self.IsFlagger = False
+        self.last_kill = 0               # time
+        self.last_multi_kill = None       # time
+        self.last_multi_kill_weapon = None # weapon id
+        self.current_multi = 0           # max 32
+        self.is_combo_multi = False       # gets set to true if weapons switch during multi
+        self.is_flagger = False
         self.team = team
-        self.LastChat = datetime.datetime.now()
-        self.MuteScore = 0
+        self.last_chat = datetime.datetime.now()
+        self.mute_score = 0
         self.is_muted = False
         self.grab_timestamp = ""
     def __add__(self, other):
@@ -121,9 +125,11 @@ class Player:
         """
         return tmp_player
     def show_stats(self):
+        """Send a string with the stats into the chat"""
         say("[stats] '" + str(self.name) + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths) + " killingspree: " + str(self.best_spree))
         #say("[stats] '" + self.name + "' flagtime: " + str(self.flag_time))
     def show_stats_round(self):
+        """Send a string with the round stats into the chat"""
         say("[round-stats] '" + str(self.name) + "' kd: " + calc_kd(self.kills,self.deaths) + " (" + str(self.kills) + "/" + str(self.deaths) + ")")
         # say("hammer: " + str(self.WEAPON_KILLS[0]))
         # say("gun: " + str(self.WEAPON_KILLS[1]))
