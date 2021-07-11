@@ -224,6 +224,8 @@ def HandleNameChange(data):
     team = ""
     player = GetPlayerByName(old)
     if not player:
+        if g_settings.get("hotplug") == 1:
+            return
         say("[ERROR] name_change player not found name=" + str(old))
         sys.exit(1)
     team = player.team
@@ -233,6 +235,8 @@ def HandleNameChange(data):
 def SetFlagger(player, IsFlag, timestamp = ""):
     if not player:
         if IsFlag:
+            if g_settings.get("hotplug") == 1:
+                return
             say("[ERROR] set flagger failed: invalid player.")
             sys.exit(1)
         return False
