@@ -308,6 +308,8 @@ def UpdatePlayerKills(player, kills, weapon):
     # say("kill weapon=" + WEAPONS[weapon])
     if not player:
         return False
+    if weapon < 0: # ddrace has negative weapons disconnect
+        return True
     player.LastKill = ProcessMultiKills(player, weapon)
     player.LastKillWeapon = weapon
     player.kills += kills
