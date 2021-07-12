@@ -22,7 +22,7 @@ def init_player(name, cid, ip, team, ShowStats, spree):
     player = None
     load_player = load_stats(name)
     if load_player:
-        if ShowStats:
+        if ShowStats and g_settings.get("show_stats_on_join") == 1:
             load_player.show_stats()
         player = Player(name, cid, ip, load_player.flag_time, load_player.best_spree, team)
         player.a_haxx0r = load_player.a_haxx0r

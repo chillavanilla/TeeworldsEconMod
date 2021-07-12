@@ -19,7 +19,8 @@ SETTINGS = {
     "votes_blocked_reasons": ["[]", None],
     "ipinfo_token": ["str", ""],
     "hotplug": ["int", 0], # set to one when start_tem.sh attaches to logfile rather than start a server this ignores some ERRORS
-    "chat_command_prefix": ["str", "/"]
+    "chat_command_prefix": ["str", "/"],
+    "show_stats_on_join": ["int", 1]
 }
 
 def get(setting):
