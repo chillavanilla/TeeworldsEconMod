@@ -60,7 +60,7 @@ class Player:
     def show_stats(self):
         say("[stats] '" + self.name + "' kills: " + str(self.kills) + " deaths: " + str(self.deaths) + " killingspree: " + str(self.best_spree))
 
-create_stats_table = """
+STATS_TABLE_SCHEMA = """
 CREATE TABLE Players (
     ID              INTEGER PRIMARY KEY AUTOINCREMENT,
     Name            TEXT,
@@ -75,8 +75,8 @@ CREATE TABLE Players (
 );
 """
 
-def InitDataBase():
-    global create_stats_table
+def init_database():
+    global STATS_TABLE_SCHEMA
     IsTable = False
     if os.path.isfile("stats.db"):
         print("stats.db found")
@@ -84,7 +84,7 @@ def InitDataBase():
     con = lite.connect("stats.db")
     with con:
         cur = con.cursor()
-        cur.execute(create_stats_table)
+        cur.execute(STATS_TABLE_SCHEMA)
         print("created stats.db Players table")
 
 def HasStatsFile(name):
@@ -199,7 +199,7 @@ def FileToSQL():
     TotalPlayers = 0
 
     say("creating stats.db")
-    InitDataBase()
+    init_database()
     say("searching stats files in stats/ ...")
 
     for StatsFile in os.listdir("stats/"):

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-from chiller_essential import *
-from kills import *
-import g_settings
+"""SQL code for stats"""
+
 import os.path
 import sqlite3 as lite
 import sys
-from base_player import *
+from chiller_essential import say, log, echo
+import g_settings
+from base_player import Player
 
-create_stats_table = """
+STATS_TABLE_SCHEMA = """
 CREATE TABLE Players (
     ID              INTEGER PRIMARY KEY AUTOINCREMENT,
     Name            TEXT,
@@ -34,33 +35,35 @@ CREATE TABLE Players (
 );
 """
 
-def InitDataBase():
-    global create_stats_table
-    IsTable = False
+def init_database():
+    """Create database schema"""
+    global STATS_TABLE_SCHEMA
     if os.path.isfile(g_settings.get("sql_database")):
         log("database found.")
         return True
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
-        cur.execute(create_stats_table)
+        cur.execute(STATS_TABLE_SCHEMA)
         log("created '" + str(g_settings.get("sql_database")) + "' Players table")
 
 def has_stats(name):
+    """Check if playername has stats"""
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT Name FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute("SELECT Name FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
+        row = cur.fetchall()
         if row:
             return True
     return False
 
 def load_stats_sql(name):
+    """Load sql stats by playername"""
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("""
+        cur = con.cursor()
+        cur.execute("""
             SELECT ID,
             Name,
             Kills,
@@ -85,7 +88,7 @@ def load_stats_sql(name):
             A_virgin
             FROM Players WHERE Name = ? AND ID > ?;""",
         (name, 0))
-        row = c.fetchall()
+        row = cur.fetchall()
         if g_settings.get("debug"):
             echo("[stats-load] row:" + str(row))
         if not row:
@@ -117,6 +120,7 @@ def load_stats_sql(name):
     return tmp_player
 
 def save_stats_sql(player):
+    """Save sql stats of player object"""
     name = player.name
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     if not player:
@@ -173,8 +177,15 @@ def save_stats_sql(player):
             VALUES (
                 ?,
                 ?, ?,
-                ?, ?, ?, ?, ?, ?,
-                ?, ?, ?, ?, ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?, ?,
+                ?, ?,
                 ?,
                 ?, ?,
                 ?, ?, ?, ?
@@ -185,8 +196,15 @@ def save_stats_sql(player):
                 (
                     player.name,
                     player.kills, player.deaths,
-                    player.weapon_kills[0], player.weapon_kills[1], player.weapon_kills[2], player.weapon_kills[3], player.weapon_kills[4], player.weapon_kills[5],
-                    player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills,
+                    player.weapon_kills[0],
+                    player.weapon_kills[1],
+                    player.weapon_kills[2],
+                    player.weapon_kills[3],
+                    player.weapon_kills[4],
+                    player.weapon_kills[5],
+                    player.flag_grabs,
+                    player.flag_caps_red, player.flag_caps_blue,
+                    player.flag_time, player.flagger_kills,
                     player.best_spree,
                     player.wins, player.looses,
                     player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin
@@ -199,6 +217,7 @@ def save_stats_sql(player):
     return True
 
 def save_stats_partially_sql(player):
+    """Save only killing spree of given player object"""
     name = player.name
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     if not player:
@@ -261,13 +280,22 @@ def save_stats_partially_sql(player):
 ###################
 
 def rank_spree(name):
+    """Print spree rank of given name"""
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT PlayerRank, Name, BestSpree FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE BestSpree > (SELECT BestSpree FROM Players WHERE Name = ?)), (SELECT Name, BestSpree FROM Players WHERE Name = ?);", (name, name))
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute(
+            """
+            SELECT PlayerRank, Name, BestSpree
+            FROM (SELECT COUNT(*) AS PlayerRank
+            FROM Players
+            WHERE BestSpree > (SELECT BestSpree FROM Players WHERE Name = ?)),
+            (SELECT Name, BestSpree FROM Players WHERE Name = ?);
+            """,
+            (name, name))
+        row = cur.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
             return None
@@ -277,13 +305,22 @@ def rank_spree(name):
         say(str(rank) + ". '" + str(name) + "' spree " + str(value))
 
 def rank_flag_time(name):
+    """Print flag time rank of given name"""
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT PlayerRank, Name, FlagTime FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE FlagTime > 0.0 AND FlagTime < (SELECT FlagTime FROM Players WHERE Name = ?)), (SELECT Name, FlagTime FROM Players WHERE Name = ?);", (name, name))
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute(
+            """
+            SELECT PlayerRank, Name, FlagTime
+            FROM (SELECT COUNT(*) AS PlayerRank
+            FROM Players WHERE FlagTime > 0.0
+            AND FlagTime < (SELECT FlagTime FROM Players WHERE Name = ?)),
+            (SELECT Name, FlagTime FROM Players WHERE Name = ?);
+            """,
+            (name, name))
+        row = cur.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
             return False
@@ -297,15 +334,24 @@ def rank_flag_time(name):
     return True
 
 def rank_flag_caps(name):
+    """Print flag caps rank of given name"""
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("""SELECT PlayerRank, Name, FlagCaps FROM 
-                    (SELECT COUNT(*) AS PlayerRank FROM Players WHERE FlagCapsRed + FlagCapsBlue > (SELECT (FlagCapsRed + FlagCapsBlue) AS FlagCaps FROM Players WHERE Name = ?)), 
-                    (SELECT Name, (FlagCapsRed + FlagCapsBlue) AS FlagCaps FROM Players WHERE Name = ?);""", (name, name))
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute(
+                """
+                SELECT PlayerRank, Name, FlagCaps FROM
+                (SELECT COUNT(*) AS PlayerRank
+                FROM Players
+                WHERE FlagCapsRed + FlagCapsBlue > (SELECT (FlagCapsRed + FlagCapsBlue)
+                AS FlagCaps FROM Players WHERE Name = ?)),
+                (SELECT Name, (FlagCapsRed + FlagCapsBlue) AS FlagCaps
+                FROM Players WHERE Name = ?);
+                """,
+                (name, name))
+        row = cur.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
             return None
@@ -315,13 +361,22 @@ def rank_flag_caps(name):
         say(str(rank) + ". '" + str(name) + "' flagcaps " + str(value))
 
 def rank_kills(name):
+    """Print kills rank of given name"""
     if not name:
         return False
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT PlayerRank, Name, Kills FROM (SELECT COUNT(*) AS PlayerRank FROM Players WHERE Kills > (SELECT Kills FROM Players WHERE Name = ?)), (SELECT Name, Kills FROM Players WHERE Name = ?);", (name, name))
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute(
+            """
+            SELECT PlayerRank, Name, Kills
+            FROM (SELECT COUNT(*) AS PlayerRank
+            FROM Players
+            WHERE Kills > (SELECT Kills FROM Players WHERE Name = ?)),
+            (SELECT Name, Kills FROM Players WHERE Name = ?);
+            """
+            , (name, name))
+        row = cur.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
             return None
@@ -331,72 +386,82 @@ def rank_kills(name):
         say(str(rank) + ". '" + str(name) + "' kills " + str(kills))
 
 def best_flag_caps():
+    """Print best flag caps"""
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT Name, (FlagCapsRed + FlagCapsBlue) AS FlagCaps FROM Players WHERE  FlagCaps > 0 ORDER BY FlagCaps DESC LIMIT 5;")
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute(
+            """
+            SELECT Name, (FlagCapsRed + FlagCapsBlue) AS FlagCaps
+            FROM Players
+            WHERE  FlagCaps > 0
+            ORDER BY FlagCaps DESC LIMIT 5;
+            """
+            )
+        row = cur.fetchall()
         if not row:
             say("something went wrong")
             return None
-        for x in range(0, len(row)):
-            name = row[x][0]
-            value = row[x][1]
-            say(str(x + 1) + ". '" + str(name) + "' flagcaps: " + str(value))
+        for index in range(0, len(row)):
+            name = row[index][0]
+            value = row[index][1]
+            say(str(index + 1) + ". '" + str(name) + "' flagcaps: " + str(value))
 
 def best_spree():
+    """Print best spree"""
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT Name, BestSpree FROM Players WHERE BestSpree > 0 ORDER BY BestSpree DESC LIMIT 5;")
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute(
+            """
+            SELECT Name, BestSpree
+            FROM Players
+            WHERE BestSpree > 0
+            ORDER BY BestSpree DESC LIMIT 5;
+            """
+            )
+        row = cur.fetchall()
         if not row:
             say("something went wrong")
             return None
-        for x in range(0, len(row)):
-            name = row[x][0]
-            value = row[x][1]
-            say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
-
-def best_spree():
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
-    with con:
-        c = con.cursor()
-        c.execute("SELECT Name, BestSpree FROM Players WHERE BestSpree > 0 ORDER BY BestSpree DESC LIMIT 5;")
-        row = c.fetchall()
-        if not row:
-            say("something went wrong")
-            return None
-        for x in range(0, len(row)):
-            name = row[x][0]
-            value = row[x][1]
-            say(str(x + 1) + ". '" + str(name) + "' spree: " + str(value))
+        for index in range(0, len(row)):
+            name = row[index][0]
+            value = row[index][1]
+            say(str(index + 1) + ". '" + str(name) + "' spree: " + str(value))
 
 def best_times():
+    """Print best times"""
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT Name, FlagTime FROM Players WHERE FlagTime > 0.0 ORDER BY FlagTime ASC LIMIT 5;")
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute(
+            """
+            SELECT Name, FlagTime
+            FROM Players
+            WHERE FlagTime > 0.0
+            ORDER BY FlagTime ASC LIMIT 5;
+            """
+            )
+        row = cur.fetchall()
         if not row:
             say("something went wrong")
             return None
-        for x in range(0, len(row)):
-            name = row[x][0]
-            value = row[x][1]
-            say(str(x + 1) + ". '" + str(name) + "' time: " + str(value))
+        for index in range(0, len(row)):
+            name = row[index][0]
+            value = row[index][1]
+            say(str(index + 1) + ". '" + str(name) + "' time: " + str(value))
 
 def best_killers():
+    """Print best killers"""
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
-        c = con.cursor()
-        c.execute("SELECT Name, Kills FROM Players ORDER BY Kills DESC LIMIT 5;")
-        row = c.fetchall()
+        cur = con.cursor()
+        cur.execute("SELECT Name, Kills FROM Players ORDER BY Kills DESC LIMIT 5;")
+        row = cur.fetchall()
         if not row:
             say("something went wrong")
             return None
-        for x in range(0, len(row)):
-            name = row[x][0]
-            kills = row[x][1]
-            say(str(x + 1) + ". '" + str(name) + "' kills: " + str(kills))
-
+        for index in range(0, len(row)):
+            name = row[index][0]
+            kills = row[index][1]
+            say(str(index + 1) + ". '" + str(name) + "' kills: " + str(kills))

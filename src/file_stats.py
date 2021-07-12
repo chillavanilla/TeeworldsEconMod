@@ -15,7 +15,7 @@ def HasStats(name):
         return True
     return False
 
-def SaveStatsFile(player):
+def save_stats_file(player):
     if not player:
         say("[stats] failed to save player.")
         return False

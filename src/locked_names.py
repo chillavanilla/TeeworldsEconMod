@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
+"""Locked names module ban based on ip region"""
 
 import json
-import ipinfo
 import os.path
+import ipinfo
 
 import chat
 import g_settings
+from chiller_essential import echo
 
 locked_names_instance = None
 
@@ -31,10 +33,10 @@ class LockedNames:
     def list_names(self):
         entrys = self.read()
         if not entrys:
-            chat.echo("There are no locked names.")
+            echo("There are no locked names.")
             return
         for entry in entrys:
-            chat.echo("name='" + str(entry["name"]) + "' region='" + str(entry["region"]) + "'")
+            echo("name='" + str(entry["name"]) + "' region='" + str(entry["region"]) + "'")
 
     def check(self, name, ip):
         if not g_settings.get("ipinfo_token") or g_settings.get("ipinfo_token") == "":
@@ -47,7 +49,7 @@ class LockedNames:
                 return True
             region = data.region
             if region != entry["region"]:
-                chat.echo("[locked-names] region missmatch '" + str(region) + "' != '" + str(entry["region"]) + "'")
+                echo("[locked-names] region missmatch '" + str(region) + "' != '" + str(entry["region"]) + "'")
                 return False
             return True
         return True

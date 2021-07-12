@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""TeeworldsEconMod entry point file"""
 
 import os.path
 import sys
@@ -42,14 +43,14 @@ def handle_data(timestamp, data):
     elif data.lower().startswith("[console]"):
         if data.find("No such command") != -1:
             return
-        elif data.lower().startswith("[console]: !"):
+        if data.lower().startswith("[console]: !"):
             admin_commands.exec_command(data.lower()[12:-1], SETTINGS_FILE)
-    # [2020-01-04 15:31:47][server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
+    # [server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
     # also matches name changes "'foo' -> 'bar'"
     elif data.startswith("[server]: '"):
-        d = data[:-1]
-        if d.endswith("force=1") or d.endswith("force=0"):
-            votes.handle_call_vote(d)
+        data_chomp = data[:-1]
+        if data_chomp.endswith("force=1") or data_chomp.endswith("force=0"):
+            votes.handle_call_vote(data_chomp)
     elif data.startswith("[server]: client dropped. cid="):
         controllers.players.handle_player_leave(data[:-1])  # chop of newline
     elif data.startswith("[server]: player is ready. ClientID="):
@@ -72,6 +73,7 @@ def handle_data(timestamp, data):
 
 
 def main_loop():
+    """The main game loop"""
     while True:
         try:
             line = sys.stdin.readline()
@@ -91,6 +93,7 @@ def main_loop():
 
 
 def main(argv):
+    """Entry point method"""
     global SETTINGS_FILE
     try:
         opts, args = getopt.getopt(argv, "hs:", ["settings="])
@@ -122,7 +125,7 @@ def main(argv):
 
     log("[TEM] loaded settings: ")
     log(g_settings.SETTINGS)
-    sql_stats.InitDataBase()
+    sql_stats.init_database()
     main_loop()
 
 

@@ -69,7 +69,7 @@ def save_and_delete_player(player):
     player.best_spree = max(player.killingspree, player.best_spree)
     delete_player(player.cid) #delete old player without spree update
     aPlayers.append(player) #add new player with spree update
-    SaveStats(player)
+    save_stats(player)
     delete_player(player.cid)
 
 def refresh_all_players():
