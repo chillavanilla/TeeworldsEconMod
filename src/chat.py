@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
 import sys
-import time
 import datetime
 import re
-from chiller_essential import *
+from chiller_essential import say, send_discord
 import g_settings
 import cbase
 import controllers.players
 import sql_stats
 import version
-import game
 import achievements
 
 def is_ban_reason_in_str(str):
+    """Search banned keywords in given string"""
     words = g_settings.get("chat_filter")
     if not words:
         return False
     for word in words:
-        if (str.find(word) != -1):
+        if str.find(word) != -1:
             return True
     return False
 
@@ -25,14 +24,15 @@ def is_ban_reason_in_str(str):
 # get by name if name is argument
 # return player object and identifier (id/name)
 def get_rank_player(msg, rank_cmd):
-    if not g_settings.get("stats_mode") == "sql":
+    """Parse command and return player object"""
+    if g_settings.get("stats_mode") != "sql":
         say("not supported in file stats mode")
         return None, None
     msg_normal = msg
     msg = msg.lower()
-    id_str = GetChatID(msg_normal)
+    id_str = get_chat_id(msg_normal)
     rankname_start = -1
-    if (msg.find(rank_cmd + " ") != -1):
+    if msg.find(rank_cmd + " ") != -1:
         cmd_end = msg.rfind(rank_cmd)
         rankname_start = msg.find(rank_cmd + " ", cmd_end) + len(rank_cmd + " ")
     rankname_end = len(msg) - 1 #cut off newline
@@ -42,7 +42,7 @@ def get_rank_player(msg, rank_cmd):
     argplayer = controllers.players.get_player_by_name(rankname)
     if not argplayer:
         # try to find id prefix in argument name
-        m = re.match( r'(\d{1,2}):(.*)', rankname)
+        m = re.match( r'(\d{1,2}:(.*)', rankname)
         if m:
             r_id = m.group(1)
             r_name = m.group(2)
@@ -52,7 +52,8 @@ def get_rank_player(msg, rank_cmd):
     return argplayer, rankname
 
 def get_rank_name(msg, rank_cmd):
-    if not g_settings.get("stats_mode") == "sql":
+    """Parse message and return playername"""
+    if g_settings.get("stats_mode") != "sql":
         say("not supported in file stats mode")
         return None
     msg_normal = msg
@@ -62,7 +63,7 @@ def get_rank_name(msg, rank_cmd):
     name_end = msg.rfind(": ", name_end)
     name = msg_normal[name_start:name_end]
     rankname_start = -1
-    if (msg.find(rank_cmd + " ") != -1):
+    if msg.find(rank_cmd + " ") != -1:
         rankname_start = msg.find(rank_cmd + " ", name_end) + len(rank_cmd + " ")
     rankname_end = len(msg) - 1 #cut off newline
     rankname = msg_normal[rankname_start:rankname_end]
@@ -72,6 +73,7 @@ def get_rank_name(msg, rank_cmd):
 
 # TODO: unused? remove?
 def get_spam_name(msg):
+    """unused"""
     name_start = cbase.cfind(msg, ":", 3) + 1
     name_end = msg.find(": ", name_start + 1)
     name = msg[name_start:name_end]
@@ -82,7 +84,8 @@ CHAT_ALL=1
 CHAT_TEAM=2
 CHAT_WHISPER=3
 
-def GetChatID(msg):
+def get_chat_id(msg):
+    """Get clientID of the sender"""
     # TODO: move constants to better place
     # TODO: refactor this code
     # TODO: support versions higher than 0.7.5 (care "0.7.10" < "0.7.5" is true in python)
@@ -109,55 +112,63 @@ def GetChatID(msg):
     return id_str
 
 def get_spam_player(msg):
-    id_str = GetChatID(msg)
+    """Recive the player name of a message"""
+    id_str = get_chat_id(msg)
     return controllers.players.get_player_by_id(id_str)
 
 def spam_protection(msg):
-    p = get_spam_player(msg)
-    if not p:
+    """Takes a message and mutes the author if it is spam"""
+    player = get_spam_player(msg)
+    if not player:
         if g_settings.get("hotplug") == 1:
             return False
         say("[ERROR] spam_protection() failed! please contact an admin")
         sys.exit(1)
     now = datetime.datetime.now()
-    diff = now - p.last_chat
-    p.last_chat = now
-    #say("chat diff seconds: " + str(diff.seconds) + " last_chat: " + str(p.last_chat))
+    diff = now - player.last_chat
+    player.last_chat = now
+    #say("chat diff seconds: " + str(diff.seconds) + " last_chat: " + str(player.last_chat))
     seconds = diff.seconds
-    if (seconds < 15):
-        p.mute_score += 1
-    if (p.mute_score > 5):
-        if not p.is_muted:
-            p.is_muted = True
-            say("'" + str(p.name) + "' is banned from the command system (spam)")
-    if (seconds > 120):
-        p.is_muted = False
-        p.mute_score = 0
-    if (p.is_muted):
+    if seconds < 15:
+        player.mute_score += 1
+    if player.mute_score > 5:
+        if not player.is_muted:
+            player.is_muted = True
+            say("'" + str(player.name) + "' is banned from the command system (spam)")
+    if seconds > 120:
+        player.is_muted = False
+        player.mute_score = 0
+    if player.is_muted:
         return True
     return False
 
 def is_muted(msg):
-    p = get_spam_player(msg)
-    if not p:
+    """Take a message and return of the message author is muted or not"""
+    player = get_spam_player(msg)
+    if not player:
         if g_settings.get("hotplug") == 1:
             return False
         say("[WARNING] is_muted() failed! please contact an admin")
         return False
-    if (p.is_muted):
+    if player.is_muted:
         return True
     return False
 
 def handle_chat_message(msg):
+    """
+        Main method of this module
+        takes a message and parses it for chat commands
+    """
     if is_muted(msg):
         return
     prefix = g_settings.get("chat_command_prefix")
     is_cmd = True
     msg_normal = msg
     msg = msg.lower()
-    chat_cmd_start = cbase.cfind(msg, ":", 4) # the first possible occurence of a chat command (to filter chat command names)
-    cmd = msg[chat_cmd_start:-1] #cut newline at end
-    if (cmd.endswith(": " + prefix + "help") or cmd.endswith(": " + prefix + "info") or cmd.endswith(": " + prefix + "cmdlist")):
+    # the first possible occurence of a chat command (to filter chat command names)
+    chat_cmd_start = cbase.cfind(msg, ":", 4)
+    cmd = msg[chat_cmd_start:-1] # cut newline at end
+    if cmd.endswith(": " + prefix + "help") or cmd.endswith(": " + prefix + "info") or cmd.endswith(": " + prefix + "cmdlist"):
         say("==== Teeworlds Econ Mod (TEM) ====")
         say("developed by ChillerDragon version: " + str(version.VERSION))
         say("https://github.com/ChillaVanilla/TeeworldsEconMod")
@@ -167,7 +178,7 @@ def handle_chat_message(msg):
         if g_settings.get("stats_mode") == "sql":
             say("'" + prefix + "top5' for all time stats commands")
             say("'" + prefix + "rank' for all rank commands")
-    elif (cmd.endswith(": " + prefix + "top5")):
+    elif cmd.endswith(": " + prefix + "top5"):
         if g_settings.get("stats_mode") == "sql":
             say("'" + prefix + "top_kills' to see top5 killers of all time")
         if g_settings.get("stats_mode") == "sql":
@@ -178,47 +189,47 @@ def handle_chat_message(msg):
             say("'" + prefix + "top_sprees' to see top5 killing sprees of all time")
         else:
             say("not supported in file stats mode")
-    #elif (cmd.endswith(": " + prefix + "stats_all")):
+    #elif cmd.endswith(": " + prefix + "stats_all"):
         #player.print_stats_all(True)
-    elif (cmd.find(": " + prefix + "stats") != -1):
-        if not g_settings.get("stats_mode") == "sql":
+    elif cmd.find(": " + prefix + "stats") != -1:
+        if g_settings.get("stats_mode") != "sql":
             say("not supported in file stats mode")
             return
-        p, name = get_rank_player(msg_normal, ": " + prefix + "stats")
-        if not p:
+        player, name = get_rank_player(msg_normal, ": " + prefix + "stats")
+        if not player:
             say("[stats] player '" + str(name) + "' is not online.")
             return
-        p.show_stats_round()
+        player.show_stats_round()
         #player.print_stats_all()
-    elif (cmd.endswith(": " + prefix + "top_caps")):
+    elif cmd.endswith(": " + prefix + "top_caps"):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.best_flag_caps()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": " + prefix + "top_flags")):
+    elif cmd.endswith(": " + prefix + "top_flags"):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.best_times()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": " + prefix + "top_kills")):
+    elif cmd.endswith(": " + prefix + "top_kills"):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.best_killers()
         else:
             say("not supported in file stats mode")
-    elif (cmd.endswith(": " + prefix + "top_sprees")):
+    elif cmd.endswith(": " + prefix + "top_sprees"):
         if g_settings.get("stats_mode") == "sql":
             sql_stats.best_spree()
         else:
             say("not supported in file stats mode")
-    elif (cmd.find("" + prefix + "rank_kills") != - 1):
+    elif cmd.find("" + prefix + "rank_kills") != - 1:
         sql_stats.rank_kills(get_rank_name(msg_normal, ": " + prefix + "rank_kills"))
-    elif (msg.find("" + prefix + "rank_flags") != - 1):
+    elif msg.find("" + prefix + "rank_flags") != - 1:
         sql_stats.rank_flag_time(get_rank_name(msg_normal, ": " + prefix + "rank_flags"))
-    elif (msg.find("" + prefix + "rank_caps") != - 1):
+    elif msg.find("" + prefix + "rank_caps") != - 1:
         sql_stats.rank_flag_caps(get_rank_name(msg_normal, ": " + prefix + "rank_caps"))
-    elif (cmd.find("" + prefix + "rank_sprees") != - 1):
+    elif cmd.find("" + prefix + "rank_sprees") != - 1:
         sql_stats.rank_spree(get_rank_name(msg_normal, ": " + prefix + "rank_sprees"))
-    elif (cmd.find("" + prefix + "rank_all") != - 1):
+    elif cmd.find("" + prefix + "rank_all") != - 1:
         name = get_rank_name(msg_normal, ": " + prefix + "rank_all")
         if not name:
             return
@@ -227,20 +238,20 @@ def handle_chat_message(msg):
         sql_stats.rank_flag_time(str(name))
         sql_stats.rank_flag_caps(str(name))
         sql_stats.rank_spree(str(name))
-    elif (cmd.find("" + prefix + "rank") != - 1):
-        if not g_settings.get("stats_mode") == "sql":
+    elif cmd.find("" + prefix + "rank") != - 1:
+        if g_settings.get("stats_mode") != "sql":
             say("not supported in file stats mode")
             return
         say("'" + prefix + "rank_kills' to show global kills rank")
         say("'" + prefix + "rank_sprees' to show global spree rank")
         say("'" + prefix + "rank_flags' to show global flag time rank")
         say("'" + prefix + "rank_caps' to show global flag capture rank")
-    elif (cmd.find("" + prefix + "achievements") != - 1):
+    elif cmd.find("" + prefix + "achievements") != - 1:
         name = get_rank_name(msg_normal, ": " + prefix + "achievements")
         achievements.show_achievements(name)
-    elif (cmd.endswith(": " + prefix + "test")):
-        p, name = get_rank_player(msg_normal, ": " + prefix + "test")
-        if not p:
+    elif cmd.endswith(": " + prefix + "test"):
+        player, name = get_rank_player(msg_normal, ": " + prefix + "test")
+        if not player:
             if g_settings.get("hotplug") == 1:
                 return
             say("error")
@@ -250,7 +261,8 @@ def handle_chat_message(msg):
     # handle this like a chat command (so it has spam prot)
     elif is_ban_reason_in_str(cmd):
         admin_contact_msg()
-        name = get_rank_name(msg_normal, ": ") # players containing : will be cutted in discord message but this is fine for now
+        # players containing : will be cutted in discord message but this is fine for now
+        name = get_rank_name(msg_normal, ": ")
         if g_settings.get("filter_discord") == 1:
             send_discord("chat trigger " + str(g_settings.get("mod_discord")) + "!\n" + str(msg))
     else:
