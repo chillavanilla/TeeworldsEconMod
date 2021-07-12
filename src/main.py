@@ -7,6 +7,7 @@ import getopt
 import g_settings
 import parse_settings
 import chat
+from chiller_essential import log, echo
 import game
 import votes
 import controllers.players
@@ -83,10 +84,10 @@ def main_loop():
                 handle_data(line[1:20], line[21:])  # cut off the timestamp
         except EOFError:
             # the telnet/netcat process finished; there's no more input
-            chat.echo("[WARNING] End of file error.")
+            echo("[WARNING] End of file error.")
             sys.exit(2)
         except UnicodeDecodeError:
-            chat.echo("[WARNING] UnicodeDecodeError! Please contact an admin.")
+            echo("[WARNING] UnicodeDecodeError! Please contact an admin.")
 
 
 def main(argv):
@@ -119,8 +120,8 @@ def main(argv):
         sys.exit(2)
     parse_settings.read_settings_file(SETTINGS_FILE)
 
-    chat.log("[TEM] loaded settings: ")
-    chat.log(g_settings.SETTINGS)
+    log("[TEM] loaded settings: ")
+    log(g_settings.SETTINGS)
     sql_stats.InitDataBase()
     main_loop()
 
