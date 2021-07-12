@@ -9,7 +9,7 @@ def StatsFile(name):
     return g_settings.get("file_database") + urllib.parse.quote_plus(name) + ".acc"
 
 def HasStats(name):
-    if name == None:
+    if name is None:
         return False
     if os.path.isfile(StatsFile(name)):
         return True
@@ -29,22 +29,22 @@ def save_stats_file(player):
             return False
         player = player + load_player
     try:
-        sf = open(StatsFile(name), "w")
-        sf.write(str(player.kills) + "\n")
-        sf.write(str(player.deaths) + "\n")
-        sf.write(str(player.flag_grabs) + "\n")
-        sf.write(str(player.flag_caps_red) + "\n")
-        sf.write(str(player.flag_caps_blue) + "\n")
-        sf.write(str(player.flag_time) + "\n")
-        sf.write(str(player.flagger_kills) + "\n")
-        sf.write(str(player.best_spree) + "\n")
-        sf.write(str(player.wins) + "\n")
-        sf.write(str(player.looses) + "\n")
-        sf.write(str(player.a_haxx0r) + "\n")
-        sf.write(str(player.a_blazeit) + "\n")
-        sf.write(str(player.a_satan) + "\n")
-        sf.write(str(player.a_virgin) + "\n")
-        sf.close()
+        stats_file = open(StatsFile(name), "w")
+        stats_file.write(str(player.kills) + "\n")
+        stats_file.write(str(player.deaths) + "\n")
+        stats_file.write(str(player.flag_grabs) + "\n")
+        stats_file.write(str(player.flag_caps_red) + "\n")
+        stats_file.write(str(player.flag_caps_blue) + "\n")
+        stats_file.write(str(player.flag_time) + "\n")
+        stats_file.write(str(player.flagger_kills) + "\n")
+        stats_file.write(str(player.best_spree) + "\n")
+        stats_file.write(str(player.wins) + "\n")
+        stats_file.write(str(player.looses) + "\n")
+        stats_file.write(str(player.a_haxx0r) + "\n")
+        stats_file.write(str(player.a_blazeit) + "\n")
+        stats_file.write(str(player.a_satan) + "\n")
+        stats_file.write(str(player.a_virgin) + "\n")
+        stats_file.close()
         return True
     except:
         say("[stats] (save) error saving stats for player='" + name + "' filename='" + StatsFile(name) + "'")
@@ -56,26 +56,27 @@ def load_stats_file(name):
     if not HasStats(name):
         return None
     try:
-        sf = open(StatsFile(name), "r")
+        stats_file = open(StatsFile(name), "r")
         player = Player(name)
-        player.kills = int(sf.readline())
-        player.deaths = int(sf.readline())
-        player.flag_grabs = int(sf.readline())
-        player.flag_caps_red = int(sf.readline())
-        player.flag_caps_blue = int(sf.readline())
-        player.flag_time = float(sf.readline())
-        player.flagger_kills = int(sf.readline())
-        player.best_spree = int(sf.readline())
-        player.wins = int(sf.readline())
-        player.looses = int(sf.readline())
-        player.a_haxx0r = str(sf.readline())
-        player.a_blazeit = str(sf.readline())
-        player.a_satan = str(sf.readline())
-        player.a_virgin = str(sf.readline())
-        sf.close()
+        player.kills = int(stats_file.readline())
+        player.deaths = int(stats_file.readline())
+        player.flag_grabs = int(stats_file.readline())
+        player.flag_caps_red = int(stats_file.readline())
+        player.flag_caps_blue = int(stats_file.readline())
+        player.flag_time = float(stats_file.readline())
+        player.flagger_kills = int(stats_file.readline())
+        player.best_spree = int(stats_file.readline())
+        player.wins = int(stats_file.readline())
+        player.looses = int(stats_file.readline())
+        player.a_haxx0r = str(stats_file.readline())
+        player.a_blazeit = str(stats_file.readline())
+        player.a_satan = str(stats_file.readline())
+        player.a_virgin = str(stats_file.readline())
+        stats_file.close()
         return player
     except:
-        say("[ERROR] (load) failed to loaded stats for name='" + name + "' filename='" + StatsFile(name) + "'")
+        say("[ERROR] (load) failed to loaded stats for name='" + name +
+            "' filename='" + StatsFile(name) + "'")
         sys.exit(1)
         return None
 

@@ -63,7 +63,7 @@ def handle_data(timestamp, data):
         if data.startswith("[chat]: ***"):
             if (data.startswith("[chat]: *** The blue flag was captured by '")
                     or data.startswith("[chat]: *** The red flag was captured by '")):
-                flag.HandleFlagCap06(timestamp, data)
+                flag.handle_flag_cap_06(data)
             elif data.find("' changed name to '") != -1:
                 controllers.players.handle_name_change(data)
             return
