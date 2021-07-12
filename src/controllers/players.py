@@ -135,6 +135,9 @@ def handle_player_ready(data):
     id_str = data[id_start:id_end]
     ip_start = data.find("addr=") + 5
     ip_end = data.find(":", ip_start)
+    # ddnet ips are encasulated in <{ }>
+    if g_settings.get("tw_version") == "ddnet":
+        ip_start += 2
     ip_str = data[ip_start:ip_end]
     if g_settings.get("tw_version")[0:3] == "0.6":
         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
@@ -313,7 +316,7 @@ def update_player_kills(player, kills, weapon):
     # say("kill weapon=" + WEAPONS[weapon])
     if not player:
         return False
-    if weapon < 0: # ddrace has negative weapons disconnect
+    if weapon < 0: # ddnet has negative weapons disconnect
         return True
     player.last_kill = process_multi_kills(player, weapon)
     player.last_kill_weapon = weapon
