@@ -233,6 +233,9 @@ def handle_name_change(data):
     team = player.team
     save_and_delete_player_by_name(old)
     create_player(new, player.cid, player.ip, team=team)
+    locked = locked_names.get_instance()
+    if not locked.check(new, player.ip):
+        rcon_exec("kick " + str(player.cid) + " please change name")
 
 def set_flagger(player, IsFlag, timestamp = ""):
     if not player:
