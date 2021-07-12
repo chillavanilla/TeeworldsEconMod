@@ -6,8 +6,6 @@ import os.path
 
 import chat
 import g_settings
-import player
-import parse_settings
 
 locked_names_instance = None
 

@@ -6,7 +6,7 @@ import re
 from chiller_essential import *
 import g_settings
 import cbase
-import player
+import controllers.players
 import sql_stats
 import version
 import game
@@ -38,15 +38,15 @@ def get_rank_player(msg, rank_cmd):
     rankname_end = len(msg) - 1 #cut off newline
     rankname = msg_normal[rankname_start:rankname_end]
     if not rankname or rankname == "" or rankname_start == -1:
-        return player.get_player_by_id(id_str), id_str
-    argplayer = player.get_player_by_name(rankname)
+        return controllers.players.get_player_by_id(id_str), id_str
+    argplayer = controllers.players.get_player_by_name(rankname)
     if not argplayer:
         # try to find id prefix in argument name
         m = re.match( r'(\d{1,2}):(.*)', rankname)
         if m:
             r_id = m.group(1)
             r_name = m.group(2)
-            r_player = player.get_player_by_id(r_id)
+            r_player = controllers.players.get_player_by_id(r_id)
             if r_player and r_player.name == r_name:
                 argplayer = r_player
     return argplayer, rankname
@@ -110,7 +110,7 @@ def GetChatID(msg):
 
 def get_spam_player(msg):
     id_str = GetChatID(msg)
-    return player.get_player_by_id(id_str)
+    return controllers.players.get_player_by_id(id_str)
 
 def spam_protection(msg):
     p = get_spam_player(msg)
@@ -248,7 +248,7 @@ def handle_chat_message(msg):
         say("got player: " + str(name))
         # say("current spree: " + str(p.killingspree))
     # handle this like a chat command (so it has spam prot)
-    elif (is_ban_reason_in_str(cmd)):
+    elif is_ban_reason_in_str(cmd):
         admin_contact_msg()
         name = get_rank_name(msg_normal, ": ") # players containing : will be cutted in discord message but this is fine for now
         if g_settings.get("filter_discord") == 1:
@@ -259,6 +259,7 @@ def handle_chat_message(msg):
         spam_protection(msg_normal)
 
 def admin_contact_msg():
+    """Display the admin contact message in chat"""
     if str(g_settings.get("admin_contact")) == "":
         return
     say("[INFO] Contact the admin " + str(g_settings.get("admin_contact")) + " to report players.")

@@ -3,7 +3,7 @@ import datetime
 import re
 from chiller_essential import *
 import cbase
-import player
+import controllers.players
 import kills
 import flag
 
@@ -48,12 +48,12 @@ def update_wins(is_red):
     caps_blue = 0
     if is_red:
         echo("red won")
-        if player.count_players() > g_settings.get("win_players"):
-            player.team_won("red")
+        if controllers.players.count_players() > g_settings.get("win_players"):
+            controllers.players.team_won("red")
     else:
         echo("blue won")
-        if player.count_players() > g_settings.get("win_players"):
-            player.team_won("blue")
+        if controllers.players.count_players() > g_settings.get("win_players"):
+            controllers.players.team_won("blue")
 
 def handle_game(timestamp, data):
     if (data.find("kill killer") != -1):
@@ -63,7 +63,7 @@ def handle_game(timestamp, data):
         global caps_blue
         # [game]: start round type='CTF' teamplay='1'
         say("[SERVER] ChillerDragon wishes you all hf & gl c:")
-        player.refresh_all_players()
+        controllers.players.refresh_all_players()
         if (data.startswith("[game]: start round type='CTF'")):
             if caps_red == 0 and caps_blue == 0: # already catched by 10 flags auto detection
                 return
@@ -77,12 +77,12 @@ def handle_game(timestamp, data):
         id_start = data.find("'", 10) + 1
         id_end   = cbase.cfind(data, ":", 2)
         id_str   = data[id_start:id_end]
-        p = player.get_player_by_id(id_str)
+        p = controllers.players.get_player_by_id(id_str)
         if not p:
             if g_settings.get("hotplug") == 1:
                 return
             say("[ERROR] flag_grab player not found ID=" + str(id_str))
-            player.debug_player_list()
+            controllers.players.debug_player_list()
             sys.exit(1)
         name_start = data.find(":", 10) + 1  # first '
         name_end   = data.rfind("'")     # last '
@@ -90,8 +90,8 @@ def handle_game(timestamp, data):
         if p.name != name:
             say("[ERROR] name missmatch p.name='" + str(p.name) + "' name='" + str(name) + "'")
             sys.exit(1)
-        player.update_player_flag_grabs(p, 1)
-        player.set_flagger(p, True, timestamp)
+        controllers.players.update_player_flag_grabs(p, 1)
+        controllers.players.set_flagger(p, True, timestamp)
         if g_settings.get("debug"):
             say("[DEBUG] '" + str(name) + "' grabbed the flag ts=" + str(timestamp))
     # [2019-10-15 11:41:04][game]: flag_capture player='0:ChillerDragon' team=0

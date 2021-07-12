@@ -40,7 +40,7 @@ def init_player(name, cid, ip, team, ShowStats, spree):
         player = Player(name, cid=cid, ip=ip, team=team)
     return player
 
-def GetPlayersArray():
+def get_players_array():
     global aPlayers
     return aPlayers
 

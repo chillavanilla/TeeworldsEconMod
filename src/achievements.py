@@ -4,7 +4,7 @@
 import sys
 from chiller_essential import say
 from base_player import aPlayers
-import player
+import controllers.players
 import save_stats
 import g_settings
 
@@ -49,16 +49,16 @@ def check_flag(player_obj, time):
         sys.exit(1)
     name = player_obj.name
     if str(time) == "13.37":
-        if player.update_achievement(player_obj, "haxx0r"):
+        if controllers.players.update_achievement(player_obj, "haxx0r"):
             say("[achievement] '" + str(name) + "' unlocked: haxx0r")
     elif str(time) == "4.20":
-        if player.update_achievement(player_obj, "blazeit"):
+        if controllers.players.update_achievement(player_obj, "blazeit"):
             say("[achievement] '" + str(name) + "' unlocked: blaze it")
     elif str(time) == "6.66":
-        if player.update_achievement(player_obj, "satan"):
+        if controllers.players.update_achievement(player_obj, "satan"):
             say("[achievement] '" + str(name) + "' unlocked: satan")
     elif str(time) == "6.90":
-        if player.update_achievement(player_obj, "virgin"):
+        if controllers.players.update_achievement(player_obj, "virgin"):
             say("[achievement] '" + str(name) + "' unlocked: virgin")
     # else:
         #say("'" + str(time) + "' is no achievement time")

@@ -52,7 +52,7 @@ def SaveStatsFile(player):
     return False
 
 def load_stats_file(name):
-    from player import Player
+    from base_player import Player
     if not HasStats(name):
         return None
     try:

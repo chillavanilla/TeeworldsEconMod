@@ -3,7 +3,7 @@ import sys
 import time
 from chat import *
 from kills import *
-import player
+import controllers.players
 import game
 import achievements
 import g_settings
@@ -21,9 +21,9 @@ def __HandleFlagCap(player_obj, time, flag_color):
         sys.exit(1)
     name = player_obj.name
     achievements.check_flag(player_obj, time)
-    player.update_player_flag_time(player_obj, time)
-    player.set_flagger(player_obj, False)
-    player.update_player_flag_caps(player_obj, flag_color, 1)
+    controllers.players.update_player_flag_time(player_obj, time)
+    controllers.players.set_flagger(player_obj, False)
+    controllers.players.update_player_flag_caps(player_obj, flag_color, 1)
     if g_settings.get("debug"):
         say("[DEBUG] flag cap '" + name + "' in '" + str(time) + "' secs color: '" + flag_color + "'")
 
@@ -48,7 +48,7 @@ def HandleFlagCap06(timestamp, data):
         time_start = data.rfind("(") + 1
         time_end = data.rfind(" sec")
         time = data[time_start:time_end]
-    p = player.get_player_by_name(name)
+    p = controllers.players.get_player_by_name(name)
     __HandleFlagCap(p, time, flag_color)
 
 # 0.7 exclusive
@@ -70,7 +70,7 @@ def HandleFlapCap07(data):
         return
     if g_settings.get("debug"):
         say("[DEBUG] flag cap in '" + m.group("time") + "' seconds.")
-    p = player.get_player_by_id(m.group("id"))
+    p = controllers.players.get_player_by_id(m.group("id"))
     flag_color = "red"
     if p.team == "red":
         flag_color = "blue"

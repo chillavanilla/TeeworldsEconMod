@@ -3,14 +3,14 @@
 
 import chat
 import g_settings
-import player
+import controllers.players
 import parse_settings
 import locked_names
 
 
 def debug_list_players():
     """Print list of players in admin console"""
-    for _player in player.GetPlayersArray():
+    for _player in controllers.players.get_players_array():
         chat.echo("id=" + str(_player.cid) +
                   " addr=" + str(_player.ip) +
                   " name='" + str(_player.name) +
@@ -36,7 +36,7 @@ def exec_command(command, settings_file):
         locked_names.get_instance(Force=True)
     elif command == "list":
         debug_list_players()
-        chat.echo(str(player.count_players()) + " players online")
+        chat.echo(str(controllers.players.count_players()) + " players online")
     elif command == "dev":
         chat.echo("debug=" + str(g_settings.get("debug")) +
                   " stats=" + g_settings.get("stats_mode"))

@@ -9,7 +9,7 @@ import parse_settings
 import chat
 import game
 import votes
-import player
+import controllers.players
 import flag
 import sql_stats
 import admin_commands
@@ -50,20 +50,20 @@ def handle_data(timestamp, data):
         if d.endswith("force=1") or d.endswith("force=0"):
             votes.handle_call_vote(d)
     elif data.startswith("[server]: client dropped. cid="):
-        player.handle_player_leave(data[:-1])  # chop of newline
+        controllers.players.handle_player_leave(data[:-1])  # chop of newline
     elif data.startswith("[server]: player is ready. ClientID="):
-        player.handle_player_ready(data[:-1])  # chop of newline
+        controllers.players.handle_player_ready(data[:-1])  # chop of newline
     # elif data.startswith("[server]: player has entered the game. ClientID="):
     #     player.handle_player_enter(data[:-1]) # chop of newline
     elif data.startswith("[game]: team_join player='"):
-        player.handle_player_team(data[:-1])  # chop of newline
+        controllers.players.handle_player_team(data[:-1])  # chop of newline
     elif data.startswith("[chat]") or data.startswith("[teamchat]"):
         if data.startswith("[chat]: ***"):
             if (data.startswith("[chat]: *** The blue flag was captured by '")
                     or data.startswith("[chat]: *** The red flag was captured by '")):
                 flag.HandleFlagCap06(timestamp, data)
             elif data.find("' changed name to '") != -1:
-                player.handle_name_change(data)
+                controllers.players.handle_name_change(data)
             return
         chat.handle_chat_message(data)
     elif data.startswith("[game]"):
