@@ -95,12 +95,12 @@ def load_stats_sql(name):
             say("[stats-load] " + str(row[0]))
         tmp_player = Player(row[0][1]) #row 0 0 is ID
         tmp_player.kills = row[0][2]
-        tmp_player.WEAPON_KILLS[0] = row[0][3]
-        tmp_player.WEAPON_KILLS[1] = row[0][4]
-        tmp_player.WEAPON_KILLS[2] = row[0][5]
-        tmp_player.WEAPON_KILLS[3] = row[0][6]
-        tmp_player.WEAPON_KILLS[4] = row[0][7]
-        tmp_player.WEAPON_KILLS[5] = row[0][8]
+        tmp_player.weapon_kills[0] = row[0][3]
+        tmp_player.weapon_kills[1] = row[0][4]
+        tmp_player.weapon_kills[2] = row[0][5]
+        tmp_player.weapon_kills[3] = row[0][6]
+        tmp_player.weapon_kills[4] = row[0][7]
+        tmp_player.weapon_kills[5] = row[0][8]
         tmp_player.deaths = row[0][9]
         tmp_player.flag_grabs = row[0][10]
         tmp_player.flag_caps_red = row[0][11]
@@ -146,7 +146,7 @@ def save_stats_sql(player):
                 update_str,
                 (
                     player.kills, player.deaths,
-                    player.WEAPON_KILLS[0], player.WEAPON_KILLS[1], player.WEAPON_KILLS[2], player.WEAPON_KILLS[3], player.WEAPON_KILLS[4], player.WEAPON_KILLS[5],
+                    player.weapon_kills[0], player.weapon_kills[1], player.weapon_kills[2], player.weapon_kills[3], player.weapon_kills[4], player.weapon_kills[5],
                     player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills,
                     player.best_spree,
                     player.wins, player.looses,
@@ -185,7 +185,7 @@ def save_stats_sql(player):
                 (
                     player.name,
                     player.kills, player.deaths,
-                    player.WEAPON_KILLS[0], player.WEAPON_KILLS[1], player.WEAPON_KILLS[2], player.WEAPON_KILLS[3], player.WEAPON_KILLS[4], player.WEAPON_KILLS[5],
+                    player.weapon_kills[0], player.weapon_kills[1], player.weapon_kills[2], player.weapon_kills[3], player.weapon_kills[4], player.weapon_kills[5],
                     player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills,
                     player.best_spree,
                     player.wins, player.looses,

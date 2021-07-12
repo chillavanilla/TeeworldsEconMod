@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import time
 import g_settings
 import game
 import cbase
@@ -10,45 +9,45 @@ from save_stats import *
 from base_player import *
 import datetime
 
-def create_player(name, id=-1, ip="", team="", ShowStats=True, spree=0):
+def create_player(name, cid=-1, ip="", team="", ShowStats=True, spree=0):
     global aPlayers
-    player = init_player(name, id, ip, team, ShowStats, spree)
+    player = init_player(name, cid, ip, team, ShowStats, spree)
     if not init_player:
-        say("[ERROR] CreatePlayer init_player=None name='" + str(name) + "' id=" + str(id))
+        say("[ERROR] CreatePlayer init_player=None name='" + str(name) + "' id=" + str(cid))
         sys.exit(1)
     aPlayers.append(player)
     #say("added player '" + name + "'")
 
-def init_player(name, id, ip, team, ShowStats, spree):
+def init_player(name, cid, ip, team, ShowStats, spree):
     player = None
     load_player = load_stats(name)
     if load_player:
         if ShowStats:
             load_player.show_stats()
-        player = Player(name, id, ip, load_player.flag_time, load_player.best_spree, team)
+        player = Player(name, cid, ip, load_player.flag_time, load_player.best_spree, team)
         player.a_haxx0r = load_player.a_haxx0r
         player.a_blazeit = load_player.a_blazeit
         player.a_satan = load_player.a_satan
         player.a_virgin = load_player.a_virgin
         player.killingspree = spree
-        player.WEAPON_KILLS[0] = load_player.WEAPON_KILLS[0]
-        player.WEAPON_KILLS[1] = load_player.WEAPON_KILLS[1]
-        player.WEAPON_KILLS[2] = load_player.WEAPON_KILLS[2]
-        player.WEAPON_KILLS[3] = load_player.WEAPON_KILLS[3]
-        player.WEAPON_KILLS[4] = load_player.WEAPON_KILLS[4]
-        player.WEAPON_KILLS[5] = load_player.WEAPON_KILLS[5]
+        player.weapon_kills[0] = load_player.weapon_kills[0]
+        player.weapon_kills[1] = load_player.weapon_kills[1]
+        player.weapon_kills[2] = load_player.weapon_kills[2]
+        player.weapon_kills[3] = load_player.weapon_kills[3]
+        player.weapon_kills[4] = load_player.weapon_kills[4]
+        player.weapon_kills[5] = load_player.weapon_kills[5]
     else:
-        player = Player(name, cid=id, ip=ip, team=team)
+        player = Player(name, cid=cid, ip=ip, team=team)
     return player
 
 def GetPlayersArray():
     global aPlayers
     return aPlayers
 
-def delete_player(id):
+def delete_player(cid):
     global aPlayers
     #aPlayers.remove(get_player_by_name(name))
-    del aPlayers[get_player_index_by_id(id)]
+    del aPlayers[get_player_index_by_id(cid)]
     #say("deleted player '" + name + "'")
 
 def count_players():
@@ -78,7 +77,7 @@ def refresh_all_players():
     for player in aPlayers:
         p = player
         save_and_delete_player(player)
-        create_player(p.name, p.id, ip=p.ip, team=p.team, ShowStats=False, spree=p.killingspree)
+        create_player(p.name, p.cid, ip=p.ip, team=p.team, ShowStats=False, spree=p.killingspree)
 
 def get_player_index_by_name(name):
     global aPlayers
@@ -89,11 +88,11 @@ def get_player_index_by_name(name):
         index += 1
     return -1
 
-def get_player_index_by_id(id):
+def get_player_index_by_id(cid):
     global aPlayers
     index = 0
     for player in aPlayers:
-        if (player.cid == id):
+        if (player.cid == cid):
             return index
         index += 1
     return -1
@@ -105,17 +104,17 @@ def get_player_by_name(name):
             return player
     return None
 
-def get_player_by_id(id):
+def get_player_by_id(cid):
     global aPlayers
     for p in aPlayers:
-        if (p.cid == id):
+        if (p.cid == cid):
             return p
     return None
 
 def debug_player_list():
     global aPlayers
     for p in aPlayers:
-        say("  id=" + str(p.id) + " name='" + str(p.name) + "'")
+        say("  id=" + str(p.cid) + " name='" + str(p.name) + "'")
 
 def print_stats_all(debug=False):
     global aPlayers
@@ -140,7 +139,7 @@ def handle_player_ready(data):
     if g_settings.get("tw_version")[0:3] == "0.6":
         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
     # name is actually "(connecting)" but better use None
-    create_player(name=None, id=id_str, ip=ip_str, ShowStats=True)
+    create_player(name=None, cid=id_str, ip=ip_str, ShowStats=True)
 
 # [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
 # def handle_player_enter(data):
@@ -291,22 +290,22 @@ def update_achievement(player, ach):
 def process_multi_kills(p, weapon):
     now = cbase.get_timestamp()
     diff = now - p.last_kill
-    if (diff > 300000000):
+    if diff > 300000000:
         return now
-    if (p.last_kill == p.last_multi_kill):
+    if p.last_kill == p.last_multi_kill:
         p.current_multi += 1
-        if (p.current_multi > 32):
+        if p.current_multi > 32:
             p.current_multi = 2 # after Duotriguple start from double agian
     else:
         p.current_multi = 2
         p.is_combo_multi = False
-    if (p.last_kill_weapon != weapon):
+    if p.last_kill_weapon != weapon:
         p.is_combo_multi = True
     weapon_str = WEAPONS[weapon]
-    if (p.is_combo_multi):
+    if p.is_combo_multi:
         weapon_str = "combo"
     say("'" + p.name + "' did a " + weapon_str + " " + MULTIS[p.current_multi] + " kill!")
-    p.DOUBLE_KILLS[weapon] += 1
+    p.double_kills[weapon] += 1
     p.last_multi_kill = now
     return now
 
@@ -319,8 +318,9 @@ def update_player_kills(player, kills, weapon):
     player.last_kill = process_multi_kills(player, weapon)
     player.last_kill_weapon = weapon
     player.kills += kills
-    player.WEAPON_KILLS[weapon] += kills
-    if count_players() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
+    player.weapon_kills[weapon] += kills
+    # only activate killingsprees on 8+ players
+    if count_players() > g_settings.get("spree_players"):
         player.killingspree += kills
         if (player.killingspree % 10 == 0):
             broadcast("'" + player.name + "' is on a killing spree with " + str(player.killingspree) + " kills ")
@@ -330,7 +330,8 @@ def update_player_deaths(player, killer, deaths):
     if not player:
         return False
     player.deaths += deaths
-    if count_players() > g_settings.get("spree_players"): # only activate killingsprees on 8+ players
+    # only activate killingsprees on 8+ players
+    if count_players() > g_settings.get("spree_players"):
         if player.killingspree > 9:
             broadcast("'" + player.name + "'s killing spree with " + str(player.killingspree) + " kills was ended by '" + killer + "'")
         if player.killingspree > player.best_spree:
@@ -367,9 +368,9 @@ def update_player_flag_caps(player, color, caps):
         return False
     if not count_players() > g_settings.get("flag_players"):
         return False
-    if (color == "blue"):
+    if color == "blue":
         player.flag_caps_blue += caps
-    elif (color == "red"):
+    elif color == "red":
         player.flag_caps_red += caps
     else:
         say("savage '" + player.name + "' captured the pink flag")
@@ -383,12 +384,12 @@ def update_player_flag_time(player, time):
         return False
     time = float(time)
     try: # TypeError: unorderable types: float() < str()
-        if (time < float(player.flag_time)):
+        if time < float(player.flag_time):
             diff = player.flag_time - time
             diff = float("{0:.2f}".format(diff))
             say("[FastCap] '" + player.name + "' " + str(diff) + " seconds faster")
             player.flag_time = time
-        elif (int(player.flag_time) == 0):
+        elif int(player.flag_time) == 0:
             player.flag_time = time
         return True
     except:

@@ -73,12 +73,14 @@ def handle_game(timestamp, data):
                 update_wins(False)
             else:
                 say("draw lul")
-    elif (data.startswith("[game]: flag_grab player='")):
+    elif data.startswith("[game]: flag_grab player='"):
         id_start = data.find("'", 10) + 1
         id_end   = cbase.cfind(data, ":", 2)
         id_str   = data[id_start:id_end]
         p = player.get_player_by_id(id_str)
         if not p:
+            if g_settings.get("hotplug") == 1:
+                return
             say("[ERROR] flag_grab player not found ID=" + str(id_str))
             player.debug_player_list()
             sys.exit(1)
@@ -93,7 +95,7 @@ def handle_game(timestamp, data):
         if g_settings.get("debug"):
             say("[DEBUG] '" + str(name) + "' grabbed the flag ts=" + str(timestamp))
     # [2019-10-15 11:41:04][game]: flag_capture player='0:ChillerDragon' team=0
-    elif (data.startswith("[game]: flag_capture player='")):
+    elif data.startswith("[game]: flag_capture player='"):
         flag.HandleFlapCap07(data)
         """
         # UNUSED CODE FOR NOW

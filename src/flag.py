@@ -10,6 +10,8 @@ import g_settings
 
 def __HandleFlagCap(player_obj, time, flag_color):
     if not player_obj:
+        if g_settings.get("hotplug") == 1:
+            return
         say("[ERROR] flag capture error: player is invalid.")
         sys.exit(1)
     if flag_color == player_obj.team:

@@ -11,8 +11,8 @@ import locked_names
 def debug_list_players():
     """Print list of players in admin console"""
     for _player in player.GetPlayersArray():
-        chat.echo("id=" + str(_player.ID) +
-                  " addr=" + str(_player.IP) +
+        chat.echo("id=" + str(_player.cid) +
+                  " addr=" + str(_player.ip) +
                   " name='" + str(_player.name) +
                   "' team=" + str(_player.team))
 

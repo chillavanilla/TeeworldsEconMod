@@ -3,7 +3,7 @@ import sys
 import g_settings
 import discord_thread
 
-def EscapeStringKillers(s):
+def escape_string_killers(s):
     return s.replace('"', '\\"')
 
 def rcon_exec(s):
@@ -13,15 +13,15 @@ def rcon_exec(s):
     sys.stdout.flush()
 
 def say(s):
-    sys.stdout.write('say "' + EscapeStringKillers(s) + '"\n')
+    sys.stdout.write('say "' + escape_string_killers(s) + '"\n')
     sys.stdout.flush()
 
 def broadcast(s):
-    sys.stdout.write('broadcast "' + EscapeStringKillers(s) + '"\n')
+    sys.stdout.write('broadcast "' + escape_string_killers(s) + '"\n')
     sys.stdout.flush()
 
 def echo(s):
-    sys.stdout.write('echo "' + EscapeStringKillers(s) + '"\n')
+    sys.stdout.write('echo "' + escape_string_killers(s) + '"\n')
     sys.stdout.flush()
 
 def log(s):
