@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+"""Plaintext based database"""
+
+import sys
 import os.path
 import urllib.parse
-from chiller_essential import *
-from kills import *
+from chiller_essential import say
+from base_player import Player
 import g_settings
 
 def stats_path(name):
@@ -52,14 +55,14 @@ def save_stats_file(player):
         stats_file.write(str(player.a_virgin) + "\n")
         stats_file.close()
         return True
-    except:
-        say("[stats] (save) error saving stats for player='" + name + "' filename='" + stats_path(name) + "'")
+    except OSError:
+        say(
+            "[stats] (save) error saving stats for player='" + \
+            name + "' filename='" + stats_path(name) + "'")
         sys.exit(1)
-    return False
 
 def load_stats_file(name):
     """Return player object given a name"""
-    from base_player import Player
     if not hash_stats(name):
         return None
     try:
@@ -81,7 +84,7 @@ def load_stats_file(name):
         player.a_virgin = str(stats_file.readline())
         stats_file.close()
         return player
-    except:
+    except OSError:
         say("[ERROR] (load) failed to loaded stats for name='" + name +
             "' filename='" + stats_path(name) + "'")
         sys.exit(1)
@@ -123,6 +126,8 @@ def save_stats_partially_file(player):
         stats_file.write("" + "\n")
         stats_file.close()
         return True
-    except:
-        say("[stats] (partially) error saving stats for player='" + name + "' filename='" + stats_path(name) + "'")
+    except OSError:
+        say(
+            "[stats] (partially) error saving stats for player='" + \
+            name + "' filename='" + stats_path(name) + "'")
         sys.exit(1)

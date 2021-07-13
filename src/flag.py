@@ -67,7 +67,9 @@ def handle_flag_cap(data):
     # flag_capture player='0:ChillerDragon' team=0 time=1.30
     # flag_capture player='0:ChillerDragon' team=0 time=113.94
     data = data[:-1]
-    match = re.match(r"^\[game\]: flag_capture player='(?P<id>-?\d{1,2}):(?P<name>.*)' team=(?P<team>-?\d{1,2}) time=(?P<time>\d+\.\d{2})$", data)
+    match = re.match(
+        r"^\[game\]: flag_capture player='(?P<id>-?\d{1,2}):(?P<name>.*)' "
+        r"team=(?P<team>-?\d{1,2}) time=(?P<time>\d+\.\d{2})$", data)
     if not match:
         if g_settings.get("debug"):
             say("[WARNING] flag time not found. Please update to newer version of teeworlds.")

@@ -410,9 +410,9 @@ def best_flag_caps():
         if not row:
             say("something went wrong")
             return None
-        for index in range(0, len(row)):
-            name = row[index][0]
-            value = row[index][1]
+        for index, val in enumerate(row):
+            name = val[0]
+            value = val[1]
             say(str(index + 1) + ". '" + str(name) + "' flagcaps: " + str(value))
 
 def best_spree():
@@ -432,9 +432,9 @@ def best_spree():
         if not row:
             say("something went wrong")
             return None
-        for index in range(0, len(row)):
-            name = row[index][0]
-            value = row[index][1]
+        for index, val in enumerate(row):
+            name = val[0]
+            value = val[1]
             say(str(index + 1) + ". '" + str(name) + "' spree: " + str(value))
 
 def best_times():
@@ -454,9 +454,9 @@ def best_times():
         if not row:
             say("something went wrong")
             return None
-        for index in range(0, len(row)):
-            name = row[index][0]
-            value = row[index][1]
+        for index, val in enumerate(row):
+            name = val[0]
+            value = val[1]
             say(str(index + 1) + ". '" + str(name) + "' time: " + str(value))
 
 def best_killers():
@@ -469,7 +469,7 @@ def best_killers():
         if not row:
             say("something went wrong")
             return None
-        for index in range(0, len(row)):
-            name = row[index][0]
-            kills = row[index][1]
+        for index, val in enumerate(row):
+            name = val[0]
+            kills = val[1]
             say(str(index + 1) + ". '" + str(name) + "' kills: " + str(kills))

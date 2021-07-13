@@ -44,20 +44,34 @@ def handle_kills_06(data):
 def handle_kills_07_and_ddnet(data):
     """Handle kill messages in ddnet or 0.7 format"""
     if g_settings.get("tw_version") == "ddnet":
-        # [game]: kill killer='5:chiller' victim='5:chiller' weapon=-3 special=0 killer_team:0 victim_team:0
-        # [game]: kill killer='6:chiller.*' victim='5:chiller' weapon=-2 special=0 killer_team:0 victim_team:0
-        match = re.match(r"^\[game\]: kill killer='(?P<k_id>-?\d{1,2}):(?P<k_name>.*)' victim='(?P<v_id>-?\d{1,2}):(?P<v_name>.+?)' weapon=(?P<weapon>-?\d) special=(\d) killer_team:(?P<k_team>-?\d{1,2}) victim_team:(?P<v_team>-?\d{1,2})$", data)
+        # [game]: kill killer='5:chiller' victim='5:chiller'
+        # weapon=-3 special=0 killer_team:0 victim_team:0
+
+        # [game]: kill killer='6:chiller.*' victim='5:chiller'
+        # weapon=-2 special=0 killer_team:0 victim_team:0
+        match = re.match(
+            r"^\[game\]: kill killer='(?P<k_id>-?\d{1,2}):(?P<k_name>.*)' "
+            r"victim='(?P<v_id>-?\d{1,2}):(?P<v_name>.+?)' "
+            r"weapon=(?P<weapon>-?\d) "
+            r"special=(\d) killer_team:(?P<k_team>-?\d{1,2}) "
+            r"victim_team:(?P<v_team>-?\d{1,2})$", data)
     else:
         # teeworlds 0.7
         #                     id:team                   id:team
         # [game]: kill killer='0:0:nameless tee' victim='0:0:nameless tee' weapon=-1 special=0
         # [game]: kill killer='-2:1:' victim='0:0:ChillerDragon' weapon=3 special=0
-        #                                                                                       use .* for killer but .+? for victim because killer can be empty if it left the server before the projectile hit
-        match = re.match(r"^\[game\]: kill killer='(?P<k_id>-?\d{1,2}):(?P<k_team>-?\d{1,2}):(?P<k_name>.*)' victim='(?P<v_id>-?\d{1,2}):(?P<v_team>-?\d{1,2}):(?P<v_name>.+?)' weapon=(?P<weapon>-?\d) special=(\d)$", data)
+        # use .* for killer but .+? for victim
+        # because killer can be empty if it left the server before the projectile hit
+        match = re.match(
+            r"^\[game\]: kill killer='(?P<k_id>-?\d{1,2}):(?P<k_team>-?\d{1,2}):(?P<k_name>.*)' "
+            r"victim='(?P<v_id>-?\d{1,2}):(?P<v_team>-?\d{1,2}):(?P<v_name>.+?)' "
+            r"weapon=(?P<weapon>-?\d) special=(\d)$", data)
 
     if match:
         if g_settings.get("debug"):
-            say("KILLER ID=<%s> TEAM=<%s> NAME=<%s> VICTIM ID=<%s> TEAM=<%s> NAME=<%s> weapon=<%s>" % (
+            say(
+                "KILLER ID=<%s> TEAM=<%s> NAME=<%s> "
+                "VICTIM ID=<%s> TEAM=<%s> NAME=<%s> weapon=<%s>" % (
                     match.group("k_id"), match.group("k_team"), match.group("k_name"),
                     match.group("v_id"), match.group("v_team"), match.group("v_name"),
                     match.group("weapon")

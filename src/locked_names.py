@@ -41,14 +41,14 @@ class LockedNames:
         for entry in entrys:
             echo("name='" + str(entry["name"]) + "' region='" + str(entry["region"]) + "'")
 
-    def check(self, name, ip):
+    def check(self, name, ip_addr):
         """Check if a given name is using a forbidden ip address"""
         if not g_settings.get("ipinfo_token") or g_settings.get("ipinfo_token") == "":
             return True
         for entry in self.read():
             if entry["name"] != name:
                 continue
-            data = self.ip_handler.getDetails(ip)
+            data = self.ip_handler.getDetails(ip_addr)
             if not hasattr(data, "region"):
                 return True
             region = data.region
@@ -61,9 +61,9 @@ class LockedNames:
             return True
         return True
 
-def get_instance(Force = False):
+def get_instance(force = False):
     """Return global locked names instance if none create one"""
     global LOCKED_NAMES_INSTANCE
-    if not LOCKED_NAMES_INSTANCE or Force:
+    if not LOCKED_NAMES_INSTANCE or force:
         LOCKED_NAMES_INSTANCE = LockedNames()
     return LOCKED_NAMES_INSTANCE

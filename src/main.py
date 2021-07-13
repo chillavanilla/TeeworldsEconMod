@@ -30,9 +30,9 @@ def handle_data(timestamp, data):
         if data.find("[server]: version 0.7 ") != - \
                 1 or data.find("[server]: netversion 0.7 ") != -1:
             g_settings.set("tw_version", "0.7")
-    m = re.match(r'\[server\]: game version (.*)', data)
-    if m:
-        version = m.group(1)
+    match = re.match(r'\[server\]: game version (.*)', data)
+    if match:
+        version = match.group(1)
         if version.find("0.7/0.6") != -1:
             version = "0.7.5"
         g_settings.set("tw_version", version)
@@ -45,7 +45,8 @@ def handle_data(timestamp, data):
             return
         if data.lower().startswith("[console]: !"):
             admin_commands.exec_command(data.lower()[12:-1], SETTINGS_FILE)
-    # [server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
+    # [server]: '1:zilly dummy' voted kick '0:ChillerDragon'
+    # reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
     # also matches name changes "'foo' -> 'bar'"
     elif data.startswith("[server]: '"):
         data_chomp = data[:-1]
