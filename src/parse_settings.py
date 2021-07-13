@@ -19,16 +19,15 @@ def parse_error(err_type, err_msg):
 def parse_bool(sett, val, line_num):
     """Parse boolean"""
     val = val.lower()
-    if val == "0" or val == "false":
+    if val in ("0", "false"):
         return False
-    elif val == "1" or val == "true":
+    if val in ("1", "true"):
         return True
-    else:
-        parse_error("BoolError", "cannot parse bool " + str(line_num) + ":'" + str(val) + "'")
+    parse_error("BoolError", "cannot parse bool " + str(line_num) + ":'" + str(val) + "'")
 
 def parse_list_dyn(sett, val, line_num):
     """Parse dynamic list type"""
-    if val == None or val == "" or val == ",":
+    if val is None or val == "" or val == ",":
         return None
     return val.split(',')
 

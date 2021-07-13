@@ -17,7 +17,8 @@ def is_blocked_reason(reason):
             return True
     return False
 
-# [server]: '1:zilly dummy' voted kick '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
+# [server]: '1:zilly dummy' voted kick
+# '0:ChillerDragon' reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
 def handle_call_vote(data):
     """Recive vote log line and parse it"""
     # TODO: use regex here to avoid false positives

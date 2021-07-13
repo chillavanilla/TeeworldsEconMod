@@ -1,3 +1,7 @@
 [MASTER]
 init-hook='import sys; sys.path.append("src");'
 
+[MESSAGES CONTROL]
+
+disable=global-statement
+

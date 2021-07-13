@@ -17,20 +17,22 @@ class LockedNames:
             return
         self.ip_handler = ipinfo.getHandler(g_settings.get("ipinfo_token"))
 
-    def write(self, names):
+    @staticmethod
+    def write(names):
         """Write names to json"""
-        file = open("locked_names.json", "w")
-        file.write(json.dumps(names, sort_keys=True, indent=4) + "\n")
-        file.close()
+        with open("locked_names.json", "w") as file:
+            file.write(json.dumps(names, sort_keys=True, indent=4) + "\n")
+            file.close()
 
-    def read(self):
+    @staticmethod
+    def read():
         """Read locked names from json"""
         if not os.path.isfile('locked_names.json'):
             return None
-        file = open("locked_names.json", "r")
-        names = file.read()
-        file.close()
-        return json.loads(names)
+        with open("locked_names.json", "r") as file:
+            names = file.read()
+            file.close()
+            return json.loads(names)
 
     def list_names(self):
         """List all locked names in rcon console"""

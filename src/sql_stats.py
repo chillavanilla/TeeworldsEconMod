@@ -40,7 +40,7 @@ def init_database():
     global STATS_TABLE_SCHEMA
     if os.path.isfile(g_settings.get("sql_database")):
         log("database found.")
-        return True
+        return
     con = lite.connect(g_settings.get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
@@ -387,11 +387,12 @@ def rank_kills(name):
         row = cur.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
-            return None
+            return False
         rank = row[0][0] + 1 #first rank is 1 not 0
         name = row[0][1]
         kills = row[0][2]
         say(str(rank) + ". '" + str(name) + "' kills " + str(kills))
+        return True
 
 def best_flag_caps():
     """Print best flag caps"""
@@ -409,7 +410,7 @@ def best_flag_caps():
         row = cur.fetchall()
         if not row:
             say("something went wrong")
-            return None
+            return
         for index, val in enumerate(row):
             name = val[0]
             value = val[1]
@@ -453,7 +454,7 @@ def best_times():
         row = cur.fetchall()
         if not row:
             say("something went wrong")
-            return None
+            return
         for index, val in enumerate(row):
             name = val[0]
             value = val[1]
@@ -468,7 +469,7 @@ def best_killers():
         row = cur.fetchall()
         if not row:
             say("something went wrong")
-            return None
+            return
         for index, val in enumerate(row):
             name = val[0]
             kills = val[1]

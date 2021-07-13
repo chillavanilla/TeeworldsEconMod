@@ -71,14 +71,6 @@ def get_rank_name(msg, rank_cmd):
         return name
     return rankname
 
-# TODO: unused? remove?
-def get_spam_name(msg):
-    """unused"""
-    name_start = base.generic.cfind(msg, ":", 3) + 1
-    name_end = msg.find(": ", name_start + 1)
-    name = msg[name_start:name_end]
-    return name
-
 CHAT_NONE=0
 CHAT_ALL=1
 CHAT_TEAM=2

@@ -33,7 +33,7 @@ def exec_command(command, settings_file):
                 echo("[tem:setting] " + str(key) + " : " + str(sett_val))
         except parse_settings.TemParseError as err:
             echo(str(err))
-        locked_names.get_instance(Force=True)
+        locked_names.get_instance(force=True)
     elif command == "list":
         debug_list_players()
         echo(str(controllers.players.count_players()) + " players online")

@@ -38,23 +38,23 @@ def save_stats_file(player):
             sys.exit(1)
         player = player + load_player
     try:
-        stats_file = open(stats_path(name), "w")
-        stats_file.write(str(player.kills) + "\n")
-        stats_file.write(str(player.deaths) + "\n")
-        stats_file.write(str(player.flag_grabs) + "\n")
-        stats_file.write(str(player.flag_caps_red) + "\n")
-        stats_file.write(str(player.flag_caps_blue) + "\n")
-        stats_file.write(str(player.flag_time) + "\n")
-        stats_file.write(str(player.flagger_kills) + "\n")
-        stats_file.write(str(player.best_spree) + "\n")
-        stats_file.write(str(player.wins) + "\n")
-        stats_file.write(str(player.looses) + "\n")
-        stats_file.write(str(player.a_haxx0r) + "\n")
-        stats_file.write(str(player.a_blazeit) + "\n")
-        stats_file.write(str(player.a_satan) + "\n")
-        stats_file.write(str(player.a_virgin) + "\n")
-        stats_file.close()
-        return True
+        with open(stats_path(name), "w") as stats_file:
+            stats_file.write(str(player.kills) + "\n")
+            stats_file.write(str(player.deaths) + "\n")
+            stats_file.write(str(player.flag_grabs) + "\n")
+            stats_file.write(str(player.flag_caps_red) + "\n")
+            stats_file.write(str(player.flag_caps_blue) + "\n")
+            stats_file.write(str(player.flag_time) + "\n")
+            stats_file.write(str(player.flagger_kills) + "\n")
+            stats_file.write(str(player.best_spree) + "\n")
+            stats_file.write(str(player.wins) + "\n")
+            stats_file.write(str(player.looses) + "\n")
+            stats_file.write(str(player.a_haxx0r) + "\n")
+            stats_file.write(str(player.a_blazeit) + "\n")
+            stats_file.write(str(player.a_satan) + "\n")
+            stats_file.write(str(player.a_virgin) + "\n")
+            stats_file.close()
+            return True
     except OSError:
         say(
             "[stats] (save) error saving stats for player='" + \
@@ -66,24 +66,24 @@ def load_stats_file(name):
     if not hash_stats(name):
         return None
     try:
-        stats_file = open(stats_path(name), "r")
-        player = Player(name)
-        player.kills = int(stats_file.readline())
-        player.deaths = int(stats_file.readline())
-        player.flag_grabs = int(stats_file.readline())
-        player.flag_caps_red = int(stats_file.readline())
-        player.flag_caps_blue = int(stats_file.readline())
-        player.flag_time = float(stats_file.readline())
-        player.flagger_kills = int(stats_file.readline())
-        player.best_spree = int(stats_file.readline())
-        player.wins = int(stats_file.readline())
-        player.looses = int(stats_file.readline())
-        player.a_haxx0r = str(stats_file.readline())
-        player.a_blazeit = str(stats_file.readline())
-        player.a_satan = str(stats_file.readline())
-        player.a_virgin = str(stats_file.readline())
-        stats_file.close()
-        return player
+        with open(stats_path(name), "r") as stats_file:
+            player = Player(name)
+            player.kills = int(stats_file.readline())
+            player.deaths = int(stats_file.readline())
+            player.flag_grabs = int(stats_file.readline())
+            player.flag_caps_red = int(stats_file.readline())
+            player.flag_caps_blue = int(stats_file.readline())
+            player.flag_time = float(stats_file.readline())
+            player.flagger_kills = int(stats_file.readline())
+            player.best_spree = int(stats_file.readline())
+            player.wins = int(stats_file.readline())
+            player.looses = int(stats_file.readline())
+            player.a_haxx0r = str(stats_file.readline())
+            player.a_blazeit = str(stats_file.readline())
+            player.a_satan = str(stats_file.readline())
+            player.a_virgin = str(stats_file.readline())
+            stats_file.close()
+            return player
     except OSError:
         say("[ERROR] (load) failed to loaded stats for name='" + name +
             "' filename='" + stats_path(name) + "'")
@@ -109,23 +109,23 @@ def save_stats_partially_file(player):
             sys.exit(1)
         player = player + load_player
     try:
-        stats_file = open(stats_path(name), "w")
-        stats_file.write("0" + "\n")
-        stats_file.write("0" + "\n")
-        stats_file.write("0" + "\n")
-        stats_file.write("0" + "\n")
-        stats_file.write("0" + "\n")
-        stats_file.write("0.0" + "\n")
-        stats_file.write("0" + "\n")
-        stats_file.write(str(player.best_spree) + "\n")
-        stats_file.write("0" + "\n")
-        stats_file.write("0" + "\n")
-        stats_file.write("" + "\n")
-        stats_file.write("" + "\n")
-        stats_file.write("" + "\n")
-        stats_file.write("" + "\n")
-        stats_file.close()
-        return True
+        with open(stats_path(name), "w") as stats_file:
+            stats_file.write("0" + "\n")
+            stats_file.write("0" + "\n")
+            stats_file.write("0" + "\n")
+            stats_file.write("0" + "\n")
+            stats_file.write("0" + "\n")
+            stats_file.write("0.0" + "\n")
+            stats_file.write("0" + "\n")
+            stats_file.write(str(player.best_spree) + "\n")
+            stats_file.write("0" + "\n")
+            stats_file.write("0" + "\n")
+            stats_file.write("" + "\n")
+            stats_file.write("" + "\n")
+            stats_file.write("" + "\n")
+            stats_file.write("" + "\n")
+            stats_file.close()
+            return True
     except OSError:
         say(
             "[stats] (partially) error saving stats for player='" + \
