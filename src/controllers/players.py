@@ -9,10 +9,10 @@ from save_stats import *
 from base_player import *
 import datetime
 
-def create_player(name, cid=-1, ip="", team="", ShowStats=True, spree=0):
+def create_player(name, cid=-1, ip_addr="", team="", ShowStats=True, spree=0):
     """Get player object from init_player and append it to the player list"""
     global aPlayers
-    player = init_player(name, cid, ip, team, ShowStats, spree)
+    player = init_player(name, cid, ip_addr, team, ShowStats, spree)
     if not player:
         say("[ERROR] CreatePlayer init_player=None name='" + str(name) + "' id=" + str(cid))
         sys.exit(1)
@@ -39,7 +39,7 @@ def init_player(name, cid, ip_addr, team, show_stats, spree):
         player.weapon_kills[4] = load_player.weapon_kills[4]
         player.weapon_kills[5] = load_player.weapon_kills[5]
     else:
-        player = Player(name, cid=cid, ip=ip_addr, team=team)
+        player = Player(name, cid=cid, ip_addr=ip_addr, team=team)
     return player
 
 def get_players_array():
@@ -86,7 +86,7 @@ def refresh_all_players():
     for player in aPlayers:
         p = player
         save_and_delete_player(player)
-        create_player(p.name, p.cid, ip=p.ip, team=p.team, ShowStats=False, spree=p.killingspree)
+        create_player(p.name, p.cid, ip_addr=p.ip_addr, team=p.team, ShowStats=False, spree=p.killingspree)
 
 def get_player_index_by_name(name):
     """Get player index in list by name"""
@@ -173,7 +173,7 @@ def handle_player_ready(data):
     if g_settings.get("tw_version")[0:3] == "0.6":
         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
     # name is actually "(connecting)" but better use None
-    create_player(name=None, cid=id_str, ip=ip_str, ShowStats=True)
+    create_player(name=None, cid=id_str, ip_addr=ip_str, ShowStats=True)
 
 # [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
 # def handle_player_enter(data):
@@ -233,9 +233,9 @@ def handle_player_team(data):
     if player.name is None:
         # player just joined and still has to be loaded
         delete_player(player.cid) # delete invalid tmp player
-        create_player(name, player.cid, player.ip, player.team)
+        create_player(name, player.cid, player.ip_addr, player.team)
         locked = locked_names.get_instance()
-        if not locked.check(name, player.ip):
+        if not locked.check(name, player.ip_addr):
             rcon_exec("kick " + str(player.cid) + " please change name")
     elif player.name != name:
         # https://github.com/chillavanilla/TeeworldsEconMod/issues/49
@@ -266,9 +266,9 @@ def handle_name_change(data):
         sys.exit(1)
     team = player.team
     save_and_delete_player_by_name(old)
-    create_player(new, player.cid, player.ip, team=team)
+    create_player(new, player.cid, player.ip_addr, team=team)
     locked = locked_names.get_instance()
-    if not locked.check(new, player.ip):
+    if not locked.check(new, player.ip_addr):
         rcon_exec("kick " + str(player.cid) + " please change name")
 
 def set_flagger(player, is_flag, timestamp = ""):

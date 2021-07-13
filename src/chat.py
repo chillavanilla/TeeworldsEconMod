@@ -168,7 +168,9 @@ def handle_chat_message(msg):
     # the first possible occurence of a chat command (to filter chat command names)
     chat_cmd_start = cbase.cfind(msg, ":", 4)
     cmd = msg[chat_cmd_start:-1] # cut newline at end
-    if cmd.endswith(": " + prefix + "help") or cmd.endswith(": " + prefix + "info") or cmd.endswith(": " + prefix + "cmdlist"):
+    if cmd.endswith(": " + prefix + "help") or \
+        cmd.endswith(": " + prefix + "info") or \
+        cmd.endswith(": " + prefix + "cmdlist"):
         say("==== Teeworlds Econ Mod (TEM) ====")
         say("developed by ChillerDragon version: " + str(version.VERSION))
         say("https://github.com/ChillaVanilla/TeeworldsEconMod")

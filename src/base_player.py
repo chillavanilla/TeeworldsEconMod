@@ -38,9 +38,9 @@ def a_best(achievement1, achievement2):
 class Player:
     """The Player object keeps track of stats"""
 
-    def __init__(self, name, cid=-1, ip="", time=0.0, spree=0, team=""):
+    def __init__(self, name, cid=-1, ip_addr="", time=0.0, spree=0, team=""):
         self.cid = cid
-        self.ip = ip
+        self.ip_addr = ip_addr
         self.name = name
         self.kills = 0
         self.weapon_kills = {

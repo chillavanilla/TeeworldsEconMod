@@ -1,8 +1,8 @@
 #!/usr/bin/env python
+"""discord webhook request"""
 
 import sys
 import requests
-import time
 
 if len(sys.argv) != 3:
     print("usage: " + str(sys.argv[0]) + " <token> <message>")

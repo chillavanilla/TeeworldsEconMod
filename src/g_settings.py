@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Global user configuration module"""
 
 SETTINGS = {
     "debug": ["bool", False],
@@ -18,13 +19,17 @@ SETTINGS = {
     "votes_force": ["int", 0],      # force no when a vote is called
     "votes_blocked_reasons": ["[]", None],
     "ipinfo_token": ["str", ""],
-    "hotplug": ["int", 0], # set to one when start_tem.sh attaches to logfile rather than start a server this ignores some ERRORS
+    # set to one when start_tem.sh attaches to logfile
+    # rather than start a server this ignores some ERRORS
+    "hotplug": ["int", 0],
     "chat_command_prefix": ["str", "/"],
     "show_stats_on_join": ["int", 1]
 }
 
 def get(setting):
+    """Get tem setting value by key"""
     return SETTINGS[setting][1]
 
 def set(setting, value):
+    """Set tem setting value and key"""
     SETTINGS[setting][1] = value

@@ -12,7 +12,7 @@ def debug_list_players():
     """Print list of players in admin console"""
     for _player in controllers.players.get_players_array():
         echo("id=" + str(_player.cid) +
-                  " addr=" + str(_player.ip) +
+                  " addr=" + str(_player.ip_addr) +
                   " name='" + str(_player.name) +
                   "' team=" + str(_player.team))
 

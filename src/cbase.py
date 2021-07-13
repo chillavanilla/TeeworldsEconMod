@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Some generic functions"""
 
 import time
 

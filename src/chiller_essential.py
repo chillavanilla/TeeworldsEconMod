@@ -1,36 +1,45 @@
 #!/usr/bin/env python3
+"""Essential wrappers around the teeworlds api"""
+
 import sys
 import g_settings
-import discord_thread
+import discord.thread
 
-def escape_string_killers(s):
-    return s.replace('"', '\\"')
+def escape_string_killers(msg):
+    """Helper method to fix string escape in teeworlds commands"""
+    return msg.replace('"', '\\"')
 
-def rcon_exec(s):
+def rcon_exec(cmd):
+    """Execute given rcon command"""
     if g_settings.get("debug"):
-        say("rcon_exec('" + str(s) + "')")
-    sys.stdout.write(s + '\n')
+        say("rcon_exec('" + str(cmd) + "')")
+    sys.stdout.write(cmd + '\n')
     sys.stdout.flush()
 
-def say(s):
-    sys.stdout.write('say "' + escape_string_killers(s) + '"\n')
+def say(msg):
+    """Print given message"""
+    sys.stdout.write('say "' + escape_string_killers(msg) + '"\n')
     sys.stdout.flush()
 
-def broadcast(s):
-    sys.stdout.write('broadcast "' + escape_string_killers(s) + '"\n')
+def broadcast(msg):
+    """Broadcast given message"""
+    sys.stdout.write('broadcast "' + escape_string_killers(msg) + '"\n')
     sys.stdout.flush()
 
-def echo(s):
-    sys.stdout.write('echo "' + escape_string_killers(s) + '"\n')
+def echo(msg):
+    """Echo given message"""
+    sys.stdout.write('echo "' + escape_string_killers(msg) + '"\n')
     sys.stdout.flush()
 
-def log(s):
-    sys.stdout.write("###[log]: " + str(s) + "\n")
+def log(msg):
+    """Print given message to logfiles only"""
+    sys.stdout.write("###[log]: " + str(msg) + "\n")
     sys.stdout.flush()
 
 def send_discord(message):
-    dt = discord_thread.send_discord(message)
-    dt.start()
+    """Send a discord message in newly spawned thread"""
+    thread = discord.thread.SendDiscord(message)
+    thread.start()
 
 WEAPONS = {
     0: "hammer",

@@ -45,7 +45,7 @@ def handle_flag_cap_06(data):
 
     name_start = data.find("'") + 1
     name_end = data.rfind("'")
-    name = data[name_start:name_end] 
+    name = data[name_start:name_end]
 
     time = "60.00" # cap slower than 60 seconds --> doesnt show time
     if data.endswith(" seconds)\n"):

@@ -132,15 +132,18 @@ def save_stats_sql(player):
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
             sys.exit(1)
-            return False
         player = player + load_player
         with con:
             cur = con.cursor()
             update_str = """
             UPDATE Players
             SET Kills = ?, Deaths = ?,
-            KillsHammer = ?, KillsGun = ?, KillsShotgun = ?, KillsGrenade = ?, KillsRifle = ?, KillsNinja = ?,
-            FlagGrabs = ?, FlagCapsRed = ?, FlagCapsBlue = ?, FlagTime = ?, FlaggerKills = ?,
+            KillsHammer = ?, KillsGun = ?,
+            KillsShotgun = ?, KillsGrenade = ?,
+            KillsRifle = ?, KillsNinja = ?,
+            FlagGrabs = ?,
+            FlagCapsRed = ?, FlagCapsBlue = ?,
+            FlagTime = ?, FlaggerKills = ?,
             BestSpree = ?,
             Wins = ?, Looses = ?,
             A_haxx0r = ?, A_blazeit = ?, A_satan = ?, A_virgin = ?
@@ -150,8 +153,12 @@ def save_stats_sql(player):
                 update_str,
                 (
                     player.kills, player.deaths,
-                    player.weapon_kills[0], player.weapon_kills[1], player.weapon_kills[2], player.weapon_kills[3], player.weapon_kills[4], player.weapon_kills[5],
-                    player.flag_grabs, player.flag_caps_red, player.flag_caps_blue, player.flag_time, player.flagger_kills,
+                    player.weapon_kills[0], player.weapon_kills[1],
+                    player.weapon_kills[2], player.weapon_kills[3],
+                    player.weapon_kills[4], player.weapon_kills[5],
+                    player.flag_grabs,
+                    player.flag_caps_red, player.flag_caps_blue,
+                    player.flag_time, player.flagger_kills,
                     player.best_spree,
                     player.wins, player.looses,
                     player.a_haxx0r, player.a_blazeit, player.a_satan, player.a_virgin,
@@ -229,7 +236,6 @@ def save_stats_partially_sql(player):
         if not load_player:
             say("[stats-sql] error loading stats for player '" + name + "'")
             sys.exit(1)
-            return False
         player = player + load_player
         with con:
             cur = con.cursor()
@@ -298,11 +304,12 @@ def rank_spree(name):
         row = cur.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
-            return None
+            return False
         rank = row[0][0] + 1 #first rank is 1 not 0
         name = row[0][1]
         value = row[0][2]
         say(str(rank) + ". '" + str(name) + "' spree " + str(value))
+        return True
 
 def rank_flag_time(name):
     """Print flag time rank of given name"""
@@ -354,11 +361,12 @@ def rank_flag_caps(name):
         row = cur.fetchall()
         if not row:
             say("'" + str(name) + "' is unranked.")
-            return None
+            return False
         rank = row[0][0] + 1 #first rank is 1 not 0
         name = row[0][1]
         value = row[0][2]
         say(str(rank) + ". '" + str(name) + "' flagcaps " + str(value))
+        return True
 
 def rank_kills(name):
     """Print kills rank of given name"""

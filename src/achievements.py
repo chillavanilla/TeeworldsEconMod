@@ -13,9 +13,9 @@ def show_achievements(name):
     """Print achievements of player in chat"""
     global aPlayers
     _player = None
-    for p in aPlayers:
-        if p.name == name:
-            _player = p
+    for player in aPlayers:
+        if player.name == name:
+            _player = player
             break
     # player not online -> load from database
     if not _player:
