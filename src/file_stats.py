@@ -4,8 +4,8 @@
 import sys
 import os.path
 import urllib.parse
-from chiller_essential import say
-from base_player import Player
+from base.rcon import say
+from models.player import Player
 import g_settings
 
 def stats_path(name):

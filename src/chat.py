@@ -2,21 +2,21 @@
 import sys
 import datetime
 import re
-from chiller_essential import say, send_discord
+from base.rcon import say, send_discord
 import g_settings
-import cbase
+import base.generic
 import controllers.players
 import sql_stats
 import version
 import achievements
 
-def is_ban_reason_in_str(str):
+def is_ban_reason_in_str(string):
     """Search banned keywords in given string"""
     words = g_settings.get("chat_filter")
     if not words:
         return False
     for word in words:
-        if str.find(word) != -1:
+        if string.find(word) != -1:
             return True
     return False
 
@@ -35,17 +35,17 @@ def get_rank_player(msg, rank_cmd):
     if msg.find(rank_cmd + " ") != -1:
         cmd_end = msg.rfind(rank_cmd)
         rankname_start = msg.find(rank_cmd + " ", cmd_end) + len(rank_cmd + " ")
-    rankname_end = len(msg) - 1 #cut off newline
+    rankname_end = len(msg) - 1 # cut off newline
     rankname = msg_normal[rankname_start:rankname_end]
     if not rankname or rankname == "" or rankname_start == -1:
         return controllers.players.get_player_by_id(id_str), id_str
     argplayer = controllers.players.get_player_by_name(rankname)
     if not argplayer:
         # try to find id prefix in argument name
-        m = re.match( r'(\d{1,2}:(.*)', rankname)
-        if m:
-            r_id = m.group(1)
-            r_name = m.group(2)
+        match = re.match(r'(\d{1,2}:(.*)', rankname)
+        if match:
+            r_id = match.group(1)
+            r_name = match.group(2)
             r_player = controllers.players.get_player_by_id(r_id)
             if r_player and r_player.name == r_name:
                 argplayer = r_player
@@ -58,14 +58,14 @@ def get_rank_name(msg, rank_cmd):
         return None
     msg_normal = msg
     msg = msg.lower()
-    name_start = cbase.cfind(msg, ":", 3) + 1
+    name_start = base.generic.cfind(msg, ":", 3) + 1
     name_end = msg.find(rank_cmd, name_start)
     name_end = msg.rfind(": ", name_end)
     name = msg_normal[name_start:name_end]
     rankname_start = -1
     if msg.find(rank_cmd + " ") != -1:
         rankname_start = msg.find(rank_cmd + " ", name_end) + len(rank_cmd + " ")
-    rankname_end = len(msg) - 1 #cut off newline
+    rankname_end = len(msg) - 1 # cut off newline
     rankname = msg_normal[rankname_start:rankname_end]
     if not rankname or rankname == "" or rankname_start == -1:
         return name
@@ -74,7 +74,7 @@ def get_rank_name(msg, rank_cmd):
 # TODO: unused? remove?
 def get_spam_name(msg):
     """unused"""
-    name_start = cbase.cfind(msg, ":", 3) + 1
+    name_start = base.generic.cfind(msg, ":", 3) + 1
     name_end = msg.find(": ", name_start + 1)
     name = msg[name_start:name_end]
     return name
@@ -94,20 +94,20 @@ def get_chat_id(msg):
     id_str = None # python scoping ?!
     if g_settings.get("tw_version") == "0.7.5":
         mode_start = msg.find(" ") + 1
-        mode_end = cbase.cfind(msg, ":", 2)
+        mode_end = base.generic.cfind(msg, ":", 2)
         mode_str = msg[mode_start:mode_end]
         msg = msg[mode_end:-1]
         if int(mode_str) == CHAT_TEAM:
-            id_start = cbase.cfind(msg, ":", 2) + 1
-            id_end = cbase.cfind(msg, ":", 3)
+            id_start = base.generic.cfind(msg, ":", 2) + 1
+            id_end = base.generic.cfind(msg, ":", 3)
             id_str = msg[id_start:id_end]
         else:
             id_start = msg.find(":") + 1
-            id_end = cbase.cfind(msg, ":", 2)
+            id_end = base.generic.cfind(msg, ":", 2)
             id_str = msg[id_start:id_end]
     else:
         id_start = msg.find(" ") + 1
-        id_end = cbase.cfind(msg, ":", 2)
+        id_end = base.generic.cfind(msg, ":", 2)
         id_str = msg[id_start:id_end]
     return id_str
 
@@ -166,7 +166,7 @@ def handle_chat_message(msg):
     msg_normal = msg
     msg = msg.lower()
     # the first possible occurence of a chat command (to filter chat command names)
-    chat_cmd_start = cbase.cfind(msg, ":", 4)
+    chat_cmd_start = base.generic.cfind(msg, ":", 4)
     cmd = msg[chat_cmd_start:-1] # cut newline at end
     if cmd.endswith(": " + prefix + "help") or \
         cmd.endswith(": " + prefix + "info") or \

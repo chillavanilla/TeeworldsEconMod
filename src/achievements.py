@@ -2,8 +2,8 @@
 """This module defines the achievement methods"""
 
 import sys
-from chiller_essential import say
-from base_player import aPlayers
+from base.rcon import say
+from models.player import aPlayers
 import controllers.players
 import save_stats
 import g_settings

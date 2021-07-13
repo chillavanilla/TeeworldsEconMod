@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Game related methods like scoring"""
 
-from chiller_essential import say, echo
+from base.rcon import say, echo
 import controllers.players
 import kills
 import flag
@@ -95,7 +95,7 @@ def handle_game(timestamp, data):
         # # https://github.com/teeworlds/teeworlds/commit/5c1d32f65ecaf893d589875df9eaedc1c1a76858
         # # IT IS HIGHLY RECOMMENDED TO USE A LATER TW VERSION TO NOT MESS UP RECORDS
         # id_start = data.find("'", 10) + 1
-        # id_end   = cbase.cfind(data, ":", 2)
+        # id_end   = base.generic.cfind(data, ":", 2)
         # id_str = data[id_start:id_end]
         # p = player.get_player_by_id(id_str)
         # if not p:

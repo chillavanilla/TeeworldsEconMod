@@ -2,11 +2,11 @@
 import sys
 import g_settings
 import game
-import cbase
+import base.generic
 import locked_names
-from chiller_essential import *
+from base.rcon import *
 from save_stats import *
-from base_player import *
+from models.player import *
 import datetime
 
 def create_player(name, cid=-1, ip_addr="", team="", ShowStats=True, spree=0):
@@ -202,7 +202,7 @@ def handle_player_team(data):
     """Parse 'team_join' message"""
     global aPlayers
     id_start = data.find("'") + 1
-    id_end = cbase.cfind(data, ":", 2)
+    id_end = base.generic.cfind(data, ":", 2)
     id_str = data[id_start:id_end]
     player = get_player_by_id(id_str)
     if player is None:
@@ -227,7 +227,7 @@ def handle_player_team(data):
     else:
         say("[ERROR] invalid team=" + str(team))
         sys.exit(1)
-    name_start = cbase.cfind(data, ":", 2) + 1
+    name_start = base.generic.cfind(data, ":", 2) + 1
     name_end = data.rfind("'")
     name = data[name_start:name_end]
     if player.name is None:
@@ -336,7 +336,7 @@ def update_achievement(player, ach):
 
 def process_multi_kills(player, weapon):
     """Check if a kill is a multikill"""
-    now = cbase.get_timestamp()
+    now = base.generic.get_timestamp()
     diff = now - player.last_kill
     if diff > 300000000:
         return now

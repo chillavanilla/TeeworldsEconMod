@@ -2,7 +2,7 @@
 """vote module"""
 
 import re
-from chiller_essential import say, rcon_exec, send_discord
+from base.rcon import say, rcon_exec, send_discord
 import g_settings
 import chat
 

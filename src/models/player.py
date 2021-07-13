@@ -2,7 +2,7 @@
 """The module defines the Player object and some helper methods"""
 
 import datetime
-from chiller_essential import say
+from base.rcon import say
 
 aPlayers = []
 

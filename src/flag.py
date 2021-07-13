@@ -3,11 +3,11 @@
 
 import sys
 import re
-from chiller_essential import say
+from base.rcon import say
 import controllers.players
 import game
 import achievements
-import cbase
+import base.generic
 import g_settings
 
 def __handle_flag_cap(player_obj, time, flag_color):
@@ -85,7 +85,7 @@ def handle_flag_cap(data):
 def handle_flag_grab(timestamp, data):
     """parse flag grab message"""
     id_start = data.find("'", 10) + 1
-    id_end   = cbase.cfind(data, ":", 2)
+    id_end   = base.generic.cfind(data, ":", 2)
     id_str   = data[id_start:id_end]
     player = controllers.players.get_player_by_id(id_str)
     if not player:

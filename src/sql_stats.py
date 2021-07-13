@@ -4,9 +4,9 @@
 import os.path
 import sqlite3 as lite
 import sys
-from chiller_essential import say, log, echo
+from base.rcon import say, log, echo
 import g_settings
-from base_player import Player
+from models.player import Player
 
 STATS_TABLE_SCHEMA = """
 CREATE TABLE Players (

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Admin commands"""
 
-from chiller_essential import echo
+from base.rcon import echo
 import g_settings
 import controllers.players
 import parse_settings

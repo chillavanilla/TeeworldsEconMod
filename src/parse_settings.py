@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Module for parsing tem setting files"""
 
-from chiller_essential import echo
+from base.rcon import echo
 import g_settings
 
 class TemParseError(Exception):

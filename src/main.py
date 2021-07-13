@@ -8,7 +8,7 @@ import getopt
 import g_settings
 import parse_settings
 import chat
-from chiller_essential import log, echo
+from base.rcon import log, echo
 import game
 import votes
 import controllers.players
@@ -20,6 +20,7 @@ SETTINGS_FILE = ""
 
 
 def handle_data(timestamp, data):
+    """Pass log line on to the resposible parsers"""
     global SETTINGS_FILE
     if g_settings.get("tw_version") is None:
         # [server]: version 0.6 626fce9a778df4d4
