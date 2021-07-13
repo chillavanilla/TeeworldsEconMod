@@ -3,5 +3,5 @@ init-hook='import sys; sys.path.append("src");'
 
 [MESSAGES CONTROL]
 
-disable=global-statement
+disable=global-statement, unsubscriptable-object, too-few-public-methods, fixme, invalid-name, too-many-branches, too-many-statements, redefined-builtin, not-an-iterable
 

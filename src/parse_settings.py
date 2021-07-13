@@ -7,6 +7,7 @@ import g_settings
 class TemParseError(Exception):
     """Tem Parser Exception"""
     def __init__(self, value):
+        Exception.__init__(self)
         self.value = value
     def __str__(self):
         return repr(self.value)
@@ -16,7 +17,7 @@ def parse_error(err_type, err_msg):
     echo("[ERROR:settings] " + str(err_type) + ": " + str(err_msg))
     raise TemParseError(err_type + ": " + err_msg)
 
-def parse_bool(sett, val, line_num):
+def parse_bool(val, line_num):
     """Parse boolean"""
     val = val.lower()
     if val in ("0", "false"):
@@ -24,8 +25,9 @@ def parse_bool(sett, val, line_num):
     if val in ("1", "true"):
         return True
     parse_error("BoolError", "cannot parse bool " + str(line_num) + ":'" + str(val) + "'")
+    return False
 
-def parse_list_dyn(sett, val, line_num):
+def parse_list_dyn(val):
     """Parse dynamic list type"""
     if val is None or val == "" or val == ",":
         return None
@@ -39,6 +41,7 @@ def parse_list(sett, val, line_num):
     if val in list_vals:
         return str(val)
     parse_error("ListError", str(line_num) + ":'" + str(val) + "' not in list " + str(list_vals))
+    return ""
 
 def read_settings_line(line, line_num):
     """Parse single line of tem settings file"""
@@ -60,10 +63,10 @@ def read_settings_line(line, line_num):
     elif g_settings.SETTINGS[sett][0] == "int":
         g_settings.SETTINGS[sett][1] = int(val)
     elif g_settings.SETTINGS[sett][0] == "bool":
-        g_settings.SETTINGS[sett][1] = parse_bool(sett, val, line_num)
+        g_settings.SETTINGS[sett][1] = parse_bool(val, line_num)
     elif g_settings.SETTINGS[sett][0][0] == "[":
         if g_settings.SETTINGS[sett][0][1] == "]": # empty list ( no limit )
-            g_settings.SETTINGS[sett][1] = parse_list_dyn(sett, val, line_num)
+            g_settings.SETTINGS[sett][1] = parse_list_dyn(val)
         else: # pre defined allowed values in list
             g_settings.SETTINGS[sett][1] = parse_list(sett, val, line_num)
     else:

@@ -432,7 +432,7 @@ def best_spree():
         row = cur.fetchall()
         if not row:
             say("something went wrong")
-            return None
+            return
         for index, val in enumerate(row):
             name = val[0]
             value = val[1]

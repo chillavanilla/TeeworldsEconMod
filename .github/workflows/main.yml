@@ -35,4 +35,4 @@ jobs:
         run: |
           echo "todo"; # shellcheck start_tem.sh
       - name: Pylint
-        run: echo "todo"; # pylint src/
+        run: pylint src/

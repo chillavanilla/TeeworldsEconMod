@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Chat message related module"""
+
 import sys
 import datetime
 import re

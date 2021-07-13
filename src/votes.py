@@ -30,7 +30,9 @@ def handle_call_vote(data):
         if g_settings.get("votes_blocked_reasons") is None:
             rcon_exec("vote no")
         else:
-            match = re.match(r'.*server\]: \'.+\' voted (spectate|kick) \'.+\' reason=\'(.+)\' cmd=\'.*', data)
+            match = re.match(
+                r'.*server\]: \'.+\' voted (spectate|kick) \'.+\' '
+                r'reason=\'(.+)\' cmd=\'.*', data)
             if match:
                 reason = match.group(2)
                 if is_blocked_reason(reason):
