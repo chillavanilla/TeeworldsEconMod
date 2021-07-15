@@ -5,7 +5,7 @@ import os.path
 import sqlite3 as lite
 import sys
 from base.rcon import say, log, echo
-import g_settings
+import base.settings
 from models.player import Player
 
 STATS_TABLE_SCHEMA = """
@@ -38,18 +38,19 @@ CREATE TABLE Players (
 def init_database():
     """Create database schema"""
     global STATS_TABLE_SCHEMA
-    if os.path.isfile(g_settings.get("sql_database")):
+    settings = base.settings.Settings()
+    if os.path.isfile(settings.get("sql_database")):
         log("database found.")
         return
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(settings.get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(STATS_TABLE_SCHEMA)
-        log("created '" + str(g_settings.get("sql_database")) + "' Players table")
+        log("created '" + str(settings.get("sql_database")) + "' Players table")
 
 def has_stats(name):
     """Check if playername has stats"""
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute("SELECT Name FROM Players WHERE Name = ? AND ID > ?;", (name, 0))
@@ -60,7 +61,7 @@ def has_stats(name):
 
 def load_stats_sql(name):
     """Load sql stats by playername"""
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute("""
@@ -89,12 +90,12 @@ def load_stats_sql(name):
             FROM Players WHERE Name = ? AND ID > ?;""",
         (name, 0))
         row = cur.fetchall()
-        if g_settings.get("debug"):
+        if base.settings.Settings().get("debug"):
             echo("[stats-load] row:" + str(row))
         if not row:
             # say("[stats-load] player='" + str(name) + "' is not in database.")
             return None
-        if g_settings.get("debug"):
+        if base.settings.Settings().get("debug"):
             say("[stats-load] " + str(row[0]))
         tmp_player = Player(row[0][1]) #row 0 0 is ID
         tmp_player.kills = row[0][2]
@@ -122,7 +123,7 @@ def load_stats_sql(name):
 def save_stats_sql(player):
     """Save sql stats of player object"""
     name = player.name
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     if not player:
         say("[stats-sql] failed to load player '" + name + "'")
         return False
@@ -165,7 +166,7 @@ def save_stats_sql(player):
                     player.name
                 )
             )
-        if g_settings.get("debug"):
+        if base.settings.Settings().get("debug"):
             say("[stats-SQL] updated player '" + name + "'")
     else: #no stats yet --> add entry
         with con:
@@ -218,7 +219,7 @@ def save_stats_sql(player):
                 )
             )
             row = cur.fetchall()
-        if g_settings.get("debug"):
+        if base.settings.Settings().get("debug"):
             echo(str(row))
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
@@ -226,7 +227,7 @@ def save_stats_sql(player):
 def save_stats_partially_sql(player):
     """Save only killing spree of given player object"""
     name = player.name
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     if not player:
         say("[stats-sql] failed to load player '" + name + "'")
         return False
@@ -251,7 +252,7 @@ def save_stats_partially_sql(player):
                     player.name
                 )
             )
-        if g_settings.get("debug"):
+        if base.settings.Settings().get("debug"):
             say("[stats-SQL] updated player '" + name + "'")
     else: #no stats yet --> add entry
         with con:
@@ -275,7 +276,7 @@ def save_stats_partially_sql(player):
                 )
             )
             row = cur.fetchall()
-        if g_settings.get("debug"):
+        if base.settings.Settings().get("debug"):
             echo(str(row))
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
@@ -289,7 +290,7 @@ def rank_spree(name):
     """Print spree rank of given name"""
     if not name:
         return False
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(
@@ -315,7 +316,7 @@ def rank_flag_time(name):
     """Print flag time rank of given name"""
     if not name:
         return False
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(
@@ -344,7 +345,7 @@ def rank_flag_caps(name):
     """Print flag caps rank of given name"""
     if not name:
         return False
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(
@@ -372,7 +373,7 @@ def rank_kills(name):
     """Print kills rank of given name"""
     if not name:
         return False
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(
@@ -396,7 +397,7 @@ def rank_kills(name):
 
 def best_flag_caps():
     """Print best flag caps"""
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(
@@ -418,7 +419,7 @@ def best_flag_caps():
 
 def best_spree():
     """Print best spree"""
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(
@@ -440,7 +441,7 @@ def best_spree():
 
 def best_times():
     """Print best times"""
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute(
@@ -462,7 +463,7 @@ def best_times():
 
 def best_killers():
     """Print best killers"""
-    con = lite.connect(g_settings.get("sql_database"), timeout=20)
+    con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
         cur = con.cursor()
         cur.execute("SELECT Name, Kills FROM Players ORDER BY Kills DESC LIMIT 5;")

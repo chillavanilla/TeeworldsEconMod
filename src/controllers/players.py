@@ -3,7 +3,7 @@
 
 import sys
 import datetime
-import g_settings
+import base.settings
 import base.generic
 import locked_names
 from base.rcon import say, echo, broadcast, rcon_exec
@@ -13,6 +13,7 @@ from models.player import Player, CONNECTED_PLAYERS, a_best
 class PlayersController:
     """controls player things"""
     def __init__(self):
+        self.settings = base.settings.Settings()
         self.game_controller = None
         self.flags_controller = None
 
@@ -37,7 +38,7 @@ class PlayersController:
         player = None
         load_player = load_stats(name)
         if load_player:
-            if show_stats and g_settings.get("show_stats_on_join") == 1:
+            if show_stats and self.settings.get("show_stats_on_join") == 1:
                 load_player.show_stats()
             player = Player(name, cid, ip_addr, load_player.flag_time, load_player.best_spree, team)
             player.a_haxx0r = load_player.a_haxx0r
@@ -180,10 +181,10 @@ class PlayersController:
         ip_start = data.find("addr=") + 5
         ip_end = data.find(":", ip_start)
         # ddnet ips are encasulated in <{ }>
-        if g_settings.get("tw_version") == "ddnet":
+        if self.settings.get("tw_version") == "ddnet":
             ip_start += 2
         ip_str = data[ip_start:ip_end]
-        if g_settings.get("tw_version")[0:3] == "0.6":
+        if self.settings.get("tw_version")[0:3] == "0.6":
             id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in ready messages
         # name is actually "(connecting)" but better use None
         self.create_player(name=None, cid=id_str, ip_addr=ip_str, show_stats=True)
@@ -193,7 +194,7 @@ class PlayersController:
     #     id_start = data.find("=") + 1
     #     id_end = data.find(" ", id_start)
     #     id_str = data[id_start:id_end]
-    #     if g_settings.get("tw_version")[0:3] == "0.6":
+    #     if self.settings.get("tw_version")[0:3] == "0.6":
     #         id_str = str(int(id_str, 16)) # 0.6 uses hex for ids in enter messages
     #     create_player(name=None, id=id_str, ShowStats=True)
 
@@ -219,7 +220,7 @@ class PlayersController:
         id_str = data[id_start:id_end]
         player = self.get_player_by_id(id_str)
         if player is None:
-            if g_settings.get("hotplug") == 1:
+            if self.settings.get("hotplug") == 1:
                 return
             say("[ERROR] teamchange failed id=" + str(id_str) + " data=" + str(data))
             self.debug_player_list()
@@ -273,7 +274,7 @@ class PlayersController:
         team = ""
         player = self.get_player_by_name(old)
         if not player:
-            if g_settings.get("hotplug") == 1:
+            if self.settings.get("hotplug") == 1:
                 return
             say("[ERROR] name_change player not found name=" + str(old))
             sys.exit(1)
@@ -288,7 +289,7 @@ class PlayersController:
         """Update flagger attribute of player object"""
         if not player:
             if is_flag:
-                if g_settings.get("hotplug") == 1:
+                if self.settings.get("hotplug") == 1:
                     return
                 say("[ERROR] set flagger failed: invalid player.")
                 sys.exit(1)
@@ -386,7 +387,7 @@ class PlayersController:
         player.kills += kills
         player.weapon_kills[weapon] += kills
         # only activate killingsprees on 8+ players
-        if self.count_players() > g_settings.get("spree_players"):
+        if self.count_players() > self.settings.get("spree_players"):
             player.killingspree += kills
             if player.killingspree % 10 == 0:
                 broadcast(
@@ -402,7 +403,7 @@ class PlayersController:
             return False
         player.deaths += deaths
         # only activate killingsprees on 8+ players
-        if self.count_players() > g_settings.get("spree_players"):
+        if self.count_players() > self.settings.get("spree_players"):
             if player.killingspree > 9:
                 broadcast(
                     "'" + player.name +
@@ -436,7 +437,7 @@ class PlayersController:
 
     def update_player_flag_grabs(self, player, grabs):
         """Update flag grab stats"""
-        if self.count_players() <= g_settings.get("flag_players"):
+        if self.count_players() <= self.settings.get("flag_players"):
             return False
         if not player:
             return False
@@ -450,7 +451,7 @@ class PlayersController:
             say("[ERROR] failed player.update_player_flag_caps: invalid player.")
             sys.exit(1)
             return False
-        if self.count_players() <= g_settings.get("flag_players"):
+        if self.count_players() <= self.settings.get("flag_players"):
             return False
         if color == "blue":
             player.flag_caps_blue += caps

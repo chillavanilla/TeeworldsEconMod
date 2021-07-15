@@ -3,11 +3,12 @@
 
 import re
 from base.rcon import say, rcon_exec, send_discord
-import g_settings
+import base.settings
 
 class VotesController:
     """vote logic"""
     def __init__(self):
+        self.settings = base.settings.Settings()
         self.chat_controller = None
 
     def init(self, chat_controller):
@@ -17,7 +18,7 @@ class VotesController:
     def is_blocked_reason(self, reason):
         """Check if given vote reason is in the blacklist"""
         reason.lower()
-        words = g_settings.get("votes_blocked_reasons")
+        words = self.settings.get("votes_blocked_reasons")
         if not words:
             return False
         for word in words:
@@ -31,11 +32,11 @@ class VotesController:
         """Recive vote log line and parse it"""
         # TODO: use regex here to avoid false positives
         if data.find("' voted option '") != -1:
-            if g_settings.get("debug"):
+            if self.settings.get("debug"):
                 say("[VOTES] skip force on option vote")
             return
-        if g_settings.get("votes_force") != 0:
-            if g_settings.get("votes_blocked_reasons") is None:
+        if self.settings.get("votes_force") != 0:
+            if self.settings.get("votes_blocked_reasons") is None:
                 rcon_exec("vote no")
             else:
                 match = re.match(
@@ -48,8 +49,8 @@ class VotesController:
                         say("[ANTI-FUNVOTE] please provide a better reason.")
                 else:
                     say("[WARNING] Vote parsing error. Please contact a admin.")
-        if g_settings.get("votes_discord") != 0:
+        if self.settings.get("votes_discord") != 0:
             self.chat_controller.admin_contact_msg()
-        if g_settings.get("votes_discord") == 2:
-            send_discord("vote called " + str(g_settings.get("mod_discord"))
+        if self.settings.get("votes_discord") == 2:
+            send_discord("vote called " + str(self.settings.get("mod_discord"))
                 + "!\n" + str(data[:data.find(" cmd='ban")]))

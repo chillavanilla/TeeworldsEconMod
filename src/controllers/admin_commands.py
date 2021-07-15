@@ -2,13 +2,14 @@
 """Admin commands"""
 
 from base.rcon import echo
-import g_settings
+import base.settings
 import parse_settings
 import locked_names
 
 class AdminCommandsController:
     """Admin commands controller"""
     def __init__(self):
+        self.settings = base.settings.Settings()
         self.players_controller = None
 
     def init(self, players_controller):
@@ -32,7 +33,7 @@ class AdminCommandsController:
             try:
                 parse_settings.read_settings_file(settings_file)
                 echo("[==== SETTINGS ====]")
-                for key, value in g_settings.SETTINGS.items():
+                for key, value in self.settings.settings_dict.items():
                     sett_val = value[1]
                     if str(key) == "discord_token":
                         if sett_val and len(sett_val) > 6:
@@ -42,10 +43,10 @@ class AdminCommandsController:
                 echo(str(err))
             locked_names.get_instance(force=True)
         elif command == "list":
-            debug_list_players()
+            self.debug_list_players()
             echo(str(self.players_controller.count_players()) + " players online")
         elif command == "dev":
-            echo("debug=" + str(g_settings.get("debug")) +
-                    " stats=" + g_settings.get("stats_mode"))
+            echo("debug=" + str(self.settings.get("debug")) +
+                    " stats=" + self.settings.get("stats_mode"))
         elif command == "locked_names":
             locked_names.get_instance().list_names()

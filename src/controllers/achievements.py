@@ -5,11 +5,12 @@ import sys
 from base.rcon import say
 from models.player import CONNECTED_PLAYERS
 import save_stats
-import g_settings
+import base.settings
 
 class AchievementsController:
     """Controls achievements"""
     def __init__(self):
+        self.settings = base.settings.Settings()
         self.players_controller = None
 
     def init(self, players_controller):
@@ -50,7 +51,7 @@ class AchievementsController:
     def check_flag(self, player_obj, time):
         """Check if the flag time is an achievement"""
         if not player_obj:
-            if g_settings.get("hotplug") == 1:
+            if self.settings.get("hotplug") == 1:
                 return
             say("[ERROR] check flag failed: invalid player.")
             sys.exit(1)

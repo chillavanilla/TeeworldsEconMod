@@ -4,8 +4,8 @@
 import os.path
 import sys
 import getopt
-import g_settings
 import parse_settings
+import base.settings
 from base.rcon import log, echo
 import controllers.players
 import controllers.chat
@@ -28,7 +28,7 @@ def main_loop(_router):
             line = sys.stdin.readline()
             if not line:
                 break
-            if g_settings.get("tw_version") is None or g_settings.get(
+            if base.settings.Settings().get("tw_version") is None or base.settings.Settings().get(
                     "tw_version")[0:3] == "0.6":
                 _router.handle_data(line[1:9], line[10:])  # cut off the timestamp
             else:  # 0.7 has longer timestamps
@@ -73,7 +73,7 @@ def main(argv):
     parse_settings.read_settings_file(SETTINGS_FILE)
 
     log("[TEM] loaded settings: ")
-    log(g_settings.SETTINGS)
+    log(base.settings.Settings().settings_dict)
     sql_stats.init_database()
     players_controller = controllers.players.PlayersController()
     flags_controller = controllers.flags.FlagsController()

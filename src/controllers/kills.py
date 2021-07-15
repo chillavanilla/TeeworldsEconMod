@@ -4,7 +4,7 @@
 import sys
 import re
 from base.rcon import say
-import g_settings
+import base.settings
 
 class Player:
     """Store player data for kills"""
@@ -22,6 +22,7 @@ class Kill:
 class KillsController:
     """Control em kills"""
     def __init__(self):
+        self.settings = base.settings.Settings()
         self.players_controller = None
 
     def init(self, players_controller):
@@ -51,7 +52,7 @@ class KillsController:
 
     def handle_kills_07_and_ddnet(self, data):
         """Handle kill messages in ddnet or 0.7 format"""
-        if g_settings.get("tw_version") == "ddnet":
+        if self.settings.get("tw_version") == "ddnet":
             # [game]: kill killer='5:chiller' victim='5:chiller'
             # weapon=-3 special=0 killer_team:0 victim_team:0
 
@@ -77,7 +78,7 @@ class KillsController:
                 r"weapon=(?P<weapon>-?\d) special=(\d)$", data)
 
         if match:
-            if g_settings.get("debug"):
+            if self.settings.get("debug"):
                 say(
                     "KILLER ID=<%s> TEAM=<%s> NAME=<%s> "
                     "VICTIM ID=<%s> TEAM=<%s> NAME=<%s> weapon=<%s>" % (
@@ -112,8 +113,8 @@ class KillsController:
         """Parse kill message. Track kills, deaths and flags"""
         kill = None
 
-        if g_settings.get("tw_version")[0:3] == "0.6" or \
-            g_settings.get("tw_version") is None: # default 6
+        if self.settings.get("tw_version")[0:3] == "0.6" or \
+            self.settings.get("tw_version") is None: # default 6
             kill = self.handle_kills_06(data)
         else: # teeworlds 0.7 or ddnet
             kill = self.handle_kills_07_and_ddnet(data[:-1])
@@ -124,7 +125,7 @@ class KillsController:
                 kill.killer.obj,
                 1,
                 int(kill.weapon)):
-                if g_settings.get("hotplug") == 1:
+                if self.settings.get("hotplug") == 1:
                     return
                 say("[ERROR] failed adding kill:")
                 say("   ID=" + str(kill.killer.cid))
@@ -137,7 +138,7 @@ class KillsController:
                 kill.victim.obj,
                 kill.killer.name,
                 1):
-                if g_settings.get("hotplug") == 1:
+                if self.settings.get("hotplug") == 1:
                     return
                 say("[ERROR] failed adding death:")
                 say("   ID=" + str(kill.victim.cid))

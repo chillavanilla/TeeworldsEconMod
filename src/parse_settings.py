@@ -2,7 +2,7 @@
 """Module for parsing tem setting files"""
 
 from base.rcon import echo
-import g_settings
+import base.settings
 
 class TemParseError(Exception):
     """Tem Parser Exception"""
@@ -35,7 +35,7 @@ def parse_list_dyn(val):
 
 def parse_list(sett, val, line_num):
     """Parse list type"""
-    raw_list = g_settings.SETTINGS[sett][0]
+    raw_list = base.settings.Settings().settings_dict[sett][0]
     raw_list = raw_list[1:-1]
     list_vals = raw_list.split(',')
     if val in list_vals:
@@ -48,7 +48,8 @@ def read_settings_line(line, line_num):
     split = line.find("=")
     sett = line[3:split]
     val = line[split+1:].strip()
-    if sett not in g_settings.SETTINGS:
+    settings = base.settings.Settings()
+    if sett not in settings.settings_dict:
         parse_error(
             "UnkownSetting",
             "line[" + str(line_num) + "] setting[" + str(sett) + "] value[" + str(val) + "]")
@@ -58,21 +59,21 @@ def read_settings_line(line, line_num):
         if val[-1] != "/":
             val += "/"
 
-    if g_settings.SETTINGS[sett][0] == "str":
-        g_settings.SETTINGS[sett][1] = str(val)
-    elif g_settings.SETTINGS[sett][0] == "int":
-        g_settings.SETTINGS[sett][1] = int(val)
-    elif g_settings.SETTINGS[sett][0] == "bool":
-        g_settings.SETTINGS[sett][1] = parse_bool(val, line_num)
-    elif g_settings.SETTINGS[sett][0][0] == "[":
-        if g_settings.SETTINGS[sett][0][1] == "]": # empty list ( no limit )
-            g_settings.SETTINGS[sett][1] = parse_list_dyn(val)
+    if settings.settings_dict[sett][0] == "str":
+        settings.settings_dict[sett][1] = str(val)
+    elif settings.settings_dict[sett][0] == "int":
+        settings.settings_dict[sett][1] = int(val)
+    elif settings.settings_dict[sett][0] == "bool":
+        settings.settings_dict[sett][1] = parse_bool(val, line_num)
+    elif settings.settings_dict[sett][0][0] == "[":
+        if settings.settings_dict[sett][0][1] == "]": # empty list ( no limit )
+            settings.settings_dict[sett][1] = parse_list_dyn(val)
         else: # pre defined allowed values in list
-            g_settings.SETTINGS[sett][1] = parse_list(sett, val, line_num)
+            settings.settings_dict[sett][1] = parse_list(sett, val, line_num)
     else:
         parse_error(
             "TypeError",
-            "invalid type " + str(line_num) + ":'" + str(g_settings.SETTINGS[sett][0]) + "'")
+            "invalid type " + str(line_num) + ":'" + str(settings.settings_dict[sett][0]) + "'")
 
 def read_settings_file(file):
     """Parse settings file given a filepath"""

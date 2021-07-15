@@ -5,13 +5,15 @@ import sys
 import re
 from base.rcon import say
 import base.generic
-import g_settings
+import base.settings
 
 class FlagsController:
     """Flag grabs and captures"""
     def __init__(self):
+        self.settings = base.settings.Settings()
         self.players_controller = None
         self.game_controller = None
+        self.achievements_controller = None
 
     def init(self, players_controller, game_controller, achievements_controller):
         """Set all controllers call before use"""
@@ -22,7 +24,7 @@ class FlagsController:
     def __handle_flag_cap(self, player_obj, time, flag_color):
         """called by 0.6 and 0.7 parser"""
         if not player_obj:
-            if g_settings.get("hotplug") == 1:
+            if self.settings.get("hotplug") == 1:
                 return
             say("[ERROR] flag capture error: player is invalid.")
             sys.exit(1)
@@ -36,13 +38,13 @@ class FlagsController:
         self.players_controller.update_player_flag_time(player_obj, time)
         self.players_controller.set_flagger(player_obj, False)
         self.players_controller.update_player_flag_caps(player_obj, flag_color, 1)
-        if g_settings.get("debug"):
+        if self.settings.get("debug"):
             say("[DEBUG] flag cap '" + name +
                 "' in '" + str(time) + "' secs color: '" + flag_color + "'")
 
     def handle_flag_cap_06(self, data):
         """0.6 flag cap"""
-        if g_settings.get("tw_version")[0:3] != "0.6":
+        if self.settings.get("tw_version")[0:3] != "0.6":
             return
         flag_color = "pink"
         if data.find("blue", 5, 20) != -1:
@@ -66,7 +68,7 @@ class FlagsController:
 
     def handle_flag_cap(self, data):
         """0.7 flag cap"""
-        if g_settings.get("tw_version")[0:3] != "0.7":
+        if self.settings.get("tw_version")[0:3] != "0.7":
             return
         # old 0.7
         # flag_capture player='0:ChillerDragon' team=0
@@ -80,10 +82,10 @@ class FlagsController:
             r"^\[game\]: flag_capture player='(?P<id>-?\d{1,2}):(?P<name>.*)' "
             r"team=(?P<team>-?\d{1,2}) time=(?P<time>\d+\.\d{2})$", data)
         if not match:
-            if g_settings.get("debug"):
+            if self.settings.get("debug"):
                 say("[WARNING] flag time not found. Please update to newer version of teeworlds.")
             return
-        if g_settings.get("debug"):
+        if self.settings.get("debug"):
             say("[DEBUG] flag cap in '" + match.group("time") + "' seconds.")
         player = self.players_controller.get_player_by_id(match.group("id"))
         flag_color = "red"
@@ -98,7 +100,7 @@ class FlagsController:
         id_str   = data[id_start:id_end]
         player = self.players_controller.get_player_by_id(id_str)
         if not player:
-            if g_settings.get("hotplug") == 1:
+            if self.settings.get("hotplug") == 1:
                 return
             say("[ERROR] flag_grab player not found ID=" + str(id_str))
             self.players_controller.debug_player_list()
@@ -111,5 +113,5 @@ class FlagsController:
             sys.exit(1)
         self.players_controller.update_player_flag_grabs(player, 1)
         self.players_controller.set_flagger(player, True, timestamp)
-        if g_settings.get("debug"):
+        if self.settings.get("debug"):
             say("[DEBUG] '" + str(name) + "' grabbed the flag ts=" + str(timestamp))

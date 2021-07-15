@@ -5,7 +5,7 @@ import json
 import os.path
 import ipinfo
 
-import g_settings
+import base.settings
 from base.rcon import echo
 
 LOCKED_NAMES_INSTANCE = None
@@ -13,9 +13,10 @@ LOCKED_NAMES_INSTANCE = None
 class LockedNames:
     """Locked names class"""
     def __init__(self):
-        if not g_settings.get("ipinfo_token") or g_settings.get("ipinfo_token") == "":
+        self.settings = base.settings.Settings()
+        if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return
-        self.ip_handler = ipinfo.getHandler(g_settings.get("ipinfo_token"))
+        self.ip_handler = ipinfo.getHandler(self.settings.get("ipinfo_token"))
 
     @staticmethod
     def write(names):
@@ -45,7 +46,7 @@ class LockedNames:
 
     def check(self, name, ip_addr):
         """Check if a given name is using a forbidden ip address"""
-        if not g_settings.get("ipinfo_token") or g_settings.get("ipinfo_token") == "":
+        if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return True
         for entry in self.read():
             if entry["name"] != name:

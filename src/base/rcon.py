@@ -2,7 +2,7 @@
 """Essential wrappers around the teeworlds api"""
 
 import sys
-import g_settings
+import base.settings
 import discord.thread
 
 def escape_string_killers(msg):
@@ -11,7 +11,7 @@ def escape_string_killers(msg):
 
 def rcon_exec(cmd):
     """Execute given rcon command"""
-    if g_settings.get("debug"):
+    if base.settings.Settings().get("debug"):
         say("rcon_exec('" + str(cmd) + "')")
     sys.stdout.write(cmd + '\n')
     sys.stdout.flush()

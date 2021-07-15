@@ -5,7 +5,7 @@ import sys
 import datetime
 import re
 from base.rcon import say, send_discord
-import g_settings
+import base.settings
 import base.generic
 import sql_stats
 import version
@@ -13,6 +13,9 @@ import version
 class ChatController:
     """Handles chat messages"""
     def __init__(self):
+        self.settings = base.settings.Settings()
+        self.players_controller = None
+        self.achievements_controller = None
         self.CHAT_NONE=0
         self.CHAT_ALL=1
         self.CHAT_TEAM=2
@@ -25,7 +28,7 @@ class ChatController:
 
     def is_ban_reason_in_str(self, string):
         """Search banned keywords in given string"""
-        words = g_settings.get("chat_filter")
+        words = self.settings.get("chat_filter")
         if not words:
             return False
         for word in words:
@@ -38,7 +41,7 @@ class ChatController:
     # return player object and identifier (id/name)
     def get_rank_player(self, msg, rank_cmd):
         """Parse command and return player object"""
-        if g_settings.get("stats_mode") != "sql":
+        if self.settings.get("stats_mode") != "sql":
             say("not supported in file stats mode")
             return None, None
         msg_normal = msg
@@ -66,7 +69,7 @@ class ChatController:
 
     def get_rank_name(self, msg, rank_cmd):
         """Parse message and return playername"""
-        if g_settings.get("stats_mode") != "sql":
+        if self.settings.get("stats_mode") != "sql":
             say("not supported in file stats mode")
             return None
         msg_normal = msg
@@ -92,7 +95,7 @@ class ChatController:
         # in 0.7.5 id position was swapped
         # https://github.com/teeworlds/teeworlds/commit/5090c39d94bad0b6dda8caaef271133c46c00ee0#diff-a2df712cfb938eda9a173f36c865c2cc
         id_str = None # python scoping ?!
-        if g_settings.get("tw_version") == "0.7.5":
+        if self.settings.get("tw_version") == "0.7.5":
             mode_start = msg.find(" ") + 1
             mode_end = base.generic.cfind(msg, ":", 2)
             mode_str = msg[mode_start:mode_end]
@@ -120,7 +123,7 @@ class ChatController:
         """Takes a message and mutes the author if it is spam"""
         player = self.get_spam_player(msg)
         if not player:
-            if g_settings.get("hotplug") == 1:
+            if self.settings.get("hotplug") == 1:
                 return False
             say("[ERROR] spam_protection() failed! please contact an admin")
             sys.exit(1)
@@ -146,7 +149,7 @@ class ChatController:
         """Take a message and return of the message author is muted or not"""
         player = self.get_spam_player(msg)
         if not player:
-            if g_settings.get("hotplug") == 1:
+            if self.settings.get("hotplug") == 1:
                 return False
             say("[WARNING] is_muted() failed! please contact an admin")
             return False
@@ -161,7 +164,7 @@ class ChatController:
         """
         if self.is_muted(msg):
             return
-        prefix = g_settings.get("chat_command_prefix")
+        prefix = self.settings.get("chat_command_prefix")
         is_cmd = True
         msg_normal = msg
         msg = msg.lower()
@@ -177,24 +180,24 @@ class ChatController:
             say("'" + prefix + "help' to show this help")
             say("'" + prefix + "stats' to show round stats")
             say("'" + prefix + "achievements' to show achievements")
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 say("'" + prefix + "top5' for all time stats commands")
                 say("'" + prefix + "rank' for all rank commands")
         elif cmd.endswith(": " + prefix + "top5"):
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 say("'" + prefix + "top_kills' to see top5 killers of all time")
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 say("'" + prefix + "top_flags' to see top5 flag cap times of all time")
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 say("'" + prefix + "top_caps' to see top5 flag amount of all time")
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 say("'" + prefix + "top_sprees' to see top5 killing sprees of all time")
             else:
                 say("not supported in file stats mode")
         #elif cmd.endswith(": " + prefix + "stats_all"):
             #player.print_stats_all(True)
         elif cmd.find(": " + prefix + "stats") != -1:
-            if g_settings.get("stats_mode") != "sql":
+            if self.settings.get("stats_mode") != "sql":
                 say("not supported in file stats mode")
                 return
             player, name = self.get_rank_player(msg_normal, ": " + prefix + "stats")
@@ -204,22 +207,22 @@ class ChatController:
             player.show_stats_round()
             #player.print_stats_all()
         elif cmd.endswith(": " + prefix + "top_caps"):
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 sql_stats.best_flag_caps()
             else:
                 say("not supported in file stats mode")
         elif cmd.endswith(": " + prefix + "top_flags"):
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 sql_stats.best_times()
             else:
                 say("not supported in file stats mode")
         elif cmd.endswith(": " + prefix + "top_kills"):
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 sql_stats.best_killers()
             else:
                 say("not supported in file stats mode")
         elif cmd.endswith(": " + prefix + "top_sprees"):
-            if g_settings.get("stats_mode") == "sql":
+            if self.settings.get("stats_mode") == "sql":
                 sql_stats.best_spree()
             else:
                 say("not supported in file stats mode")
@@ -241,7 +244,7 @@ class ChatController:
             sql_stats.rank_flag_caps(str(name))
             sql_stats.rank_spree(str(name))
         elif cmd.find("" + prefix + "rank") != - 1:
-            if g_settings.get("stats_mode") != "sql":
+            if self.settings.get("stats_mode") != "sql":
                 say("not supported in file stats mode")
                 return
             say("'" + prefix + "rank_kills' to show global kills rank")
@@ -254,7 +257,7 @@ class ChatController:
         elif cmd.endswith(": " + prefix + "test"):
             player, name = self.get_rank_player(msg_normal, ": " + prefix + "test")
             if not player:
-                if g_settings.get("hotplug") == 1:
+                if self.settings.get("hotplug") == 1:
                     return
                 say("error")
                 sys.exit(1)
@@ -265,10 +268,10 @@ class ChatController:
             self.admin_contact_msg()
             # players containing : will be cutted in discord message but this is fine for now
             name = self.get_rank_name(msg_normal, ": ")
-            if g_settings.get("filter_discord") == 1:
+            if self.settings.get("filter_discord") == 1:
                 send_discord(
                     "chat trigger " + \
-                    str(g_settings.get("mod_discord")) + \
+                    str(self.settings.get("mod_discord")) + \
                     "!\n" + str(msg)
                 )
         else:
@@ -278,10 +281,10 @@ class ChatController:
 
     def admin_contact_msg(self):
         """Display the admin contact message in chat"""
-        if str(g_settings.get("admin_contact")) == "":
+        if str(self.settings.get("admin_contact")) == "":
             return
         say(
             "[INFO] Contact the admin " + \
-            str(g_settings.get("admin_contact")) + \
+            str(self.settings.get("admin_contact")) + \
             " to report players."
         )

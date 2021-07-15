@@ -2,12 +2,12 @@
 """Yes I do ruby"""
 
 import re
-import g_settings
+import base.settings
 
 class Router:
     """Such RoR much WowW"""
     def __init__(self, settings_file):
-        self.settings_file = settings_file
+        self.settings = base.settings.Settings(settings_file)
         self.players_controller = None
         self.game_controller = None
         self.flags_controller = None
@@ -26,21 +26,21 @@ class Router:
 
     def handle_data(self, timestamp, data):
         """Pass log line on to the resposible parsers"""
-        if g_settings.get("tw_version") is None:
+        if self.settings.get("tw_version") is None:
             # [server]: version 0.6 626fce9a778df4d4
             # [server]: version 0.7 802f1be60a05665f
             # [server]: netversion 0.7 802f1be60a05665f
             if data.find("[server]: version 0.6 ") != -1:
-                g_settings.set("tw_version", "0.6")
+                self.settings.set("tw_version", "0.6")
             if data.find("[server]: version 0.7 ") != - \
                     1 or data.find("[server]: netversion 0.7 ") != -1:
-                g_settings.set("tw_version", "0.7")
+                self.settings.set("tw_version", "0.7")
         match = re.match(r'\[server\]: game version (.*)', data)
         if match:
             version = match.group(1)
             if version.find("0.7/0.6") != -1:
                 version = "0.7.5"
-            g_settings.set("tw_version", version)
+            self.settings.set("tw_version", version)
         if data.startswith("[register]"):
             # working but was only useless chat spam for testing
             # chat.say("register found: " + data)
@@ -49,7 +49,9 @@ class Router:
             if data.find("No such command") != -1:
                 return
             if data.lower().startswith("[console]: !"):
-                self.admin_commands_controller.exec_command(data.lower()[12:-1], self.settings_file)
+                self.admin_commands_controller.exec_command(
+                    data.lower()[12:-1],
+                    self.settings.filepath)
         # [server]: '1:zilly dummy' voted kick '0:ChillerDragon'
         # reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
         # also matches name changes "'foo' -> 'bar'"

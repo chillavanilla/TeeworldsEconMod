@@ -5,12 +5,12 @@ import sys
 import os.path
 import urllib.parse
 from base.rcon import say
+import base.settings
 from models.player import Player
-import g_settings
 
 def stats_path(name):
     """Generate path to statsfile of given name"""
-    return g_settings.get("file_database") + urllib.parse.quote_plus(name) + ".acc"
+    return base.settings.Settings().get("file_database") + urllib.parse.quote_plus(name) + ".acc"
 
 def hash_stats(name):
     """Check if given name has a stats record"""

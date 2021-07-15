@@ -2,7 +2,7 @@
 """Game related methods like scoring"""
 
 from base.rcon import say, echo
-import g_settings
+import base.settings
 
 # they are seen as score
 CAPS_RED = 0
@@ -15,9 +15,10 @@ GRABS_BLUE = 0
 class GameController:
     """Game related logic"""
     def __init__(self):
+        self.settings = base.settings.Settings()
         self.players_controller = None
         self.flags_controller = None
-        self.kills_conrtoller = None
+        self.kills_controller = None
 
     def init(self, players_controller, flags_controller, kills_controller):
         """Init controllers"""
@@ -33,7 +34,7 @@ class GameController:
         """get score from team red"""
         return CAPS_RED * 100 + GRABS_RED
 
-    def get_score_blue():
+    def get_score_blue(self):
         """get score from team blue"""
         return CAPS_BLUE * 100 + GRABS_BLUE
 
@@ -67,11 +68,11 @@ class GameController:
         CAPS_BLUE = 0
         if is_red:
             echo("red won")
-            if self.players_controller.count_players() > g_settings.get("win_players"):
+            if self.players_controller.count_players() > self.settings.get("win_players"):
                 self.players_controller.team_won("red")
         else:
             echo("blue won")
-            if self.players_controller.count_players() > g_settings.get("win_players"):
+            if self.players_controller.count_players() > self.settings.get("win_players"):
                 self.players_controller.team_won("blue")
 
     def handle_game(self, timestamp, data):
@@ -116,7 +117,7 @@ class GameController:
             # t1 = datetime.datetime.strptime(p.grab_timestamp, "%Y-%m-%d %H:%M:%S")
             # t2 = datetime.datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
             # diff = (t2 - t1).total_seconds()
-            # if g_settings.get("debug"):
+            # if self.settings.get("debug"):
             #     say("'" + str(p.name) +
             #         "' capped the flag ts=" +
             #         str(timestamp) +
