@@ -4,7 +4,7 @@
 import datetime
 from base.rcon import say
 
-aPlayers = []
+CONNECTED_PLAYERS = []
 
 
 def calc_kd(kills, deaths):

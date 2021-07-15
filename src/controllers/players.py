@@ -11,12 +11,12 @@ import datetime
 
 def create_player(name, cid=-1, ip_addr="", team="", ShowStats=True, spree=0):
     """Get player object from init_player and append it to the player list"""
-    global aPlayers
+    global CONNECTED_PLAYERS
     player = init_player(name, cid, ip_addr, team, ShowStats, spree)
     if not player:
         say("[ERROR] CreatePlayer init_player=None name='" + str(name) + "' id=" + str(cid))
         sys.exit(1)
-    aPlayers.append(player)
+    CONNECTED_PLAYERS.append(player)
     #say("added player '" + name + "'")
 
 def init_player(name, cid, ip_addr, team, show_stats, spree):
@@ -44,20 +44,20 @@ def init_player(name, cid, ip_addr, team, show_stats, spree):
 
 def get_players_array():
     """Return player list"""
-    global aPlayers
-    return aPlayers
+    global CONNECTED_PLAYERS
+    return CONNECTED_PLAYERS
 
 def delete_player(cid):
     """Delete player object from list given a client id"""
-    global aPlayers
-    #aPlayers.remove(get_player_by_name(name))
-    del aPlayers[get_player_index_by_id(cid)]
+    global CONNECTED_PLAYERS
+    #CONNECTED_PLAYERS.remove(get_player_by_name(name))
+    del CONNECTED_PLAYERS[get_player_index_by_id(cid)]
     #say("deleted player '" + name + "'")
 
 def count_players():
     """Count player list"""
-    global aPlayers
-    return len(aPlayers)
+    global CONNECTED_PLAYERS
+    return len(CONNECTED_PLAYERS)
 
 def save_and_delete_player_by_name(name):
     """Get player object by name and save to db then delete it"""
@@ -75,24 +75,24 @@ def save_and_delete_player(player):
     # for 0.7 same name servers and multiple servers running at once
     player.best_spree = max(player.killingspree, player.best_spree)
     delete_player(player.cid) #delete old player without spree update
-    aPlayers.append(player) #add new player with spree update
+    CONNECTED_PLAYERS.append(player) #add new player with spree update
     save_stats(player)
     delete_player(player.cid)
     return True
 
 def refresh_all_players():
     """Save and recreate all player objects"""
-    global aPlayers
-    for player in aPlayers:
+    global CONNECTED_PLAYERS
+    for player in CONNECTED_PLAYERS:
         p = player
         save_and_delete_player(player)
         create_player(p.name, p.cid, ip_addr=p.ip_addr, team=p.team, ShowStats=False, spree=p.killingspree)
 
 def get_player_index_by_name(name):
     """Get player index in list by name"""
-    global aPlayers
+    global CONNECTED_PLAYERS
     index = 0
-    for player in aPlayers:
+    for player in CONNECTED_PLAYERS:
         if player.name == name:
             return index
         index += 1
@@ -100,9 +100,9 @@ def get_player_index_by_name(name):
 
 def get_player_index_by_id(cid):
     """Get player index in list by client id"""
-    global aPlayers
+    global CONNECTED_PLAYERS
     index = 0
-    for player in aPlayers:
+    for player in CONNECTED_PLAYERS:
         if player.cid == cid:
             return index
         index += 1
@@ -110,32 +110,32 @@ def get_player_index_by_id(cid):
 
 def get_player_by_name(name):
     """Get player object by name"""
-    global aPlayers
-    for player in aPlayers:
+    global CONNECTED_PLAYERS
+    for player in CONNECTED_PLAYERS:
         if player.name == name:
             return player
     return None
 
 def get_player_by_id(cid):
     """Get player object by client id"""
-    global aPlayers
-    for p in aPlayers:
+    global CONNECTED_PLAYERS
+    for p in CONNECTED_PLAYERS:
         if p.cid == cid:
             return p
     return None
 
 def debug_player_list():
     """Print player list in chat"""
-    global aPlayers
-    for p in aPlayers:
+    global CONNECTED_PLAYERS
+    for p in CONNECTED_PLAYERS:
         say("  id=" + str(p.cid) + " name='" + str(p.name) + "'")
 
 def print_stats_all(debug=False):
     """Print stats of all players in chat"""
-    global aPlayers
+    global CONNECTED_PLAYERS
     if debug:
         say("Kills/Deaths/Spree Grabs/RedCaps/BlueCaps/CapTime/FlaggerKills")
-        for player in aPlayers:
+        for player in CONNECTED_PLAYERS:
             say(
                 "'" + player.name +
                 "' k/d/s: " + str(player.kills) +
@@ -149,7 +149,7 @@ def print_stats_all(debug=False):
             #say("debug is_flagger: " + str(player.is_flagger))
     else:
         say("=== stats for all players ===")
-        for player in aPlayers:
+        for player in CONNECTED_PLAYERS:
             say(
                 "'" + player.name +
                 "' k/d: " + str(player.kills) +
@@ -200,7 +200,7 @@ def handle_player_leave(data):
 # [game]: team_join player='0:ChillerDragon' team=0->-1
 def handle_player_team(data):
     """Parse 'team_join' message"""
-    global aPlayers
+    global CONNECTED_PLAYERS
     id_start = data.find("'") + 1
     id_end = base.generic.cfind(data, ":", 2)
     id_str = data[id_start:id_end]
@@ -290,11 +290,11 @@ def set_flagger(player, is_flag, timestamp = ""):
 
 def check_flagger_kill(victim_name, killer_name):
     """Check if a kill is affecting flaggers"""
-    global aPlayers
-    for victim in aPlayers:
+    global CONNECTED_PLAYERS
+    for victim in CONNECTED_PLAYERS:
         if victim.name != victim_name:
             continue
-        for killer in aPlayers:
+        for killer in CONNECTED_PLAYERS:
             if killer.name != killer_name:
                 continue
             if victim.is_flagger is True:
@@ -408,10 +408,10 @@ def update_player_deaths(player, killer, deaths):
 
 def team_won(team):
     """Update wins and loses for all players"""
-    global aPlayers
+    global CONNECTED_PLAYERS
     if not team == "red" and not team == "blue":
         say("[WARNING] invalid team won " + str(team))
-    for player in aPlayers:
+    for player in CONNECTED_PLAYERS:
         if player.team == team:
             player.wins += 1
         elif not player.team == "" and not player.team == "spectator":

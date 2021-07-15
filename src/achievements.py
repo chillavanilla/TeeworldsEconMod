@@ -3,7 +3,7 @@
 
 import sys
 from base.rcon import say
-from models.player import aPlayers
+from models.player import CONNECTED_PLAYERS
 import controllers.players
 import save_stats
 import g_settings
@@ -11,9 +11,9 @@ import g_settings
 
 def show_achievements(name):
     """Print achievements of player in chat"""
-    global aPlayers
+    global CONNECTED_PLAYERS
     _player = None
-    for player in aPlayers:
+    for player in CONNECTED_PLAYERS:
         if player.name == name:
             _player = player
             break

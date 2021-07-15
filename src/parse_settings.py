@@ -77,8 +77,8 @@ def read_settings_line(line, line_num):
 def read_settings_file(file):
     """Parse settings file given a filepath"""
     line_num = 0
-    with open(file) as f:
-        for line in f:
+    with open(file) as file_io:
+        for line in file_io:
             line_num += 1
             if line[0] == "#":
                 continue # ignore comments
