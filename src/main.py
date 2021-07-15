@@ -3,78 +3,24 @@
 
 import os.path
 import sys
-import re
 import getopt
 import g_settings
 import parse_settings
-import chat
 from base.rcon import log, echo
-import game
-import votes
 import controllers.players
-import flag
+import controllers.chat
+import controllers.votes
+import controllers.achievements
+import controllers.kills
+import controllers.flags
+import controllers.game
 import sql_stats
-import admin_commands
+import router
 
 SETTINGS_FILE = ""
 
 
-def handle_data(timestamp, data):
-    """Pass log line on to the resposible parsers"""
-    global SETTINGS_FILE
-    if g_settings.get("tw_version") is None:
-        # [server]: version 0.6 626fce9a778df4d4
-        # [server]: version 0.7 802f1be60a05665f
-        # [server]: netversion 0.7 802f1be60a05665f
-        if data.find("[server]: version 0.6 ") != -1:
-            g_settings.set("tw_version", "0.6")
-        if data.find("[server]: version 0.7 ") != - \
-                1 or data.find("[server]: netversion 0.7 ") != -1:
-            g_settings.set("tw_version", "0.7")
-    match = re.match(r'\[server\]: game version (.*)', data)
-    if match:
-        version = match.group(1)
-        if version.find("0.7/0.6") != -1:
-            version = "0.7.5"
-        g_settings.set("tw_version", version)
-    if data.startswith("[register]"):
-        # working but was only useless chat spam for testing
-        # chat.say("register found: " + data)
-        pass
-    elif data.lower().startswith("[console]"):
-        if data.find("No such command") != -1:
-            return
-        if data.lower().startswith("[console]: !"):
-            admin_commands.exec_command(data.lower()[12:-1], SETTINGS_FILE)
-    # [server]: '1:zilly dummy' voted kick '0:ChillerDragon'
-    # reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
-    # also matches name changes "'foo' -> 'bar'"
-    elif data.startswith("[server]: '"):
-        data_chomp = data[:-1]
-        if data_chomp.endswith("force=1") or data_chomp.endswith("force=0"):
-            votes.handle_call_vote(data_chomp)
-    elif data.startswith("[server]: client dropped. cid="):
-        controllers.players.handle_player_leave(data[:-1])  # chop of newline
-    elif data.startswith("[server]: player is ready. ClientID="):
-        controllers.players.handle_player_ready(data[:-1])  # chop of newline
-    # elif data.startswith("[server]: player has entered the game. ClientID="):
-    #     player.handle_player_enter(data[:-1]) # chop of newline
-    elif data.startswith("[game]: team_join player='"):
-        controllers.players.handle_player_team(data[:-1])  # chop of newline
-    elif data.startswith("[chat]") or data.startswith("[teamchat]"):
-        if data.startswith("[chat]: ***"):
-            if (data.startswith("[chat]: *** The blue flag was captured by '")
-                    or data.startswith("[chat]: *** The red flag was captured by '")):
-                flag.handle_flag_cap_06(data)
-            elif data.find("' changed name to '") != -1:
-                controllers.players.handle_name_change(data)
-            return
-        chat.handle_chat_message(data)
-    elif data.startswith("[game]"):
-        game.handle_game(timestamp, data)
-
-
-def main_loop():
+def main_loop(_router):
     """The main game loop"""
     while True:
         try:
@@ -83,9 +29,9 @@ def main_loop():
                 break
             if g_settings.get("tw_version") is None or g_settings.get(
                     "tw_version")[0:3] == "0.6":
-                handle_data(line[1:9], line[10:])  # cut off the timestamp
+                _router.handle_data(line[1:9], line[10:])  # cut off the timestamp
             else:  # 0.7 has longer timestamps
-                handle_data(line[1:20], line[21:])  # cut off the timestamp
+                _router.handle_data(line[1:20], line[21:])  # cut off the timestamp
         except EOFError:
             # the telnet/netcat process finished; there's no more input
             echo("[WARNING] End of file error.")
@@ -128,7 +74,29 @@ def main(argv):
     log("[TEM] loaded settings: ")
     log(g_settings.SETTINGS)
     sql_stats.init_database()
-    main_loop()
+    players_controller = controllers.players.PlayersController()
+    flags_controller = controllers.flags.FlagsController()
+    game_controller = controllers.game.GameController()
+    chat_controller = controllers.chat.ChatController()
+    votes_controller = controllers.votes.VotesController()
+    achievements_controller = controllers.achievements.AchievementsController()
+    kills_controller = controllers.kills.KillsController()
+    flags_controller.init(players_controller, game_controller, achievements_controller)
+    game_controller.init(players_controller, flags_controller, kills_controller)
+    players_controller.init(game_controller, flags_controller)
+    chat_controller.init(players_controller, achievements_controller)
+    votes_controller.init(chat_controller)
+    kills_controller.init(players_controller)
+    achievements_controller.init(players_controller)
+    _router = router.Router(SETTINGS_FILE)
+    _router.init(
+        players_controller,
+        game_controller,
+        flags_controller,
+        chat_controller,
+        votes_controller
+    )
+    main_loop(_router)
 
 
 if __name__ == "__main__":
