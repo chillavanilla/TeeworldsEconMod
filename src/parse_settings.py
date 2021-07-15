@@ -12,12 +12,12 @@ class TemParseError(Exception):
     def __str__(self):
         return repr(self.value)
 
-def parse_error(err_type, err_msg):
+def parse_error(err_type: str, err_msg: str):
     """Throw parser error"""
     echo("[ERROR:settings] " + str(err_type) + ": " + str(err_msg))
     raise TemParseError(err_type + ": " + err_msg)
 
-def parse_bool(val, line_num):
+def parse_bool(val: str, line_num: int) -> bool:
     """Parse boolean"""
     val = val.lower()
     if val in ("0", "false"):
@@ -27,13 +27,13 @@ def parse_bool(val, line_num):
     parse_error("BoolError", "cannot parse bool " + str(line_num) + ":'" + str(val) + "'")
     return False
 
-def parse_list_dyn(val):
+def parse_list_dyn(val: str):
     """Parse dynamic list type"""
     if val is None or val == "" or val == ",":
         return None
     return val.split(',')
 
-def parse_list(sett, val, line_num):
+def parse_list(sett: str, val: str, line_num: int):
     """Parse list type"""
     raw_list = base.settings.Settings().settings_dict[sett][0]
     raw_list = raw_list[1:-1]
@@ -43,7 +43,7 @@ def parse_list(sett, val, line_num):
     parse_error("ListError", str(line_num) + ":'" + str(val) + "' not in list " + str(list_vals))
     return ""
 
-def read_settings_line(line, line_num):
+def read_settings_line(line: str, line_num: int):
     """Parse single line of tem settings file"""
     split = line.find("=")
     sett = line[3:split]
@@ -75,7 +75,7 @@ def read_settings_line(line, line_num):
             "TypeError",
             "invalid type " + str(line_num) + ":'" + str(settings.settings_dict[sett][0]) + "'")
 
-def read_settings_file(file):
+def read_settings_file(file: str):
     """Parse settings file given a filepath"""
     line_num = 0
     with open(file) as file_io:

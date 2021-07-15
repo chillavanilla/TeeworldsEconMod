@@ -21,7 +21,7 @@ import router
 SETTINGS_FILE = ""
 
 
-def main_loop(_router):
+def main_loop(_router: router.Router):
     """The main game loop"""
     while True:
         try:

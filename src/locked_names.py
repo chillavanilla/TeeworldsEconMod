@@ -44,7 +44,7 @@ class LockedNames:
         for entry in entrys:
             echo("name='" + str(entry["name"]) + "' region='" + str(entry["region"]) + "'")
 
-    def check(self, name, ip_addr):
+    def check(self, name: str, ip_addr: str) -> bool:
         """Check if a given name is using a forbidden ip address"""
         if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return True

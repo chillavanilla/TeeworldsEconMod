@@ -59,7 +59,7 @@ def has_stats(name):
             return True
     return False
 
-def load_stats_sql(name):
+def load_stats_sql(name: str) -> Player:
     """Load sql stats by playername"""
     con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
     with con:
@@ -120,7 +120,7 @@ def load_stats_sql(name):
         tmp_player.a_virgin = row[0][21]
     return tmp_player
 
-def save_stats_sql(player):
+def save_stats_sql(player: Player) -> bool:
     """Save sql stats of player object"""
     name = player.name
     con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
@@ -224,7 +224,7 @@ def save_stats_sql(player):
             say("[stats-SQL] added new player to database '" + name + "'")
     return True
 
-def save_stats_partially_sql(player):
+def save_stats_partially_sql(player: Player):
     """Save only killing spree of given player object"""
     name = player.name
     con = lite.connect(base.settings.Settings().get("sql_database"), timeout=20)
@@ -286,7 +286,7 @@ def save_stats_partially_sql(player):
 #    S t a t s    #
 ###################
 
-def rank_spree(name):
+def rank_spree(name: str):
     """Print spree rank of given name"""
     if not name:
         return False
@@ -312,7 +312,7 @@ def rank_spree(name):
         say(str(rank) + ". '" + str(name) + "' spree " + str(value))
         return True
 
-def rank_flag_time(name):
+def rank_flag_time(name: str):
     """Print flag time rank of given name"""
     if not name:
         return False
@@ -341,7 +341,7 @@ def rank_flag_time(name):
         say(str(rank) + ". '" + str(name) + "' time " + str(value))
     return True
 
-def rank_flag_caps(name):
+def rank_flag_caps(name: str):
     """Print flag caps rank of given name"""
     if not name:
         return False
@@ -369,7 +369,7 @@ def rank_flag_caps(name):
         say(str(rank) + ". '" + str(name) + "' flagcaps " + str(value))
         return True
 
-def rank_kills(name):
+def rank_kills(name: str):
     """Print kills rank of given name"""
     if not name:
         return False

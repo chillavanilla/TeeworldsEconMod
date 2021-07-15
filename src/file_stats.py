@@ -8,11 +8,11 @@ from base.rcon import say
 import base.settings
 from models.player import Player
 
-def stats_path(name):
+def stats_path(name: str) -> str:
     """Generate path to statsfile of given name"""
     return base.settings.Settings().get("file_database") + urllib.parse.quote_plus(name) + ".acc"
 
-def hash_stats(name):
+def hash_stats(name: str) -> str:
     """Check if given name has a stats record"""
     if name is None:
         return False
@@ -20,7 +20,7 @@ def hash_stats(name):
         return True
     return False
 
-def save_stats_file(player):
+def save_stats_file(player: Player):
     """Save stats to file given a player object"""
     if not player:
         say("[stats] failed to save player.")
@@ -61,7 +61,7 @@ def save_stats_file(player):
             name + "' filename='" + stats_path(name) + "'")
         sys.exit(1)
 
-def load_stats_file(name):
+def load_stats_file(name: str):
     """Return player object given a name"""
     if not hash_stats(name):
         return None
@@ -90,7 +90,7 @@ def load_stats_file(name):
         sys.exit(1)
         return None
 
-def save_stats_partially_file(player):
+def save_stats_partially_file(player: Player) -> bool:
     """Save only killingspree"""
     if not player:
         say("[stats] (partially) failed to load player.")

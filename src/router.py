@@ -6,7 +6,7 @@ import base.settings
 
 class Router:
     """Such RoR much WowW"""
-    def __init__(self, settings_file):
+    def __init__(self, settings_file: str):
         self.settings = base.settings.Settings(settings_file)
         self.players_controller = None
         self.game_controller = None
@@ -15,7 +15,7 @@ class Router:
         self.votes_controller = None
         self.admin_commands_controller = None
 
-    def init(self, controllers):
+    def init(self, controllers: dict):
         """Init controllers"""
         self.players_controller = controllers['players']
         self.game_controller = controllers['game']
@@ -24,7 +24,7 @@ class Router:
         self.votes_controller = controllers['votes']
         self.admin_commands_controller = controllers['admin_commands']
 
-    def handle_data(self, timestamp, data):
+    def handle_data(self, timestamp: str, data: str):
         """Pass log line on to the resposible parsers"""
         if self.settings.get("tw_version") is None:
             # [server]: version 0.6 626fce9a778df4d4
