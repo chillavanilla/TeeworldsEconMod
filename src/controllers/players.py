@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
+"""This module tracks all player related logic"""
+
 import sys
+import datetime
 import g_settings
 import game
 import base.generic
 import locked_names
-from base.rcon import *
-from save_stats import *
-from models.player import *
-import datetime
+from base.rcon import say, broadcast
+from save_stats import load_stats, save_stats
+from models.player import Player, CONNECTED_PLAYERS
 
 def create_player(name, cid=-1, ip_addr="", team="", ShowStats=True, spree=0):
     """Get player object from init_player and append it to the player list"""
@@ -349,17 +351,17 @@ def process_multi_kills(player, weapon):
         player.is_combo_multi = False
     if player.last_kill_weapon != weapon:
         player.is_combo_multi = True
-    weapon_str = WEAPONS[weapon]
+    weapon_str = game.WEAPONS[weapon]
     if player.is_combo_multi:
         weapon_str = "combo"
-    say("'" + player.name + "' did a " + weapon_str + " " + MULTIS[player.current_multi] + " kill!")
+    say("'" + player.name + "' did a " + weapon_str + " " + game.MULTIS[player.current_multi] + " kill!")
     player.double_kills[weapon] += 1
     player.last_multi_kill = now
     return now
 
 def update_player_kills(player, kills, weapon):
     """bundle all the logic that happens on a kill"""
-    # say("kill weapon=" + WEAPONS[weapon])
+    # say("kill weapon=" + game.WEAPONS[weapon])
     if not player:
         return False
     if weapon < 0: # ddnet has negative weapons disconnect
