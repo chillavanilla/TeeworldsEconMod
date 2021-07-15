@@ -14,6 +14,7 @@ import controllers.achievements
 import controllers.kills
 import controllers.flags
 import controllers.game
+import controllers.admin_commands
 import sql_stats
 import router
 
@@ -81,20 +82,25 @@ def main(argv):
     votes_controller = controllers.votes.VotesController()
     achievements_controller = controllers.achievements.AchievementsController()
     kills_controller = controllers.kills.KillsController()
+    admin_commands_controller = controllers.admin_commands.AdminCommandsController()
     flags_controller.init(players_controller, game_controller, achievements_controller)
     game_controller.init(players_controller, flags_controller, kills_controller)
     players_controller.init(game_controller, flags_controller)
     chat_controller.init(players_controller, achievements_controller)
     votes_controller.init(chat_controller)
     kills_controller.init(players_controller)
+    admin_commands_controller.init(players_controller)
     achievements_controller.init(players_controller)
     _router = router.Router(SETTINGS_FILE)
     _router.init(
-        players_controller,
-        game_controller,
-        flags_controller,
-        chat_controller,
-        votes_controller
+        {
+        'players': players_controller,
+        'game': game_controller,
+        'flags': flags_controller,
+        'chat': chat_controller,
+        'votes': votes_controller,
+        'admin_commands': admin_commands_controller
+        }
     )
     main_loop(_router)
 

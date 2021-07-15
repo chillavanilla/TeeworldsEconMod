@@ -3,7 +3,6 @@
 
 import re
 import g_settings
-import admin_commands
 
 class Router:
     """Such RoR much WowW"""
@@ -14,20 +13,16 @@ class Router:
         self.flags_controller = None
         self.chat_controller = None
         self.votes_controller = None
+        self.admin_commands_controller = None
 
-    def init(
-        self,
-        players_controller,
-        game_controller,
-        flags_controller,
-        chat_controller,
-        votes_controller):
+    def init(self, controllers):
         """Init controllers"""
-        self.players_controller = players_controller
-        self.game_controller = game_controller
-        self.flags_controller = flags_controller
-        self.chat_controller = chat_controller
-        self.votes_controller = votes_controller
+        self.players_controller = controllers['players']
+        self.game_controller = controllers['game']
+        self.flags_controller = controllers['flags']
+        self.chat_controller = controllers['chat']
+        self.votes_controller = controllers['votes']
+        self.admin_commands_controller = controllers['admin_commands']
 
     def handle_data(self, timestamp, data):
         """Pass log line on to the resposible parsers"""
@@ -54,7 +49,7 @@ class Router:
             if data.find("No such command") != -1:
                 return
             if data.lower().startswith("[console]: !"):
-                admin_commands.exec_command(data.lower()[12:-1], self.settings_file)
+                self.admin_commands_controller.exec_command(data.lower()[12:-1], self.settings_file)
         # [server]: '1:zilly dummy' voted kick '0:ChillerDragon'
         # reason='No reason given' cmd='ban 10.52.176.91 5 Banned by vote' force=0
         # also matches name changes "'foo' -> 'bar'"
