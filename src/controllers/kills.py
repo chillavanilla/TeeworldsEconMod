@@ -58,12 +58,14 @@ class KillsController:
 
             # [game]: kill killer='6:chiller.*' victim='5:chiller'
             # weapon=-2 special=0 killer_team:0 victim_team:0
+
+            # F-DDrace has 128 and thus ids can be up to 3 digits
             match = re.match(
-                r"^\[game\]: kill killer='(?P<k_id>-?\d{1,2}):(?P<k_name>.*)' "
-                r"victim='(?P<v_id>-?\d{1,2}):(?P<v_name>.+?)' "
+                r"^\[game\]: kill killer='(?P<k_id>-?\d{1,3}):(?P<k_name>.*)' "
+                r"victim='(?P<v_id>-?\d{1,3}):(?P<v_name>.+?)' "
                 r"weapon=(?P<weapon>-?\d) "
-                r"special=(\d) killer_team:(?P<k_team>-?\d{1,2}) "
-                r"victim_team:(?P<v_team>-?\d{1,2})$", data)
+                r"special=(\d) killer_team:(?P<k_team>-?\d{1,3}) "
+                r"victim_team:(?P<v_team>-?\d{1,3})$", data)
         else:
             # teeworlds 0.7
             #                     id:team                   id:team

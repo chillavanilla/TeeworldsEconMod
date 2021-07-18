@@ -58,7 +58,11 @@ class ChatController:
         argplayer = self.players_controller.get_player_by_name(rankname)
         if not argplayer:
             # try to find id prefix in argument name
-            match = re.match(r'(\d{1,2}:(.*)', rankname)
+            pattern = r'(\d{1,2}:(.*)'
+            if self.settings.get("tw_version") == "ddnet":
+                # F-DDrace 128 slots
+                pattern = r'(\d{1,3}:(.*)'
+            match = re.match(pattern, rankname)
             if match:
                 r_id = match.group(1)
                 r_name = match.group(2)
