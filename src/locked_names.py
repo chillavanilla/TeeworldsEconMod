@@ -50,7 +50,7 @@ class LockedNames:
         if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return True
         for entry in self.read():
-            if not is_confusable(name.replace("\u200b", ""), entry["name"]):
+            if not is_confusable(name.replace("\u200b", "").replace("\u200d", ""), entry["name"]):
                 continue
             data = self.ip_handler.getDetails(ip_addr)
             if not hasattr(data, "region"):
