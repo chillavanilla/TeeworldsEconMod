@@ -4,6 +4,7 @@
 import json
 import os.path
 import ipinfo
+from confusables import is_confusable
 
 import base.settings
 from base.rcon import echo
@@ -49,7 +50,7 @@ class LockedNames:
         if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return True
         for entry in self.read():
-            if entry["name"] != name:
+            if not is_confusable(name, entry["name"]):
                 continue
             data = self.ip_handler.getDetails(ip_addr)
             if not hasattr(data, "region"):
