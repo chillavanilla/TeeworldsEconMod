@@ -45,12 +45,40 @@ class LockedNames:
         for entry in entrys:
             echo("name='" + str(entry["name"]) + "' region='" + str(entry["region"]) + "'")
 
+    @staticmethod
+    def strip_null_chars(string: str):
+        """Given a string returns a version with all the invisble unicodes removed"""
+        for confusable in (
+            '\u200b',
+            '\u200c',
+            '\u200d',
+            '\u200e',
+            '\u200f',
+            '\u2060',
+            '\u2061',
+            '\u2062',
+            '\u2063',
+            '\u2064',
+            '\u2065',
+            '\u2066',
+            '\u2067',
+            '\u2068',
+            '\u2069',
+            '\u206a',
+            '\u206b',
+            '\u206c',
+            '\u206d',
+            '\u206e',
+            '\u206f'):
+            string = string.replace(confusable, "")
+        return string
+
     def check(self, name: str, ip_addr: str) -> bool:
         """Check if a given name is using a forbidden ip address"""
         if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return True
         for entry in self.read():
-            if not is_confusable(name.replace("\u200b", "").replace("\u200d", ""), entry["name"]):
+            if not is_confusable(self.strip_null_chars(name), entry["name"]):
                 continue
             data = self.ip_handler.getDetails(ip_addr)
             if not hasattr(data, "region"):
