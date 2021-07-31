@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The discord thread module"""
 
-import os
+import subprocess
 from threading import Thread
 import base.settings
 # import requests
@@ -15,7 +15,7 @@ class SendDiscord(Thread):
         if base.settings.Settings().get("discord_token") is None:
             return
         self.message = self.message.replace("'", "'\\''") # yes shell quote escape is madness
-        os.system(
+        subprocess.run(
             "python src/discord/webhook.py '" + \
             base.settings.Settings().get("discord_token") + \
             "' '" + self.message + "'"
