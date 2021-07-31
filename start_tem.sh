@@ -15,22 +15,22 @@ function err() {
 
 # check dependencys
 command -v expect >/dev/null 2>&1 || {
-    echo >&2 "Error: expect is not found please install it!";
-    if [ "$(uname)" == "Darwin" ]; then
-        echo >&2 "MacOS: brew install expect";
-    elif [ -x "$(command -v apt)" ]; then
-        echo >&2 "Debian/Ubuntu: sudo apt install expect";
-    fi
-    exit 1;
+	echo >&2 "Error: expect is not found please install it!";
+	if [ "$(uname)" == "Darwin" ]; then
+		echo >&2 "MacOS: brew install expect";
+	elif [ -x "$(command -v apt)" ]; then
+		echo >&2 "Debian/Ubuntu: sudo apt install expect";
+	fi
+	exit 1;
 }
 command -v nc >/dev/null 2>&1 || {
-    echo >&2 "Error: netcat is not found please install it!";
-    if [ "$(uname)" == "Darwin" ]; then
-        echo >&2 "MacOS: brew install netcat";
-    elif [ -x "$(command -v apt)" ]; then
-        echo >&2 "Debian/Ubuntu: sudo apt install netcat";
-    fi
-    exit 1;
+	echo >&2 "Error: netcat is not found please install it!";
+	if [ "$(uname)" == "Darwin" ]; then
+		echo >&2 "MacOS: brew install netcat";
+	elif [ -x "$(command -v apt)" ]; then
+		echo >&2 "Debian/Ubuntu: sudo apt install netcat";
+	fi
+	exit 1;
 }
 
 # init variables
@@ -47,8 +47,8 @@ aSettStr+=("sh_discord_token_verbose");aSettVal+=("")
 aSettStr+=("sh_econ_addr");aSettVal+=("localhost")
 
 if [ $# -gt 0 ]; then
-    log "settings file=$1"
-    settings_file=$1
+	log "settings file=$1"
+	settings_file=$1
 fi
 
 function check_path() {
@@ -88,36 +88,36 @@ function check_path() {
 }
 
 function create_settings() {
-    if [ -f "$settings_file" ];
-    then
-        return
-    fi
-    local i
-    log "FileError: '$settings_file' not found"
-    read -p "Do you want to create one? [y/N]" -n 1 -r
-    echo 
-    if [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        {
-            echo "# TeeworldsEconMod (TEM) by ChillerDragon"
-            echo "# https://github.com/chillavanilla/TeeworldsEconMod"
-            for i in "${!aSettStr[@]}"
-            do
-                echo "${aSettStr[$i]}=${aSettVal[$i]}"
-            done
-        } > "$settings_file"
-        if [ -z "$EDITOR" ]
-        then
-            nano "$settings_file"
-        else
-            $EDITOR "$settings_file"
-        fi
-    fi
-    exit 1
+	if [ -f "$settings_file" ];
+	then
+		return
+	fi
+	local i
+	log "FileError: '$settings_file' not found"
+	read -p "Do you want to create one? [y/N]" -n 1 -r
+	echo 
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		{
+			echo "# TeeworldsEconMod (TEM) by ChillerDragon"
+			echo "# https://github.com/chillavanilla/TeeworldsEconMod"
+			for i in "${!aSettStr[@]}"
+			do
+				echo "${aSettStr[$i]}=${aSettVal[$i]}"
+			done
+		} > "$settings_file"
+		if [ -z "$EDITOR" ]
+		then
+			nano "$settings_file"
+		else
+			$EDITOR "$settings_file"
+		fi
+	fi
+	exit 1
 }
 
 function parse_settings_line() {
-        local sett=$1
+	local sett=$1
         local val=$2
         local i
         for i in "${!aSettStr[@]}"
@@ -202,15 +202,15 @@ check_path "${aSettVal[0]}" "The teeworlds path is invalid" "0" # 0=dont create 
 check_path "${aSettVal[0]}/stats" "No stats/ folder found in your teeworlds directory" "1" # 1=create on fail
 if [ "${aSettVal[4]}" ]
 then
-    check_path "${aSettVal[4]}" "The logpath is invalid" "1" # 1=create on fail
-    log "adding log path: ${aSettVal[4]}"
-    extension=".log"
-    if [ "${aSettVal[6]}" == "7" ] || [ "${aSettVal[6]}" == "0.7" ]
-    then
-        # 0.7 appends .txt anyways
-        extension=""
-    fi
-    twsettings="logfile ${aSettVal[4]}/${aSettVal[1]##*/}_$(date +%F_%H-%M-%S)$extension;"
+	check_path "${aSettVal[4]}" "The logpath is invalid" "1" # 1=create on fail
+	log "adding log path: ${aSettVal[4]}"
+	extension=".log"
+	if [ "${aSettVal[6]}" == "7" ] || [ "${aSettVal[6]}" == "0.7" ]
+	then
+		# 0.7 appends .txt anyways
+		extension=""
+	fi
+	twsettings="logfile ${aSettVal[4]}/${aSettVal[1]##*/}_$(date +%F_%H-%M-%S)$extension;"
 fi
 
 log "navigate to teeworlds path=${aSettVal[0]}"
@@ -219,26 +219,26 @@ cd "${aSettVal[0]}" || { err "invalid path '${aSettVal[0]}'"; exit 1; }
 tw_settings_file=""
 if [ "${aSettVal[5]}" ]
 then
-    if [ ! -f "${aSettVal[5]}" ]
-    then
-        log "Invalid config file '${aSettVal[5]}'"
-        exit 1
-    fi
-    log "settings path: ${aSettVal[5]}"
-    tw_settings_file="-f ${aSettVal[5]}"
+	if [ ! -f "${aSettVal[5]}" ]
+	then
+		log "Invalid config file '${aSettVal[5]}'"
+		exit 1
+	fi
+	log "settings path: ${aSettVal[5]}"
+	tw_settings_file="-f ${aSettVal[5]}"
 fi
 
 nc_os="nc"
 
 if [ "$(uname)" == "Darwin" ]; then
-    nc_os="nc_macOS"
-    log "detected macOS"
+	nc_os="nc_macOS"
+	log "detected macOS"
 elif [ "$(uname -s)" == "Linux" ]; then
-    log "detected Linux"
+	log "detected Linux"
 elif [ "$(uname -s)" == "MINGW32_NT" ]; then
-    log "warning MINGW support isnt guaranteed"
+	log "warning MINGW support isnt guaranteed"
 elif [ "$(uname -s)" == "MINGW64_NT" ]; then
-    log "warning MINGW support isnt guaranteed"
+	log "warning MINGW support isnt guaranteed"
 fi
 
 log "run server | pipe into main.py | pipe into netcat connection: "
