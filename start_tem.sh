@@ -219,7 +219,8 @@ cd "${aSettVal[0]}" || { err "invalid path '${aSettVal[0]}'"; exit 1; }
 tw_settings_file=""
 if [ "${aSettVal[5]}" ]
 then
-	if [ ! -f "${aSettVal[5]}" ]
+	# TODO: properly check all storage.cfg paths
+	if [ ! -f "${aSettVal[5]}" ] && [ ! -f ~/.teeworlds/"${aSettVal[5]}" ]
 	then
 		log "Invalid config file '${aSettVal[5]}'"
 		exit 1
