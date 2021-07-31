@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """The discord thread module"""
 
-import subprocess
+import requests
 from threading import Thread
 import base.settings
-# import requests
 
 class SendDiscord(Thread):
     """Thread for sending discord messages non blocking"""
@@ -15,10 +14,6 @@ class SendDiscord(Thread):
         if base.settings.Settings().get("discord_token") is None:
             return
         self.message = self.message.replace("'", "'\\''") # yes shell quote escape is madness
-        subprocess.run(
-            "python src/discord/webhook.py '" + \
-            base.settings.Settings().get("discord_token") + \
-            "' '" + self.message + "'"
-            )
+        requests.post("https://discordapp.com/api/webhooks/" + base.settings.Settings().get("discord_token"), data={"content": self.message})
         # requests.post("https://discordapp.com/api/webhooks/" + \
         # base.settings.Settings().get("discord_token"), data={"content": self.message})
