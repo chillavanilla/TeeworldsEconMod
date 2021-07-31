@@ -77,7 +77,10 @@ class LockedNames:
         """Check if a given name is using a forbidden ip address"""
         if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return True
-        for entry in self.read():
+        entrys = self.read()
+        if not entrys:
+            return True
+        for entry in entrys:
             if not is_confusable(self.strip_null_chars(name), entry["name"]):
                 continue
             data = self.ip_handler.getDetails(ip_addr)
