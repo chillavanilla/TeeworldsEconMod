@@ -11,6 +11,11 @@ def escape_string_killers(msg):
 
 def rcon_exec(cmd):
     """Execute given rcon command"""
+    # 1337 is wiseley chosen cap to avoid breaking the pipe
+    # https://github.com/chillavanilla/TeeworldsEconMod/issues/53
+    if len(cmd) > 1337:
+        say("Error: tried to run too long command")
+        sys.exit(1)
     if base.settings.Settings().get("debug"):
         say("rcon_exec('" + str(cmd) + "')")
     sys.stdout.write(cmd + '\n')
@@ -18,22 +23,36 @@ def rcon_exec(cmd):
 
 def say(msg):
     """Print given message"""
+    # 1337 is wiseley chosen cap to avoid breaking the pipe
+    # https://github.com/chillavanilla/TeeworldsEconMod/issues/53
+    msg = msg[:1337]
     sys.stdout.write('say "' + escape_string_killers(msg) + '"\n')
     sys.stdout.flush()
 
 def broadcast(msg):
     """Broadcast given message"""
+    # 1337 is wiseley chosen cap to avoid breaking the pipe
+    # https://github.com/chillavanilla/TeeworldsEconMod/issues/53
+    msg = msg[:1337]
     sys.stdout.write('broadcast "' + escape_string_killers(msg) + '"\n')
     sys.stdout.flush()
 
 def echo(msg):
     """Echo given message"""
+    # 1337 is wiseley chosen cap to avoid breaking the pipe
+    # https://github.com/chillavanilla/TeeworldsEconMod/issues/53
+    msg = msg[:1337]
     sys.stdout.write('echo "' + escape_string_killers(msg) + '"\n')
     sys.stdout.flush()
 
 def log(msg):
     """Print given message to logfiles only"""
-    sys.stdout.write("###[log]: " + str(msg) + "\n")
+    # 1337 is wiseley chosen cap to avoid breaking the pipe
+    # https://github.com/chillavanilla/TeeworldsEconMod/issues/53
+    msg = str(msg)
+    if len(msg) > 1337:
+        msg = msg[:1337] + "..."
+    sys.stdout.write("###[log]: " + msg + "\n")
     sys.stdout.flush()
 
 def send_discord(message):
