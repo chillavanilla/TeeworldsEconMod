@@ -3,5 +3,6 @@ __pycache__/
 locked_names.json
 stats/
 test/debug_logs/
+test/debug_settings/
 *.db
 tags
