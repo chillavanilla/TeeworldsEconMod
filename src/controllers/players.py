@@ -261,6 +261,7 @@ class PlayersController:
                 player.name = name
             else:
                 say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
+                say('[ERROR] data=' + data)
                 sys.exit(1)
 
     def handle_name_change(self, data):
