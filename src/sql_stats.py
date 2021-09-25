@@ -37,7 +37,6 @@ CREATE TABLE Players (
 
 def init_database():
     """Create database schema"""
-    global STATS_TABLE_SCHEMA
     settings = base.settings.Settings()
     if os.path.isfile(settings.get("sql_database")):
         log("database found.")
