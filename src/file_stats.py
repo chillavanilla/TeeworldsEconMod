@@ -38,7 +38,7 @@ def save_stats_file(player: Player):
             sys.exit(1)
         player = player + load_player
     try:
-        with open(stats_path(name), "w") as stats_file:
+        with open(stats_path(name), "w", encoding='UTF-8') as stats_file:
             stats_file.write(str(player.kills) + "\n")
             stats_file.write(str(player.deaths) + "\n")
             stats_file.write(str(player.flag_grabs) + "\n")
@@ -66,7 +66,7 @@ def load_stats_file(name: str):
     if not hash_stats(name):
         return None
     try:
-        with open(stats_path(name), "r") as stats_file:
+        with open(stats_path(name), "r", encoding='UTF-8') as stats_file:
             player = Player(name)
             player.kills = int(stats_file.readline())
             player.deaths = int(stats_file.readline())
@@ -109,7 +109,7 @@ def save_stats_partially_file(player: Player) -> bool:
             sys.exit(1)
         player = player + load_player
     try:
-        with open(stats_path(name), "w") as stats_file:
+        with open(stats_path(name), "w", encoding='UTF-8') as stats_file:
             stats_file.write("0" + "\n")
             stats_file.write("0" + "\n")
             stats_file.write("0" + "\n")

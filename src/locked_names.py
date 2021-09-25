@@ -22,7 +22,7 @@ class LockedNames:
     @staticmethod
     def write(names):
         """Write names to json"""
-        with open("locked_names.json", "w") as file:
+        with open("locked_names.json", "w", encoding='UTF-8') as file:
             file.write(json.dumps(names, sort_keys=True, indent=4) + "\n")
             file.close()
 
@@ -31,7 +31,7 @@ class LockedNames:
         """Read locked names from json"""
         if not os.path.isfile('locked_names.json'):
             return None
-        with open("locked_names.json", "r") as file:
+        with open("locked_names.json", "r", encoding='UTF-8') as file:
             names = file.read()
             file.close()
             return json.loads(names)
