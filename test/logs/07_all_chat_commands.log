@@ -1,0 +1,84 @@
+[2021-09-25 10:11:38][server]: starting...
+[2021-09-25 10:11:38][datafile]: loading. filename='maps/DDNetPP-maps/BlmapChill.map'
+[2021-09-25 10:11:38][datafile]: allocsize=13732
+[2021-09-25 10:11:38][datafile]: readsize=12432
+[2021-09-25 10:11:38][datafile]: swaplen=12452
+[2021-09-25 10:11:38][datafile]: item_size=10944
+[2021-09-25 10:11:38][datafile]: loading done. datafile='maps/DDNetPP-maps/BlmapChill.map'
+[2021-09-25 10:11:38][server]: maps/DDNetPP-maps/BlmapChill.map sha256 is 472e704701d18d3b55621927795d1eb171857aba74203c4154d7f87fde8d6f2b
+[2021-09-25 10:11:38][server]: maps/DDNetPP-maps/BlmapChill.map crc is fed4889c
+[2021-09-25 10:11:38][server]: server name is 'unnamed server'
+[2021-09-25 10:11:38][datafile]: loading data index=28 size=3221 uncompressed=3292312
+[2021-09-25 10:11:38][datafile]: loading data index=32 size=3079 uncompressed=346872
+[2021-09-25 10:11:38][datafile]: loading data index=92 size=4264 uncompressed=2189808
+[2021-09-25 10:11:38][datafile]: loading data index=93 size=3323 uncompressed=3292312
+[2021-09-25 10:11:38][server]: netversion 0.7 802f1be60a05665f
+[2021-09-25 10:11:38][server]: WARNING: netversion hash differs
+[2021-09-25 10:11:38][server]: game version 0.7.5
+[2021-09-25 10:11:38][datafile]: loading. filename='maps/DDNetPP-maps/BlmapChill.map'
+[2021-09-25 10:11:38][datafile]: allocsize=13732
+[2021-09-25 10:11:38][datafile]: readsize=12432
+[2021-09-25 10:11:38][datafile]: swaplen=12452
+[2021-09-25 10:11:38][datafile]: item_size=10944
+[2021-09-25 10:11:38][datafile]: loading done. datafile='maps/DDNetPP-maps/BlmapChill.map'
+[2021-09-25 10:11:38][server]: maps/DDNetPP-maps/BlmapChill.map sha256 is 472e704701d18d3b55621927795d1eb171857aba74203c4154d7f87fde8d6f2b
+[2021-09-25 10:11:38][server]: maps/DDNetPP-maps/BlmapChill.map crc is fed4889c
+[2021-09-25 10:11:38][datafile]: loading data index=28 size=3221 uncompressed=3292312
+[2021-09-25 10:11:38][datafile]: loading data index=32 size=3079 uncompressed=346872
+[2021-09-25 10:11:38][datafile]: loading data index=33 size=3581 uncompressed=250992
+[2021-09-25 10:11:38][datafile]: loading data index=92 size=4264 uncompressed=2189808
+[2021-09-25 10:11:38][datafile]: loading data index=93 size=3323 uncompressed=3292312
+[2021-09-25 10:11:38][engine/mastersrv]: refreshing master server addresses
+[2021-09-25 10:11:38][register]: refreshing ip addresses
+[2021-09-25 10:11:38][econ]: bound to localhost:1332
+[2021-09-25 10:11:39][engine/mastersrv]: saving addresses
+[2021-09-25 10:11:39][register]: fetching server counts
+[2021-09-25 10:11:39][register]: chose 'master3.teeworlds.com' as master, sending heartbeats
+[2021-09-25 10:11:44][server]: player is ready. ClientID=0 addr=192.168.178.32:55835
+[2021-09-25 10:11:45][server]: player has entered the game. ClientID=0 addr=192.168.178.32:55835
+[2021-09-25 10:11:45][game]: team_join player='0:ChillerDragon' team=0
+[2021-09-25 10:11:51][server]: player is ready. ClientID=1 addr=192.168.178.32:65044
+[2021-09-25 10:11:51][game]: start match type='DM' teamplay='0'
+[2021-09-25 10:11:52][server]: player has entered the game. ClientID=1 addr=192.168.178.32:65044
+[2021-09-25 10:11:52][game]: team_join player='1:zilly dummy' team=0
+[2021-09-25 10:12:00][chat]: 1:0:ChillerDragon: !cmdlist
+[2021-09-25 10:12:02][chat]: 1:0:ChillerDragon: /cmdlist
+[2021-09-25 10:12:08][chat]: 1:0:ChillerDragon: !stats foo
+[2021-09-25 10:12:09][game]: kill killer='0:0:ChillerDragon' victim='0:0:ChillerDragon' weapon=-2 special=0
+[2021-09-25 10:12:09][game]: kill killer='1:0:zilly dummy' victim='1:0:zilly dummy' weapon=-2 special=0
+[2021-09-25 10:12:15][chat]: 1:0:ChillerDragon: /stats ChillerDragon
+[2021-09-25 10:12:20][chat]: 1:0:ChillerDragon: /stats zilly dummy
+[2021-09-25 10:12:26][chat]: 1:0:ChillerDragon: /stats "zilly dummy"
+[2021-09-25 10:12:45][chat]: 1:0:ChillerDragon: !help
+[2021-09-25 10:12:46][chat]: 1:0:ChillerDragon: /help
+[2021-09-25 10:12:48][chat]: 1:0:ChillerDragon: /achievements
+[2021-09-25 10:12:50][chat]: 1:0:ChillerDragon: /achievements a
+[2021-09-25 10:12:54][chat]: 1:0:ChillerDragon: /achievements ChillerDragon
+[2021-09-25 10:12:56][server]: client dropped. cid=1 addr=192.168.178.32:65044 reason=''
+[2021-09-25 10:12:56][game]: kill killer='1:0:zilly dummy' victim='1:0:zilly dummy' weapon=-3 special=0
+[2021-09-25 10:12:56][game]: leave player='1:zilly dummy'
+[2021-09-25 10:13:02][chat]: 1:0:ChillerDragon: /stats "zilly dummy"
+[2021-09-25 10:13:06][chat]: 1:0:ChillerDragon: /stats zilly dummy
+[2021-09-25 10:13:13][chat]: 1:0:ChillerDragon: /top_caps
+[2021-09-25 10:13:17][server]: player is ready. ClientID=1 addr=192.168.178.32:65044
+[2021-09-25 10:13:19][server]: player has entered the game. ClientID=1 addr=192.168.178.32:65044
+[2021-09-25 10:13:19][game]: team_join player='1:zilly dummy' team=0
+[2021-09-25 10:13:26][chat]: 1:1:zilly dummy: /top_sprees
+[2021-09-25 10:13:28][chat]: 1:1:zilly dummy: /top a
+[2021-09-25 10:13:33][chat]: 1:1:zilly dummy: /top_kills
+[2021-09-25 10:13:35][chat]: 1:1:zilly dummy: /top_flags
+[2021-09-25 10:13:38][chat]: 1:1:zilly dummy: /stats
+[2021-09-25 10:13:42][chat]: 1:1:zilly dummy: /stats zilly dummy
+[2021-09-25 10:13:46][chat]: 1:1:zilly dummy: /stats "zilly dummy"
+[2021-09-25 10:13:54][chat]: 1:1:zilly dummy: /rank
+[2021-09-25 10:13:56][chat]: 1:0:ChillerDragon: /rank
+[2021-09-25 10:13:58][chat]: 1:0:ChillerDragon: /rank zilly dummy
+[2021-09-25 10:14:04][chat]: 1:0:ChillerDragon: /rank_all
+[2021-09-25 10:14:08][chat]: 1:0:ChillerDragon: /rank_all offline
+[2021-09-25 10:14:35][server]: interrupted
+[2021-09-25 10:14:35][server]: client dropped. cid=0 addr=192.168.178.32:55835 reason='Server shutdown'
+[2021-09-25 10:14:35][game]: kill killer='0:0:ChillerDragon' victim='0:0:ChillerDragon' weapon=-3 special=0
+[2021-09-25 10:14:35][game]: leave player='0:ChillerDragon'
+[2021-09-25 10:14:35][server]: client dropped. cid=1 addr=192.168.178.32:65044 reason='Server shutdown'
+[2021-09-25 10:14:35][game]: kill killer='1:0:zilly dummy' victim='1:0:zilly dummy' weapon=-3 special=0
+[2021-09-25 10:14:35][game]: leave player='1:zilly dummy'
