@@ -390,7 +390,7 @@ class PlayersController:
         # only activate killingsprees on 8+ players
         if self.count_players() > self.settings.get("spree_players"):
             player.killingspree += kills
-            if player.killingspree % 10 == 0:
+            if player.killingspree % 10 == 0 and self.settings.get("show_sprees") == 1:
                 broadcast(
                     "'" + player.name +
                     "' is on a killing spree with " +
@@ -405,13 +405,13 @@ class PlayersController:
         player.deaths += deaths
         # only activate killingsprees on 8+ players
         if self.count_players() > self.settings.get("spree_players"):
-            if player.killingspree > 9:
+            if player.killingspree > 9 and self.settings.get("show_sprees") == 1:
                 broadcast(
                     "'" + player.name +
                     "'s killing spree with " + str(player.killingspree) +
                     " kills was ended by '" + killer + "'"
                     )
-            if player.killingspree > player.best_spree:
+            if player.killingspree > player.best_spree and self.settings.get("show_sprees") == 1:
                 if player.killingspree > 9:
                     say(
                         "'" + player.name +
