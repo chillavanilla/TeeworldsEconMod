@@ -26,7 +26,8 @@ class Settings:
         "hotplug": ["int", 0],
         "chat_command_prefix": ["str", "/"],
         "show_stats_on_join": ["int", 1],
-        "show_sprees": ["int", 1]
+        "show_sprees": ["int", 1],
+        "show_combos": ["int", 1]
     }
     def __init__(self, filepath = ""):
         self.filepath = filepath

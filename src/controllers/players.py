@@ -367,11 +367,12 @@ class PlayersController:
         weapon_str = self.game_controller.WEAPONS[weapon]
         if player.is_combo_multi:
             weapon_str = "combo"
-        say(
-            "'" + player.name + \
-            "' did a " + weapon_str + " " + \
-            self.game_controller.MULTIS[player.current_multi] + " kill!"
-        )
+        if self.settings.get("show_combos") == 1:
+            say(
+                "'" + player.name + \
+                "' did a " + weapon_str + " " + \
+                self.game_controller.MULTIS[player.current_multi] + " kill!"
+            )
         player.double_kills[weapon] += 1
         player.last_multi_kill = now
         return now
