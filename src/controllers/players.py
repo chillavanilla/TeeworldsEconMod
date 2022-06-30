@@ -189,6 +189,14 @@ class PlayersController:
         # name is actually "(connecting)" but better use None
         self.create_player(name=None, cid=id_str, ip_addr=ip_str, show_stats=True)
 
+    # [dummy]: Dummy connected: 0, Dummymode: 32
+    def handle_dummy_ready(self, data):
+        """F-DDrace dummys"""
+        id_start = data.find("d: ") + 3
+        id_end = data.find(",")
+        id_str = data[id_start:id_end]
+        self.create_player(name=None, cid=id_str, ip_addr='dummy', show_stats=True)
+
     # [server]: player has entered the game. ClientID=0 addr=172.20.10.9:54272
     # def handle_player_enter(data):
     #     id_start = data.find("=") + 1
@@ -383,6 +391,8 @@ class PlayersController:
         if not player:
             return False
         if weapon < 0: # ddnet has negative weapons disconnect
+            return True
+        if weapon > 5: # F-DDrace has more weapons. Ignore them for now.
             return True
         player.last_kill = self.process_multi_kills(player, weapon)
         player.last_kill_weapon = weapon

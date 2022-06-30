@@ -1,0 +1,37 @@
+[2022-06-27 02:34:01][server]: starting...
+[2022-06-27 02:34:01][datafile]: loading. filename='maps/BlmapChill.map'
+[2022-06-27 02:34:01][datafile]: allocsize=13732
+[2022-06-27 02:34:01][datafile]: readsize=12432
+[2022-06-27 02:34:01][datafile]: swaplen=12452
+[2022-06-27 02:34:01][datafile]: item_size=10944
+[2022-06-27 02:34:01][datafile]: loading done. datafile='maps/BlmapChill.map'
+[2022-06-27 02:34:01][server]: maps/BlmapChill.map sha256 is f270a5b3ce4d1e241498a552b45def528793d76324d53786fc97729c15fcb037
+[2022-06-27 02:34:01][server]: maps/BlmapChill.map crc is 8626d1fb
+[2022-06-27 02:34:07][server]: netversion 0.7 802f1be60a05665f
+[2022-06-27 02:34:07][server]: netversion 0.6 626fce9a778df4d4
+[2022-06-27 02:34:07][server]: game version 0.7/0.6, 13.8.7
+[2022-06-27 02:34:14][dummy]: Dummy connected: 0, Dummymode: 32
+[2022-06-27 02:34:14][game]: team_join player='0:flappy' team=0
+[2022-06-27 02:34:14][chat]: *** 'flappy' entered and joined the game
+[2022-06-30 01:54:39][server]: player is ready. ClientID=7 addr=<{127.0.0.1:20214}>
+[2022-06-30 01:54:41][server]: player has entered the game. ClientID=7 addr=<{127.0.0.1:20214}>
+[2022-06-30 01:54:41][game]: team_join player='7:admin' team=0
+[2022-06-30 01:54:41][chat]: *** 'admin' entered and joined the game
+[2022-06-30 01:54:41][ddnet]: cid=7 version=16010
+[2022-06-30 01:55:10][server]: player is ready. ClientID=8 addr=<{192.168.178.94:29278}>
+[2022-06-30 01:55:11][server]: player has entered the game. ClientID=8 addr=<{192.168.178.94:29278}>
+[2022-06-30 01:55:11][game]: team_join player='8:nameless' team=0
+[2022-06-30 01:55:11][chat]: *** 'nameless' entered and joined the game
+[2022-06-30 01:55:27][server]: ClientID=7 addr=<{127.0.0.1:20214}> authed with key=default_admin (admin)
+[2022-06-30 01:55:31][server]: ClientID=7 rcon='crashmeplx'
+[2022-06-30 01:55:31][console]: No such command: crashmeplx.
+[2022-06-30 02:07:07][game]: kill killer='7:admin' victim='0:flappy' weapon=-2 special=0 killer_team:0 victim_team:0
+[2022-06-30 02:17:58][server]: player is ready. ClientID=6 addr=<{192.168.178.94:21808}>
+[2022-06-30 02:17:58][server]: player has entered the game. ClientID=6 addr=<{192.168.178.94:21808}>
+[2022-06-30 02:17:58][game]: team_join player='6:nameless dummy' team=0
+[2022-06-30 02:17:58][chat]: *** 'nameless dummy' entered and joined the game
+[2022-06-30 02:17:58][ddnet]: cid=6 version=16020
+[2022-06-30 02:18:27][game]: kill killer='6:nameless dummy' victim='0:flappy' weapon=-2 special=0 killer_team:0 victim_team:0
+[2022-06-30 02:19:07][game]: kill killer='0:flappy' victim='0:flappy' weapon=-2 special=0 killer_team:0 victim_team:0
+[2022-06-30 02:59:44][game]: kill killer='8:nameless' victim='7:admin' weapon=12 special=3 killer_team:0 victim_team:0
+[2022-06-30 02:59:45][chat-command]: 5 used /pause

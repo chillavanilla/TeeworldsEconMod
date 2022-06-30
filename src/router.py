@@ -39,7 +39,7 @@ class Router:
         if match:
             version = match.group(1)
             if version.find("0.7/0.6") != -1:
-                version = "0.7.5"
+                version = "ddnet"
             self.settings.set("tw_version", version)
         if data.startswith("[register]"):
             # working but was only useless chat spam for testing
@@ -63,6 +63,8 @@ class Router:
             self.players_controller.handle_player_leave(data[:-1])  # chop of newline
         elif data.startswith("[server]: player is ready. ClientID="):
             self.players_controller.handle_player_ready(data[:-1])  # chop of newline
+        elif data.startswith("[dummy]: Dummy connected: "):
+            self.players_controller.handle_dummy_ready(data[:-1])  # chop of newline
         # elif data.startswith("[server]: player has entered the game. ClientID="):
         #     player.handle_player_enter(data[:-1]) # chop of newline
         elif data.startswith("[game]: team_join player='"):

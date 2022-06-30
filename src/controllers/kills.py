@@ -63,7 +63,7 @@ class KillsController:
             match = re.match(
                 r"^\[game\]: kill killer='(?P<k_id>-?\d{1,3}):(?P<k_name>.*)' "
                 r"victim='(?P<v_id>-?\d{1,3}):(?P<v_name>.+?)' "
-                r"weapon=(?P<weapon>-?\d) "
+                r"weapon=(?P<weapon>-?\d{1,2}) "
                 r"special=(\d) killer_team:(?P<k_team>-?\d{1,3}) "
                 r"victim_team:(?P<v_team>-?\d{1,3})$", data)
         else:
