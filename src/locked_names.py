@@ -43,7 +43,16 @@ class LockedNames:
             echo("There are no locked names.")
             return
         for entry in entrys:
-            echo("name='" + str(entry["name"]) + "' region='" + str(entry["region"]) + "'")
+            str_names = 'missing field "names"'
+            str_regions = ''
+            str_ips = ''
+            if hasattr(entry, 'names'):
+                str_names = "names='" + str(entry["names"]) + "'"
+            if hasattr(entry, 'regions'):
+                str_regions = " regions='" + str(entry["regions"]) + "'"
+            if hasattr(entry, 'ips'):
+                str_ips = " ips='" + str(entry["ips"]) + "'"
+            echo(str_names + str_regions + str_ips)
 
     @staticmethod
     def strip_null_chars(string: str):
@@ -88,12 +97,16 @@ class LockedNames:
             for entry_name in entry['names']:
                 if not is_confusable(self.strip_null_chars(name), entry_name):
                     continue
-                if hasattr(data, "ips"):
+                if hasattr(entry, "ips"):
                     for entry_ip in entry['ips']:
                         if entry_ip == ip_addr:
                             return True
+                    # if ips is specified but regions not
+                    # one of the ips has to match
+                    if not hasattr(entry, "regions"):
+                        return False
                 data = self.ip_handler.getDetails(ip_addr)
-                if not hasattr(data, "regions"):
+                if not hasattr(data, "region"):
                     return True
                 region = data.region
                 if not region in entry['regions']:
