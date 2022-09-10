@@ -164,9 +164,9 @@ function check_interactive_dbg() {
 function test_log() {
 	log=$1
 	setting=$2
-	echo   "+---------------------------------------+"
-	printf "| log: %-32s |\n" "$log"
-	echo   "+---------------------------------------+"
+	echo   "+-----------------------------------------------+"
+	printf "| log: %-40s |\n" "$log"
+	echo   "+-----------------------------------------------+"
 	show_lines=$verbose
 	tem_lines=$(print_log_lines "$log" | ../src/main.py --settings="$setting")
 	if [ $? -eq 0 ]
