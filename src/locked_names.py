@@ -46,11 +46,11 @@ class LockedNames:
             str_names = 'missing field "names"'
             str_regions = ''
             str_ips = ''
-            if hasattr(entry, 'names'):
+            if 'names' in entry:
                 str_names = "names='" + str(entry["names"]) + "'"
-            if hasattr(entry, 'regions'):
+            if 'regions' in entry:
                 str_regions = " regions='" + str(entry["regions"]) + "'"
-            if hasattr(entry, 'ips'):
+            if 'ips' in entry:
                 str_ips = " ips='" + str(entry["ips"]) + "'"
             echo(str_names + str_regions + str_ips)
 
@@ -97,13 +97,13 @@ class LockedNames:
             for entry_name in entry['names']:
                 if not is_confusable(self.strip_null_chars(name), entry_name):
                     continue
-                if hasattr(entry, "ips"):
+                if 'ips' in entry:
                     for entry_ip in entry['ips']:
                         if entry_ip == ip_addr:
                             return True
                     # if ips is specified but regions not
                     # one of the ips has to match
-                    if not hasattr(entry, "regions"):
+                    if not 'regions' in entry:
                         return False
                 data = self.ip_handler.getDetails(ip_addr)
                 if not hasattr(data, "region"):
