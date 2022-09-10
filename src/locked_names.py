@@ -74,26 +74,35 @@ class LockedNames:
         return string
 
     def check(self, name: str, ip_addr: str) -> bool:
-        """Check if a given name is using a forbidden ip address"""
+        """
+        Check if a given name is using a forbidden ip address
+
+        Returns True if check passed (name is allowed with this ip)
+        """
         if not self.settings.get("ipinfo_token") or self.settings.get("ipinfo_token") == "":
             return True
         entrys = self.read()
         if not entrys:
             return True
         for entry in entrys:
-            if not is_confusable(self.strip_null_chars(name), entry["name"]):
-                continue
-            data = self.ip_handler.getDetails(ip_addr)
-            if not hasattr(data, "region"):
+            for entry_name in entry['names']:
+                if not is_confusable(self.strip_null_chars(name), entry_name):
+                    continue
+                if hasattr(data, "ips"):
+                    for entry_ip in entry['ips']:
+                        if entry_ip == ip_addr:
+                            return True
+                data = self.ip_handler.getDetails(ip_addr)
+                if not hasattr(data, "regions"):
+                    return True
+                region = data.region
+                if not region in entry['regions']:
+                    echo(
+                        "[locked-names] region missmatch '" + \
+                        str(region) + "' not included in '" + str(entry['regions']) + "'"
+                        )
+                    return False
                 return True
-            region = data.region
-            if region != entry["region"]:
-                echo(
-                    "[locked-names] region missmatch '" + \
-                    str(region) + "' != '" + str(entry["region"]) + "'"
-                    )
-                return False
-            return True
         return True
 
 def get_instance(force = False):

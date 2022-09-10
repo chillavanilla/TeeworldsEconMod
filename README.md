@@ -67,9 +67,13 @@ Create a file called ``locked_names.json`` that contains an array of locked name
 
 ```json
 [
-  { "name": "ChillerDragon", "region": "Bavaria" }
+  { "names": ["ChillerDragon", "ChillerDragon.*"], "regions": ["Bavaria"], "ips": ["127.0.0.1"] }
+  { "names": ["nameless tee"], "regions": ["Hesse"], "ips": ["8.8.8.8"] }
 ]
 ```
+
+If a player joins with any of the specified in the names array its ip has to be either included in the
+ips array or the ipinfo lookup has to match one of the regions
 
 Then create a [ipinfo](https://ipinfo.io/) account and set the api token in your tem.settings file:
 ```
