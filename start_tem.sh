@@ -33,6 +33,9 @@ command -v nc >/dev/null 2>&1 || {
 	exit 1;
 }
 
+# shellcheck disable=1091
+[ -f venv/bin/activate ] && source ./venv/bin/activate
+
 # init variables
 settings_file="tem.settings"
 aSettStr=();aSettVal=()
