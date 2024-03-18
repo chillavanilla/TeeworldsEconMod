@@ -6,3 +6,4 @@ test/debug_logs/
 test/debug_settings/
 *.db
 tags
+venv
