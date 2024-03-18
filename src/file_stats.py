@@ -88,7 +88,6 @@ def load_stats_file(name: str):
         say("[ERROR] (load) failed to loaded stats for name='" + name +
             "' filename='" + stats_path(name) + "'")
         sys.exit(1)
-        return None
 
 def save_stats_partially_file(player: Player) -> bool:
     """Save only killingspree"""
