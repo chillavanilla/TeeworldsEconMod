@@ -214,8 +214,9 @@ class PlayersController:
         id_str = data[id_start:id_end]
         player = self.get_player_by_id(id_str)
         if player is None:
-            echo("[WARNING] invalid player left id=" + str(id_str))
-            echo("   DATA=" + str(data))
+            if self.settings.get("hotplug") != 1:
+                echo("[WARNING] invalid player left id=" + str(id_str))
+                echo("   DATA=" + str(data))
         self.save_and_delete_player(player)
 
     # [game]: team_join player='0:ChillerDragon' team=0
