@@ -268,9 +268,11 @@ class PlayersController:
                 say("[WARNING] untracked namechange from '" + player.name + "' to '" + name + "'")
                 player.name = name
             else:
-                say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
-                say('[ERROR] data=' + data)
-                sys.exit(1)
+                if self.settings.get("hotplug") != 1:
+                    say("[ERROR] untracked namechange from '" + player.name + "' to '" + name + "'")
+                    say('[ERROR] data=' + data)
+                    sys.exit(1)
+                player.name = name
 
     def handle_name_change(self, data):
         """Parse 'changed name to' chat message"""
